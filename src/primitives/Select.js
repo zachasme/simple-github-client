@@ -1,11 +1,36 @@
 import { html } from "htm/preact";
 
+import Link from "../primitives/Link.js";
 import Octicon from "../primitives/Octicon.js";
 
-function Select({ label, icon, title, children }) {
-  return html`
-    <details class="details-reset details-overlay">
-      <summary class="btn" aria-haspopup="true">
+function Select({
+  class: extraClasses,
+  label,
+  icon,
+  disabled,
+  title,
+  small,
+  count,
+  countHref,
+  children,
+}) {
+  let classNames = "btn";
+  if (small) classNames += ` btn-sm`;
+  if (count && countHref) classNames += ` float-none btn-with-count`;
+  else classNames += ` ${extraClasses}`;
+
+  let content = html`
+    <details
+      class="details-reset details-overlay ${(count &&
+        countHref &&
+        "float-left") ||
+      ""}"
+    >
+      <summary
+        class=${classNames}
+        aria-haspopup="true"
+        aria-disabled=${disabled}
+      >
         ${icon && html`<${Octicon} name=${icon} />`}
         <span>${label}</span>
         <span class="dropdown-caret hide-sm" />
@@ -29,6 +54,18 @@ function Select({ label, icon, title, children }) {
       </div>
     </details>
   `;
+
+  // if count AND countHref show social style count
+  if (count && countHref) {
+    content = html`
+      <div class="${extraClasses}">
+        ${content}
+        <${Link} href=${countHref} class="social-count">${count}<//>
+      </div>
+    `;
+  }
+
+  return content;
 }
 
 export default Select;

@@ -5,11 +5,13 @@ import { humanReadableNumber } from "../number.js";
 import useQuery from "../hooks/useQuery.js";
 import Link from "../primitives/Link.js";
 import Button from "../primitives/Button.js";
+import Select from "../primitives/Select.js";
 import Octicon from "../primitives/Octicon.js";
 import UnderlineNav from "../primitives/UnderlineNav.js";
 import UnderlineNavItem from "../primitives/UnderlineNavItem.js";
 
 import { ADD_STAR_MUTATION, REMOVE_STAR_MUTATION } from "./starMutations.js";
+import { UPDATE_SUBSCRIPTION_MUTATION } from "./subscriptionMutations.js";
 
 const QUERY = gql`
   query RepositoryShellQuery($owner: String!, $name: String!) {
@@ -34,11 +36,15 @@ const QUERY = gql`
       watchers(first: 1) {
         totalCount
       }
+      viewerSubscription
     }
   }
 `;
 
 function RepositoryShell({ active, owner, name, children }) {
+  const [updateSubscriptionResult, updateSubscription] = useMutation(
+    UPDATE_SUBSCRIPTION_MUTATION
+  );
   const [addStarResult, addStar] = useMutation(ADD_STAR_MUTATION);
   const [removeStarResult, removeStar] = useMutation(REMOVE_STAR_MUTATION);
   const [{ data, fetching }] = useQuery({
@@ -46,8 +52,9 @@ function RepositoryShell({ active, owner, name, children }) {
     variables: { owner, name },
   });
 
-  const isMutatingStar =
-    fetching || addStarResult.fetching || removeStarResult.fetching;
+  if (updateSubscriptionResult.error) throw updateSubscriptionResult.error;
+
+  const isMutatingStar = addStarResult.fetching || removeStarResult.fetching;
 
   const nameWithOwner = `${owner}/${name}`;
   const repo = data?.repository;
@@ -56,6 +63,25 @@ function RepositoryShell({ active, owner, name, children }) {
     const mutate = data.repository.viewerHasStarred ? removeStar : addStar;
     mutate({ input: { starrableId: data.repository.id } });
   }
+
+  function setSubscription(state) {
+    updateSubscription({
+      input: { subscribableId: repo.id, state },
+    });
+  }
+
+  let watchLabel;
+  switch (repo?.viewerSubscription) {
+    case "SUBSCRIBED":
+      watchLabel = "Unwatch";
+      break;
+    case "IGNORED":
+      watchLabel = "Stop ignoring";
+      break;
+    default:
+      watchLabel = "Watch";
+  }
+
   return html`<div>
     <div class="bg-gray-light pt-3 mb-5">
       <div class="d-flex mb-3 px-3 px-md-4 px-lg-5">
@@ -74,19 +100,93 @@ function RepositoryShell({ active, owner, name, children }) {
           </ol>
         </nav>
 
-        <${Button}
-          disabled=${!repo}
+        <${Select}
+          disabled=${updateSubscriptionResult.fetching}
           small
-          onClick=${toggleStar}
-          icon="eye"
+          icon=${repo?.viewerSubscription === "IGNORED" ? "bell-slash" : "eye"}
+          label=${watchLabel}
+          title="Notifications"
           count=${repo ? humanReadableNumber(repo.watchers.totalCount) : "-"}
           countHref="/${nameWithOwner}/watchers"
           class="mr-2"
         >
-          ${repo?.viewerHasStarred ? "Unwatch" : "Watch"}
+          <button
+            disabled=${updateSubscriptionResult.fetching}
+            onClick=${() => setSubscription("UNSUBSCRIBED")}
+            aria-checked=${repo?.viewerSubscription === "UNSUBSCRIBED"}
+            class="SelectMenu-item flex-items-start"
+            role="menuitem"
+          >
+            <${Octicon}
+              name="check"
+              class="SelectMenu-icon SelectMenu-icon--check"
+            />
+            <div>
+              <div class="f5 text-bold">Participating and @mentions</div>
+              <div class="text-small text-gray text-normal pb-1">
+                Only receive notifications from this repository when
+                participating or @mentioned.
+              </div>
+            </div>
+          <//>
+          <button
+            disabled=${updateSubscriptionResult.fetching}
+            onClick=${() => setSubscription("SUBSCRIBED")}
+            aria-checked=${repo?.viewerSubscription === "SUBSCRIBED"}
+            class="SelectMenu-item flex-items-start"
+            role="menuitem"
+          >
+            <${Octicon}
+              name="check"
+              class="SelectMenu-icon SelectMenu-icon--check"
+            />
+            <div>
+              <div class="f5 text-bold">All activity</div>
+              <div class="text-small text-gray text-normal pb-1">
+                Notified of all notifications on this repository.
+              </div>
+            </div>
+          <//>
+          <button
+            disabled=${updateSubscriptionResult.fetching}
+            onClick=${() => setSubscription("IGNORED")}
+            aria-checked=${repo?.viewerSubscription === "IGNORED"}
+            class="SelectMenu-item flex-items-start"
+            role="menuitem"
+          >
+            <${Octicon}
+              name="check"
+              class="SelectMenu-icon SelectMenu-icon--check"
+            />
+            <div>
+              <div class="f5 text-bold">Ignore</div>
+              <div class="text-small text-gray text-normal pb-1">
+                Never be notified.
+              </div>
+            </div>
+          <//>
+          <button
+            disabled=${updateSubscriptionResult.fetching}
+            onClick=${() => alert("Unsupported in API")}
+            class="SelectMenu-item flex-items-start"
+            role="menuitem"
+          >
+            <${Octicon}
+              name="check"
+              class="SelectMenu-icon SelectMenu-icon--check"
+            />
+            <div>
+              <div class="f5 text-bold">Custom</div>
+              <div class="text-small text-gray text-normal pb-1">
+                Select events you want to be notified of in addition to
+                participating and @mentions.
+              </div>
+            </div>
+          <//>
         <//>
+
         <${Button}
-          disabled=${isMutatingStar}
+          disabled=${!repo || isMutatingStar}
           small
           onClick=${toggleStar}
           icon=${repo?.viewerHasStarred ? "star-fill" : "star"}
