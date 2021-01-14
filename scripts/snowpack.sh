@@ -1,8 +1,11 @@
+SOURCE=${1:-remote}
+
 cat <<EOT > .gitignore
 build
 .snowpack
 node_modules
 package.json
+snowpack.config.js
 EOT
 
 cat <<EOT > snowpack.config.js
@@ -10,7 +13,7 @@ module.exports = {
   routes: [
     {"match": "routes", "src": ".*", "dest": "/404.html"},
   ],
-  packageOptions: { source: 'local' }
+  packageOptions: { source: '${SOURCE}' }
 }
 EOT
 
@@ -27,6 +30,7 @@ yarn add snowpack \
     preact-router \
     preact \
     urql
+
 yarn snowpack dev
 
 # Issues:

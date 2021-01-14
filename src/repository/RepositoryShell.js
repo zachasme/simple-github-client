@@ -1,7 +1,8 @@
 import { html } from "htm/preact";
 import { gql, useMutation } from "@urql/preact";
-import useQuery from "../hooks/useQuery.js";
 
+import { humanReadableNumber } from "../number.js";
+import useQuery from "../hooks/useQuery.js";
 import Link from "../primitives/Link.js";
 import Button from "../primitives/Button.js";
 import Octicon from "../primitives/Octicon.js";
@@ -74,20 +75,22 @@ function RepositoryShell({ active, owner, name, children }) {
         </nav>
 
         <${Button}
+          disabled=${!repo}
           small
           onClick=${toggleStar}
           icon="eye"
-          count=${repo?.watchers?.totalCount || "-"}
+          count=${repo ? humanReadableNumber(repo.watchers.totalCount) : "-"}
           countHref="/${nameWithOwner}/watchers"
           class="mr-2"
         >
+          ${repo?.viewerHasStarred ? "Unwatch" : "Watch"}
         <//>
         <${Button}
           disabled=${isMutatingStar}
           small
           onClick=${toggleStar}
           icon=${repo?.viewerHasStarred ? "star-fill" : "star"}
-          count=${repo?.stargazers?.totalCount || "-"}
+          count=${repo ? humanReadableNumber(repo.stargazers.totalCount) : "-"}
           countHref="/${nameWithOwner}/stargazers"
           class="mr-2"
         >
@@ -97,7 +100,7 @@ function RepositoryShell({ active, owner, name, children }) {
           disabled=${!repo}
           small
           icon="repo-forked"
-          count=${repo?.forkCount || "-"}
+          count=${repo ? humanReadableNumber(repo.forkCount) : "-"}
           countHref="/${nameWithOwner}/network/members"
         >
           Fork

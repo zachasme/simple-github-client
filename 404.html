@@ -62,10 +62,6 @@
 
     <script type="module" src="https://jspm.dev/es-module-shims"></script>
     <script type="importmap-shim" src="/importmap.json"></script>
-    <script type="module-shim">
-      importShim("/src/bootstrap.js").catch(error => {
-        console.error(error);
-      });
-    </script>
+    <script type="module-shim" src="/src/bootstrap.js"></script>
   </body>
 </html>

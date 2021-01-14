@@ -2,6 +2,7 @@ import { html } from "htm/preact";
 import useQuery from "../hooks/useQuery.js";
 import { useState } from "preact/hooks";
 import { gql } from "@urql/preact";
+import { formatRelative } from "date-fns";
 
 import Link from "../primitives/Link.js";
 import Label from "../primitives/Label.js";
@@ -226,9 +227,9 @@ function RepositoryIssuesRoute({ matches, ...props }) {
                   <div class="mt-1 text-small text-gray">
                     <span class="opened-by">
                       #${node.number} opened ${" "}
-                      <relative-time datetime="${node.createdAt}">
-                        on ${node.createdAt}
-                      </relative-time>
+                      <time datetime="${node.createdAt}">
+                        ${formatRelative(new Date(node.createdAt), new Date())}
+                      </time>
                       ${" by "}
                       <a
                         class="muted-link"

@@ -95,37 +95,41 @@ function RepositoryIssueRoute({ matches }) {
             <div class="border-bottom border-black-fade py-4">
               <h2 class="mb-2 h6 text-gray">Assignees</h2>
               <ol>
-                ${repository.issue.assignees.nodes.map(
-                  (node) => html`
-                    <${Link}
-                      href=${`/${node.login}`}
-                      class="text-bold link-gray-dark"
-                    >
-                      <img
-                        width="16"
-                        height="16"
-                        class="avatar mb-2 mr-1"
-                        src=${node.avatarUrl}
-                      />
-                      ${node.login}
-                    <//>
-                    ${" "}
-                  `
-                )}
+                ${repository.issue.assignees.length
+                  ? repository.issue.assignees.nodes.map(
+                      (node) => html`
+                        <${Link}
+                          href=${`/${node.login}`}
+                          class="text-bold link-gray-dark"
+                        >
+                          <img
+                            width="16"
+                            height="16"
+                            class="avatar mb-2 mr-1"
+                            src=${node.avatarUrl}
+                          />
+                          ${node.login}
+                        <//>
+                        ${" "}
+                      `
+                    )
+                  : "No one is assigned"}
               </ol>
             </div>
             <div class="border-bottom border-black-fade py-4">
               <h2 class="mb-2 h6 text-gray">Labels</h2>
               <span class="labels d-flex flex-wrap">
-                ${repository.issue.labels.nodes.map(
-                  (label) => html`
-                    <${Label}
-                      class="mr-1 mb-1"
-                      nameWithOwner=${repository.nameWithOwner}
-                      label=${label}
-                    />
-                  `
-                )}
+                ${repository.issue.labels.length
+                  ? repository.issue.labels.nodes.map(
+                      (label) => html`
+                        <${Label}
+                          class="mr-1 mb-1"
+                          nameWithOwner=${repository.nameWithOwner}
+                          label=${label}
+                        />
+                      `
+                    )
+                  : "None yet"}
               </span>
             </div>
           </div>

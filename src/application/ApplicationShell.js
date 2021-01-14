@@ -97,12 +97,54 @@ function ApplicationShell({ children }) {
                   <li>
                     <${Link}
                       href="/${data?.viewer?.login}"
-                      class=" dropdown-item"
+                      class="dropdown-item"
                     >
                       Your profile
                     <//>
                   </li>
+                  <li>
+                    <${Link}
+                      href="/users/${data?.viewer?.login}/repositories"
+                      class="dropdown-item"
+                    >
+                      Your repositories
+                    <//>
+                  </li>
+                  <li>
+                    <${Link}
+                      href="/settings/organizations"
+                      class="dropdown-item"
+                    >
+                      Your organizations
+                    <//>
+                  </li>
+                  <li>
+                    <${Link}
+                      href="/users/${data?.viewer?.login}/projects"
+                      class="dropdown-item"
+                    >
+                      Your projects
+                    <//>
+                  </li>
+                  <li>
+                    <${Link} href="/discussions" class="dropdown-item">
+                      Your discussions
+                    <//>
+                  </li>
+                  <li>
+                    <${Link}
+                      href="/users/${data?.viewer?.login}/stars"
+                      class="dropdown-item"
+                    >
+                      Your stars
+                    <//>
+                  </li>
                   <li class="dropdown-divider" role="separator"></li>
+                  <li>
+                    <${Link} href="/settings/profile" class="dropdown-item">
+                      Settings
+                    <//>
+                  </li>
                   <li>
                     <button
                       class="btn-link dropdown-item"

@@ -2,3 +2,4 @@ build
 .snowpack
 node_modules
 package.json
+snowpack.config.js
