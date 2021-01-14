@@ -11,7 +11,6 @@
     "marked": "https://cdn.skypack.dev/marked",
     "preact-router": "https://cdn.skypack.dev/preact-router",
     "preact": "https://cdn.skypack.dev/preact",
-    "preact/hooks": "https://cdn.skypack.dev/preact/hooks",
-    "urql": "https://cdn.skypack.dev/urql"
+    "preact/hooks": "https://cdn.skypack.dev/preact/hooks"
   }
 }
