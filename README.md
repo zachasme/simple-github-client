@@ -6,6 +6,6 @@ Run
 npx live-server --port=1337 --entry-file=404.html
 ```
 
-Visit [/snowpackjs](/snowpackjs)
+Visit [./snowpackjs](./snowpackjs)
 
 Generate a user token, and use it to auth the client
