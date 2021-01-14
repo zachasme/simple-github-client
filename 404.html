@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+      This attribute declares the document's character encoding.
+    -->
+    <meta charset="utf-8" />
+    <!--
+      A favicon (favorite icon) is a tiny icon included along with a website,
+      which is displayed in places like the browser's address bar, page tabs
+      and bookmarks menu.
+    -->
+    <link rel="icon" href="/images/favicon.ico" />
+    <!--
+      The browser's viewport is the area of the window in which web content can
+      be seen. This is often not the same size as the rendered page, in which
+      case the browser provides scrollbars for the user to scroll around and
+      access all the content. See https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+      Indicates a suggested color that user agents should use to customize
+      the display of the page or of the surrounding user interface.
+    -->
+    <meta name="theme-color" content="#24292e" />
+    <!--
+      Short and accurate summary of the content of the page.
+
+      Several browsers, like Firefox and Opera, use this as the default
+      description of bookmarked pages.
+    -->
+    <meta
+      name="description"
+      content="A GitHub clone using as little tooling as possible"
+    />
+    <!--
+      When iOS Safari users add Progressive Web Apps (PWAs) to their home
+      screens, the icon that appears is called the Apple touch icon.
+      <link rel="apple-touch-icon" href="/images/logo192.png" />
+    -->
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+      <link rel="manifest" href="/manifest.json" />
+    -->
+    <!--
+      Defines the document's title that is shown in a browser's title bar
+      or a page's tab.
+    -->
+    <title>GitHub Client</title>
+    <!--
+      GitHub Primer CSS stylesheet
+    -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@primer/css/dist/primer.css"
+    />
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+    <script type="module" src="/src/bootstrap.js"></script>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+build
+.snowpack
+node_modules
+package.json
