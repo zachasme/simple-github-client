@@ -1,5 +1,5 @@
 import { html } from "htm/preact";
-import gql from "graphql-tag";
+import { gql } from "@urql/preact";
 import useQuery from "../hooks/useQuery.js";
 
 import Link from "../primitives/Link.js";

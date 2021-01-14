@@ -1,5 +1,5 @@
 import { html } from "htm/preact";
-import gql from "graphql-tag";
+import { gql } from "@urql/preact";
 
 import Octicon from "../primitives/Octicon.js";
 import Label from "../primitives/Label.js";
@@ -49,7 +49,10 @@ function TimelineItem({ repository, timelineItem }) {
             <${Octicon} name="flame" />
           </div>
 
-          <div class="TimelineItem-body">type: ${timelineItem.__typename}</div>
+          <div class="TimelineItem-body">
+            type: ${timelineItem.__typename}, ...
+            ${JSON.stringify(timelineItem)}
+          </div>
         </div>
       `;
   }
@@ -65,8 +68,19 @@ TimelineItem.fragments = {
   issueTimelineItems: gql`
     fragment TimelineItem_issueTimelineItems on IssueTimelineItems {
       __typename
-      ...IssueTimelineAssignedEvent_issueTimelineItems
-      ...IssueTimelineIssueComment_comment
+      ... on IssueComment {
+        ...IssueTimelineIssueComment_comment
+      }
+      ... on MentionedEvent {
+        id
+        createdAt
+        actor {
+          ... on User {
+            id
+          }
+          login
+        }
+      }
       ... on LabeledEvent {
         id
         createdAt
@@ -78,15 +92,7 @@ TimelineItem.fragments = {
           ...Label_label
         }
       }
-      ... on SubscribedEvent {
-        id
-      }
-      ... on MentionedEvent {
-        id
-      }
-      ... on CrossReferencedEvent {
-        id
-      }
+      ...IssueTimelineAssignedEvent_issueTimelineItems
     }
     ${IssueTimelineAssignedEvent.fragments.issueTimelineItems}
     ${IssueTimelineIssueComment.fragments.comment}

@@ -1,6 +1,6 @@
 import { html } from "htm/preact";
+import { gql } from "@urql/preact";
 
-import gql from "graphql-tag";
 import useQuery from "../hooks/useQuery.js";
 import usePersistedState from "../hooks/usePersistedState.js";
 

@@ -1,5 +1,5 @@
 import { html } from "htm/preact";
-import gql from "graphql-tag";
+import { gql } from "@urql/preact";
 
 import Link from "../primitives/Link.js";
 import { emojify } from "../emojis.js";
@@ -16,10 +16,10 @@ function textColor(backgroundColor) {
   }
 }
 
-function Label({ nameWithOwner, label }) {
+function Label({ nameWithOwner, label, class: className = "" }) {
   return html`
     <${Link}
-      class="d-inline-block IssueLabel"
+      class="d-inline-block IssueLabel ${className}"
       title="Something isn't working"
       href="/${nameWithOwner}/issues?q=is%3Aissue+is%3Aopen+label%3A${label.name}"
       ...${{

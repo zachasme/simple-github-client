@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import { gql } from "@urql/preact";
 
 export const ADD_STAR_MUTATION = gql`
   mutation($input: AddStarInput!) {

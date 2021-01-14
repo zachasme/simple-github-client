@@ -1,6 +1,5 @@
 import { html } from "htm/preact";
-import { useQuery } from "@urql/preact";
-import gql from "graphql-tag";
+import { gql, useQuery } from "@urql/preact";
 
 import Link from "../primitives/Link.js";
 import Octicon from "../primitives/Octicon.js";

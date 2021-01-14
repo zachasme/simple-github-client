@@ -1,6 +1,6 @@
 import { html } from "htm/preact";
 import useQuery from "../hooks/useQuery.js";
-import gql from "graphql-tag";
+import { gql } from "@urql/preact";
 
 import RepositoryList from "../repository/RepositoryList.js";
 import RepositoryOwnerShell from "../repositoryOwner/RepositoryOwnerShell.js";

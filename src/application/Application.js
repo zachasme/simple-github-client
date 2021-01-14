@@ -3,7 +3,7 @@ import { useErrorBoundary } from "preact/hooks";
 import { html } from "htm/preact";
 
 import useQuery from "../hooks/useQuery.js";
-import gql from "graphql-tag";
+import { gql } from "@urql/preact";
 
 import ApplicationShell from "./ApplicationShell.js";
 import DashboardRoute from "../routes/DashboardRoute.js";
@@ -15,6 +15,7 @@ import RepositoryIssuesRoute from "../repository/RepositoryIssuesRoute.js";
 import RepositoryLabelsRoute from "../repository/RepositoryLabelsRoute.js";
 import RepositoryIssueRoute from "../repository/RepositoryIssueRoute.js";
 import RepositoryOwnerRoute from "../repositoryOwner/RepositoryOwnerRoute.js";
+import SchemaRoute from "../debug/SchemaRoute.js";
 import NotFoundRoute from "../routes/NotFoundRoute.js";
 import LogInRoute from "../user/LogInRoute.js";
 import UserRepositoriesRoute from "../user/UserRepositoriesRoute.js";
@@ -67,6 +68,7 @@ function Application() {
     html`<${RepositoryIssuesRoute} path="${p}/:owner/:name/pulls" />`,
     html`<${RepositoryLabelsRoute} path="${p}/:owner/:name/labels" />`,
     html`<${RepositoryOwnerRoute} path="${p}/:login" />`,
+    html`<${SchemaRoute} path="${p}/" />`,
     html`<${NotFoundRoute} default />`,
   ];
 

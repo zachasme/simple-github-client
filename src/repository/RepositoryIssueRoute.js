@@ -1,6 +1,8 @@
 import { html } from "htm/preact";
-import gql from "graphql-tag";
+import { gql } from "@urql/preact";
+
 import useQuery from "../hooks/useQuery.js";
+import Link from "../primitives/Link.js";
 
 import RepositoryShell from "./RepositoryShell.js";
 import Label from "../primitives/Label.js";
@@ -18,10 +20,26 @@ const QUERY = gql`
       issue(number: $number) {
         id
         title
+        assignees(first: 10) {
+          nodes {
+            id
+            avatarUrl
+            login
+          }
+        }
+        labels(first: 10) {
+          nodes {
+            id
+            ...Label_label
+          }
+        }
         ...IssueTimelineIssueComment_comment
         timelineItems(first: 50) {
           edges {
             node {
+              ... on Node {
+                id
+              }
               ...TimelineItem_issueTimelineItems
             }
           }
@@ -42,7 +60,9 @@ function RepositoryIssueRoute({ matches }) {
     name: matches.name,
     number: parseInt(matches.number, 10),
   };
-  const [{ data, fetching }] = useQuery({ query: QUERY, variables });
+  const [{ data, error, fetching }] = useQuery({ query: QUERY, variables });
+
+  if (error) throw error;
 
   let content = "...";
   if (data?.repository?.issue) {
@@ -68,7 +88,47 @@ function RepositoryIssueRoute({ matches }) {
                 />`
             )}
           </div>
-          <div class="flex-shrink-0 col-12 col-md-3">sidebar</div>
+
+          <!-- Gutter -->
+
+          <div class="flex-shrink-0 col-12 col-md-3 text-small">
+            <div class="border-bottom border-black-fade py-4">
+              <h2 class="mb-2 h6 text-gray">Assignees</h2>
+              <ol>
+                ${repository.issue.assignees.nodes.map(
+                  (node) => html`
+                    <${Link}
+                      href=${`/${node.login}`}
+                      class="text-bold link-gray-dark"
+                    >
+                      <img
+                        width="16"
+                        height="16"
+                        class="avatar mb-2 mr-1"
+                        src=${node.avatarUrl}
+                      />
+                      ${node.login}
+                    <//>
+                    ${" "}
+                  `
+                )}
+              </ol>
+            </div>
+            <div class="border-bottom border-black-fade py-4">
+              <h2 class="mb-2 h6 text-gray">Labels</h2>
+              <span class="labels d-flex flex-wrap">
+                ${repository.issue.labels.nodes.map(
+                  (label) => html`
+                    <${Label}
+                      class="mr-1 mb-1"
+                      nameWithOwner=${repository.nameWithOwner}
+                      label=${label}
+                    />
+                  `
+                )}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     `;

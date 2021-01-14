@@ -1,6 +1,6 @@
 import { html } from "htm/preact";
 import useQuery from "../hooks/useQuery.js";
-import gql from "graphql-tag";
+import { gql } from "@urql/preact";
 
 import Markdown from "../primitives/Markdown.js";
 import Link from "../primitives/Link.js";
@@ -87,10 +87,9 @@ function RepositoryRoute({ matches }) {
     content = html`404`;
   } else if (data) {
     const { repository } = data;
-    console.log(repository);
     content = html`
       <div
-        class="container-xl clearfix new-discussion-timeline  px-3 px-md-4 px-lg-5"
+        class="container-xl clearfix new-discussion-timeline px-3 px-md-4 px-lg-5"
       >
         <div class="gutter-condensed gutter-lg flex-column flex-md-row d-flex">
           <div class="flex-shrink-0 col-12 col-md-9 mb-4 mb-md-0">

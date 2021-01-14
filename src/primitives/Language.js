@@ -1,5 +1,5 @@
 import { html } from "htm/preact";
-import gql from "graphql-tag";
+import { gql } from "@urql/preact";
 
 import Dot from "./Dot.js";
 

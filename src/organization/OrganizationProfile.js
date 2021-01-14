@@ -1,5 +1,5 @@
 import { html } from "htm/preact";
-import gql from "graphql-tag";
+import { gql } from "@urql/preact";
 
 import RepositoryList from "../repository/RepositoryList.js";
 

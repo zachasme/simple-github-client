@@ -1,7 +1,7 @@
 import { html } from "htm/preact";
 import useQuery from "../hooks/useQuery.js";
 import { useState } from "preact/hooks";
-import gql from "graphql-tag";
+import { gql } from "@urql/preact";
 
 import Link from "../primitives/Link.js";
 import Label from "../primitives/Label.js";

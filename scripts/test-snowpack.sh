@@ -18,9 +18,9 @@ yarn add snowpack \
     @github/time-elements \
     @primer/octicons \
     @urql/exchange-graphcache \
+    @urql/introspection \
     @urql/preact \
     date-fns \
-    graphql-tag \
     graphql \
     htm \
     marked \
