@@ -7,7 +7,7 @@
     "date-fns": "https://cdn.skypack.dev/date-fns",
     "graphql-tag": "https://cdn.skypack.dev/graphql-tag",
     "graphql": "https://cdn.skypack.dev/graphql",
-    "htm/preact": "https://cdn.skypack.dev/htm/preact/standalone",
+    "htm/preact": "https://cdn.skypack.dev/htm/preact",
     "marked": "https://cdn.skypack.dev/marked",
     "preact-router": "https://cdn.skypack.dev/preact-router",
     "preact": "https://cdn.skypack.dev/preact",

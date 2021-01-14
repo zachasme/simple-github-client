@@ -28,3 +28,11 @@ yarn add snowpack \
     preact \
     urql
 yarn snowpack dev
+
+# Issues:
+#
+#  * npx live-server --port=1337 --entry-file=404.html
+#      doesnt work
+#
+#  * https://cdn.skypack.dev/es-module-shims
+#      doesnt work

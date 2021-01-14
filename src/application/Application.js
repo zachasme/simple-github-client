@@ -50,25 +50,29 @@ function Application() {
     console.log(`Signed in as: ${data?.viewer?.login}`);
   }
 
+  // hack to support optional url prefix in preact-router
+  const routes = (p = "") => [
+    // p is prefix
+    html`<${DashboardRoute} path="${p}/" />`,
+    html`<${LogInRoute} path="${p}/login" />`,
+    html`<${OrganizationPackagesRoute} path="${p}/orgs/:login/packages" />`,
+    html`<${OrganizationPeopleRoute} path="${p}/orgs/:login/people" />`,
+    html`<${OrganizationProjectsRoute} path="${p}/orgs/:login/projects" />`,
+    html`<${UserRepositoriesRoute} path="${p}/users/:login/repositories" />`,
+    html`<${UserPackagesRoute} path="${p}/users/:login/packages" />`,
+    html`<${UserProjectsRoute} path="${p}/users/:login/projects" />`,
+    html`<${RepositoryRoute} path="${p}/:owner/:name" />`,
+    html`<${RepositoryIssueRoute} path="${p}/:owner/:name/issues/:number" />`,
+    html`<${RepositoryIssuesRoute} path="${p}/:owner/:name/issues" />`,
+    html`<${RepositoryIssuesRoute} path="${p}/:owner/:name/pulls" />`,
+    html`<${RepositoryLabelsRoute} path="${p}/:owner/:name/labels" />`,
+    html`<${RepositoryOwnerRoute} path="${p}/:login" />`,
+    html`<${NotFoundRoute} default />`,
+  ];
+
   return html`
     <${ApplicationShell}>
-      <${Router}>
-        <${DashboardRoute} path="/" />
-        <${LogInRoute} path="/login" />
-        <${OrganizationPackagesRoute} path="/orgs/:login/packages" />
-        <${OrganizationPeopleRoute} path="/orgs/:login/people" />
-        <${OrganizationProjectsRoute} path="/orgs/:login/projects" />
-        <${UserRepositoriesRoute} path="/users/:login/repositories" />
-        <${UserPackagesRoute} path="/users/:login/packages" />
-        <${UserProjectsRoute} path="/users/:login/projects" />
-        <${RepositoryRoute} path="/:owner/:name" />
-        <${RepositoryIssueRoute} path="/:owner/:name/issues/:number" />
-        <${RepositoryIssuesRoute} path="/:owner/:name/issues" />
-        <${RepositoryIssuesRoute} path="/:owner/:name/pulls" />
-        <${RepositoryLabelsRoute} path="/:owner/:name/labels" />
-        <${RepositoryOwnerRoute} path="/:login" />
-        <${NotFoundRoute} default />
-      <//>
+      <${Router}>${routes("/simple-github-client")}${routes()}<//>
     <//>
   `;
 }
