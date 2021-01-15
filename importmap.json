@@ -2,6 +2,8 @@
   "imports": {
     "@github/time-elements": "https://cdn.skypack.dev/@github/time-elements",
     "@primer/octicons": "https://cdn.skypack.dev/@primer/octicons",
+    "@urql/core": "https://cdn.skypack.dev//@urql/core",
+    "@urql/exchange-auth": "https://cdn.skypack.dev//@urql/exchange-auth",
     "@urql/exchange-graphcache": "https://cdn.skypack.dev/@urql/exchange-graphcache",
     "@urql/introspection": "https://cdn.skypack.dev/@urql/introspection",
     "@urql/preact": "https://cdn.skypack.dev/@urql/preact",

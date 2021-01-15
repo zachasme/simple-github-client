@@ -17,6 +17,7 @@ const QUERY = gql`
   query RepositoryShellQuery($owner: String!, $name: String!) {
     repository(owner: $owner, name: $name) {
       id
+      isPrivate
       forkCount
       hasProjectsEnabled
       nameWithOwner
@@ -89,7 +90,7 @@ function RepositoryShell({ active, owner, name, children }) {
           aria-label="Breadcrumb"
           class="flex-auto d-flex flex-wrap flex-items-center break-word f3 text-normal"
         >
-          <${Octicon} name="repo" />
+          <${Octicon} name=${repo?.isPrivate ? "lock" : "repo"} />
           <ol>
             <li class="breadcrumb-item">
               <${Link} href="/${owner}">${owner}<//>
@@ -98,6 +99,8 @@ function RepositoryShell({ active, owner, name, children }) {
               <${Link} href="/${nameWithOwner}">${name}<//>
             </li>
           </ol>
+          ${repo?.isPrivate &&
+          html`<span class="Label Label--gray  ml-1">Private</span>`}
         </nav>
 
         <${Select}

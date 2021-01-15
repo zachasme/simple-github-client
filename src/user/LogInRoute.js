@@ -1,34 +1,21 @@
 import { html } from "htm/preact";
 import { useState } from "preact/hooks";
-import { useClient } from "@urql/preact";
+import { gql } from "@urql/core";
 
-import usePersistedState from "../hooks/usePersistedState.js";
+import { login } from "../authentication.js";
 
 import Octicon from "../primitives/Octicon.js";
 import Button from "../primitives/Button.js";
 
 function LogInRoute() {
-  const client = useClient();
-  const [token, setToken] = usePersistedState("", "token");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState("");
+
+  const error = false;
+  const fetching = false;
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setLoading(true);
-    setError("");
-    const result = await client
-      .query("{ viewer { login }}", {
-        requestPolicy: "network-only",
-      })
-      .toPromise();
-    setLoading(false);
-    if (!result.error) {
-      location.reload();
-    } else {
-      console.log(result.error);
-      setError(result.error);
-    }
+    login(token);
   }
 
   return html`<div
@@ -55,7 +42,7 @@ function LogInRoute() {
         </div>
         <div class="form-group-body">
           <input
-            disabled=${loading}
+            disabled=${fetching}
             class="form-control"
             type="text"
             value=${token}
@@ -67,7 +54,7 @@ function LogInRoute() {
       </div>
 
       <${Button}
-        disabled=${loading}
+        disabled=${fetching}
         type="submit"
         value="Sign in"
         primary

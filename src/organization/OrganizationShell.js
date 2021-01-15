@@ -1,8 +1,7 @@
 import { html } from "htm/preact";
-import { gql, useQuery } from "@urql/preact";
+import { gql } from "@urql/preact";
 
 import Link from "../primitives/Link.js";
-import Octicon from "../primitives/Octicon.js";
 import UnderlineNav from "../primitives/UnderlineNav.js";
 import UnderlineNavItem from "../primitives/UnderlineNavItem.js";
 

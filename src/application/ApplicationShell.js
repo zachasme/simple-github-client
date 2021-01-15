@@ -1,8 +1,9 @@
 import { html } from "htm/preact";
 import { gql } from "@urql/preact";
 
+import { logout } from "../authentication";
+
 import useQuery from "../hooks/useQuery.js";
-import usePersistedState from "../hooks/usePersistedState.js";
 
 import Octicon from "../primitives/Octicon.js";
 import Link from "../primitives/Link.js";
@@ -30,15 +31,9 @@ const QUERY = gql`
 `;
 
 function ApplicationShell({ children }) {
-  const [token, setToken] = usePersistedState("", "token");
   const [{ data, error }] = useQuery({
     query: QUERY,
   });
-
-  function handleSignOut() {
-    setToken("");
-    location.reload();
-  }
 
   return html`
     <div>
@@ -146,10 +141,7 @@ function ApplicationShell({ children }) {
                     <//>
                   </li>
                   <li>
-                    <button
-                      class="btn-link dropdown-item"
-                      onClick=${handleSignOut}
-                    >
+                    <button class="btn-link dropdown-item" onClick=${logout}>
                       Sign out
                     </button>
                   </li>

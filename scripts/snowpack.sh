@@ -20,6 +20,8 @@ EOT
 yarn add snowpack \
     @github/time-elements \
     @primer/octicons \
+    @urql/core \
+    @urql/exchange-auth \
     @urql/exchange-graphcache \
     @urql/introspection \
     @urql/preact \
