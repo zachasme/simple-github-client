@@ -10,7 +10,7 @@ import {
   removeStarOptimsitic,
 } from "../repository/starMutations.js";
 
-export default ({ schema, addToast }) => {
+export default ({ schema, token, logout, addToast }) => {
   return createClient({
     url: "https://api.github.com/graphql",
     requestPolicy: "cache-and-network",
@@ -27,7 +27,7 @@ export default ({ schema, addToast }) => {
         },
       }),
       errorExchange(addToast),
-      authExchange,
+      authExchange({ token, logout, addToast }),
       progressExchange,
       fetchExchange,
     ],

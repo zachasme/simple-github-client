@@ -2,7 +2,7 @@ import { html } from "htm/preact";
 import { gql } from "@urql/preact";
 import { useEffect, useState } from "preact/hooks";
 
-import { logout } from "../authentication";
+import { useToken } from "../user/TokenContext";
 
 import useQuery from "../hooks/useQuery.js";
 
@@ -33,6 +33,8 @@ const QUERY = gql`
 `;
 
 function ApplicationShell({ children }) {
+  const { logout } = useToken();
+
   const [{ data, error }] = useQuery({
     query: QUERY,
   });

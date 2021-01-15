@@ -1,13 +1,13 @@
 import { html } from "htm/preact";
 import { useState } from "preact/hooks";
-import { gql } from "@urql/core";
 
-import { login } from "../authentication.js";
+import { useToken } from "./TokenContext.js";
 
 import Octicon from "../primitives/Octicon.js";
 import Button from "../primitives/Button.js";
 
 function LogInRoute() {
+  const { login } = useToken();
   const [token, setToken] = useState("");
 
   const error = false;

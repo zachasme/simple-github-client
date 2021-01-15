@@ -1,27 +1,19 @@
 import { html } from "htm/preact";
-import { useMemo, useState, useEffect } from "preact/hooks";
+import { useMemo } from "preact/hooks";
 import { Provider } from "@urql/preact";
 
 import createClient from "./createClient.js";
-import { listen, getToken } from "../authentication.js";
 import { useToast } from "../toast/ToastContext.js";
+import { useToken } from "../user/TokenContext.js";
 
 function UrqlProvider({ schema, children }) {
-  const [authenticated, setAuthenticated] = useState(getToken());
-
   const { addToast } = useToast();
-
-  useEffect(() => {
-    return listen((x) => {
-      console.log("HIY", x);
-      setAuthenticated(x);
-    });
-  }, []);
+  const { token, logout } = useToken();
 
   const client = useMemo(() => {
     console.debug("[URQL] create new client");
-    return createClient({ schema, addToast });
-  }, [authenticated]);
+    return createClient({ schema, token, logout, addToast });
+  }, [token]);
 
   return html`<${Provider} value=${client}>${children}<//>`;
 }

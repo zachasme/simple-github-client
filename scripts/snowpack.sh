@@ -1,6 +1,7 @@
 SOURCE=${1:-remote}
 
 cat <<EOT > .gitignore
+.env
 build
 .snowpack
 node_modules
