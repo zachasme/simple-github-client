@@ -1,7 +1,7 @@
 import { html } from "htm/preact";
 import { gql } from "@urql/preact";
 
-import Link from "../primitives/Link.js";
+import Link from "./Link.js";
 import { emojify } from "../emojis.js";
 
 function textColor(backgroundColor) {
@@ -16,7 +16,7 @@ function textColor(backgroundColor) {
   }
 }
 
-function Label({ nameWithOwner, label, class: className = "" }) {
+function IssueLabel({ nameWithOwner, label, class: className = "" }) {
   return html`
     <${Link}
       class="d-inline-block IssueLabel ${className}"
@@ -34,7 +34,7 @@ function Label({ nameWithOwner, label, class: className = "" }) {
   `;
 }
 
-Label.fragments = {
+IssueLabel.fragments = {
   label: gql`
     fragment Label_label on Label {
       color
@@ -43,4 +43,4 @@ Label.fragments = {
   `,
 };
 
-export default Label;
+export default IssueLabel;

@@ -22,6 +22,7 @@ export async function login(accessToken) {
 }
 
 export function logout() {
+  console.log("loggin out");
   setToken(null);
 }
 
@@ -43,13 +44,15 @@ window.addEventListener("storage", () => {
   if (token !== authenticatedToken) login(token);
 });
 
-const listeners = [];
+const listeners = new Set();
 export function listen(listener) {
-  listeners.push(listener);
+  listeners.add(listener);
+  return () => listeners.delete(listener);
 }
 
 function broadcast() {
   for (const listener of listeners) {
-    listener();
+    console.log("listener x");
+    listener(getToken());
   }
 }

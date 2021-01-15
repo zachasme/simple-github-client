@@ -4,6 +4,7 @@ import { gql } from "@urql/preact";
 import RepositoryTopics from "./RepositoryTopics.js";
 
 import Link from "../primitives/Link.js";
+import UserLink from "../user/UserLink.js";
 import Octicon from "../primitives/Octicon.js";
 import Language from "../primitives/Language.js";
 
@@ -14,7 +15,7 @@ function RepositoryList({ repositoryOwner, ...props }) {
         ({ node: repo }) => html`
           <li class="py-4 border-bottom">
             <h3>
-              <${Link} href=${`/${repo.owner.login}`}>${repo.owner.login}<//>
+              <${UserLink} login=${repo.owner.login} />
               <span> / </span>
               <${Link} href=${`/${repo.owner.login}/${repo.name}`}>
                 ${repo.name}

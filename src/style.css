@@ -1,10 +1,15 @@
-.vcard-username {
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 300;
-  line-height: 24px;
-  color: #666;
+.fetch-progress {
+  animation-name: progress;
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
 }
-.avatar-user {
-  border-radius: 50% !important;
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
 }

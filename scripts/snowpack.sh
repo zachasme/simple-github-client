@@ -23,6 +23,7 @@ yarn add snowpack \
     @urql/core \
     @urql/exchange-auth \
     @urql/exchange-graphcache \
+    @urql/exchange-request-policy \
     @urql/introspection \
     @urql/preact \
     date-fns \

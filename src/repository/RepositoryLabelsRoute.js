@@ -5,7 +5,7 @@ import { gql } from "@urql/preact";
 import Link from "../primitives/Link.js";
 import ButtonGroup from "../primitives/ButtonGroup.js";
 import Button from "../primitives/Button.js";
-import Label from "../primitives/Label.js";
+import IssueLabel from "../primitives/IssueLabel.js";
 
 import RepositoryShell from "./RepositoryShell.js";
 
@@ -31,7 +31,7 @@ const QUERY = gql`
       }
     }
   }
-  ${Label.fragments.label}
+  ${IssueLabel.fragments.label}
 `;
 
 function RepositoryLabelsRoute({ matches }) {
@@ -71,7 +71,7 @@ function RepositoryLabelsRoute({ matches }) {
             ({ node }) => html`
               <div class="Box-row d-flex">
                 <div class="col-3 pr-3">
-                  <${Label}
+                  <${IssueLabel}
                     nameWithOwner=${repository.nameWithOwner}
                     label=${node}
                   />

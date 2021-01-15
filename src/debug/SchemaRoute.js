@@ -6,6 +6,7 @@ import {
   minifyIntrospectionQuery,
 } from "@urql/introspection";
 
+import Toast from "../primitives/Toast.js";
 import Octicon from "../primitives/Octicon.js";
 import useQuery from "../hooks/useQuery.js";
 
@@ -49,14 +50,9 @@ function SchemaRoute() {
       ${data
         ? html`
             <div class="p-1">
-              <div class="Toast Toast--${upToDate ? "success" : "warning"}">
-                <span class="Toast-icon">
-                  <${Octicon} name=${upToDate ? "check" : "alert"} />
-                </span>
-                <span class="Toast-content">
-                  Schema is ${upToDate ? "up-to-date" : "outdated"}.
-                </span>
-              </div>
+              <${Toast} type=${upToDate ? "success" : "warning"}>
+                Schema is ${upToDate ? "up-to-date" : "outdated"}.
+              <//>
             </div>
             <div class="form-group">
               <div class="form-group-body">

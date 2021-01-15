@@ -5,6 +5,7 @@
     "@urql/core": "https://cdn.skypack.dev//@urql/core",
     "@urql/exchange-auth": "https://cdn.skypack.dev//@urql/exchange-auth",
     "@urql/exchange-graphcache": "https://cdn.skypack.dev/@urql/exchange-graphcache",
+    "@urql/exchange-request-policy": "https://cdn.skypack.dev/@urql/exchange-request-policy",
     "@urql/introspection": "https://cdn.skypack.dev/@urql/introspection",
     "@urql/preact": "https://cdn.skypack.dev/@urql/preact",
     "date-fns": "https://cdn.skypack.dev/date-fns",

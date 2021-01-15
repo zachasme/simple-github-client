@@ -29,7 +29,7 @@ const QUERY = gql`
       milestones {
         totalCount
       }
-      issues(first: 20, states: OPEN, orderBy: $orderBy) {
+      pullRequests(first: 20, states: OPEN, orderBy: $orderBy) {
         edges {
           node {
             id
@@ -65,7 +65,7 @@ const ORDERINGS = {
   "Least recently updated": { field: "UPDATED_AT", direction: "ASC" },
 };
 
-function RepositoryIssuesRoute({ matches, ...props }) {
+function RepositoryPullRequestsRoute({ matches, ...props }) {
   const query = matches.q || "is:issue+is:open";
 
   const parts = query.split("+");
@@ -200,7 +200,7 @@ function RepositoryIssuesRoute({ matches, ...props }) {
             <//>
           </div>
 
-          ${repository.issues.edges.map(
+          ${repository.pullRequests.edges.map(
             ({ node }) => html`
               <div class="Box-row d-flex">
                 <div class="text-green flex-shrink-0 pt-2 pl-3">
@@ -255,7 +255,7 @@ function RepositoryIssuesRoute({ matches, ...props }) {
 
   return html`
     <${RepositoryShell}
-      active="issues"
+      active="pulls"
       owner=${matches.owner}
       name=${matches.name}
     >
@@ -264,4 +264,4 @@ function RepositoryIssuesRoute({ matches, ...props }) {
   `;
 }
 
-export default RepositoryIssuesRoute;
+export default RepositoryPullRequestsRoute;

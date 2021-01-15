@@ -12,6 +12,7 @@ import UnderlineNavItem from "../primitives/UnderlineNavItem.js";
 
 import { ADD_STAR_MUTATION, REMOVE_STAR_MUTATION } from "./starMutations.js";
 import { UPDATE_SUBSCRIPTION_MUTATION } from "./subscriptionMutations.js";
+import { useToast } from "../toast/ToastContext.js";
 
 const QUERY = gql`
   query RepositoryShellQuery($owner: String!, $name: String!) {
@@ -52,8 +53,7 @@ function RepositoryShell({ active, owner, name, children }) {
     query: QUERY,
     variables: { owner, name },
   });
-
-  if (updateSubscriptionResult.error) throw updateSubscriptionResult.error;
+  const { addToast } = useToast();
 
   const isMutatingStar = addStarResult.fetching || removeStarResult.fetching;
 
@@ -66,6 +66,12 @@ function RepositoryShell({ active, owner, name, children }) {
   }
 
   function setSubscription(state) {
+    if (state === "CUSTOM") {
+      return addToast({
+        type: "error",
+        message: "Custom notification settings not supported in GraphQL API",
+      });
+    }
     updateSubscription({
       input: { subscribableId: repo.id, state },
     });
@@ -96,7 +102,7 @@ function RepositoryShell({ active, owner, name, children }) {
               <${Link} href="/${owner}">${owner}<//>
             </li>
             <li class="breadcrumb-item" aria-current="page">
-              <${Link} href="/${nameWithOwner}">${name}<//>
+              <${Link} href="/${nameWithOwner}" class="text-bold"> ${name} <//>
             </li>
           </ol>
           ${repo?.isPrivate &&
@@ -170,7 +176,7 @@ function RepositoryShell({ active, owner, name, children }) {
           <//>
           <button
             disabled=${updateSubscriptionResult.fetching}
-            onClick=${() => alert("Unsupported in API")}
+            onClick=${() => setSubscription("CUSTOM")}
             class="SelectMenu-item flex-items-start"
             role="menuitem"
           >

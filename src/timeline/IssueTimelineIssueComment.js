@@ -37,7 +37,7 @@ function IssueTimelineIssueComment({ comment }) {
           <//>
         </div>
         <div
-          class="Box-body markdown-body f5"
+          class="Box-body markdown-body f5 py-3"
           dangerouslySetInnerHTML=${{ __html: comment.bodyHTML }}
         />
       </div>

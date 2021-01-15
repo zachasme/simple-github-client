@@ -1,5 +1,6 @@
 import { html } from "htm/preact";
 import { gql } from "@urql/preact";
+import { useEffect, useState } from "preact/hooks";
 
 import { logout } from "../authentication";
 
@@ -7,6 +8,7 @@ import useQuery from "../hooks/useQuery.js";
 
 import Octicon from "../primitives/Octicon.js";
 import Link from "../primitives/Link.js";
+import { onProgressChange } from "../graphql/progress";
 
 function HeaderLink({ children, class: className, ...props }) {
   return html`<${Link} class="Header-link ${className}" ...${props}>
@@ -35,8 +37,22 @@ function ApplicationShell({ children }) {
     query: QUERY,
   });
 
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    return onProgressChange((queries) => {
+      setProgress(queries.size);
+    });
+  }, []);
+
   return html`
     <div>
+      <span
+        class=${`bg-gray-dark Progress Progress--small rounded-0 position-absolute width-full ${
+          progress === 0 ? "v-hidden" : "v-shown"
+        }`}
+      >
+        <span key=${progress} class="Progress-item bg-blue fetch-progress" />
+      </span>
       <${Header}>
         <${HeaderItem}>
           <${HeaderLink} href="/" class="f4 d-flex flex-items-center">

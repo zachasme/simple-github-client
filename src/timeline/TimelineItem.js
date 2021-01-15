@@ -1,8 +1,8 @@
 import { html } from "htm/preact";
 import { gql } from "@urql/preact";
 
+import IssueLabel from "../primitives/IssueLabel.js";
 import Octicon from "../primitives/Octicon.js";
-import Label from "../primitives/Label.js";
 import IssueTimelineAssignedEvent from "./IssueTimelineAssignedEvent.js";
 import IssueTimelineIssueComment from "./IssueTimelineIssueComment.js";
 
@@ -29,7 +29,7 @@ function TimelineItem({ repository, timelineItem }) {
               ${timelineItem?.actor.login}
             <//>
             ${" added the "}
-            <${Label}
+            <${IssueLabel}
               nameWithOwner=${repository.nameWithOwner}
               label=${timelineItem.label}
             />

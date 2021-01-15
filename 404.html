@@ -48,20 +48,26 @@
       or a page's tab.
     -->
     <title>GitHub Client</title>
-    <!--
-      GitHub Primer CSS stylesheet
-    -->
+    <!-- Custom styles stylesheet -->
+    <link rel="stylesheet" href="/src/style.css" />
+    <!-- GitHub Primer CSS stylesheet -->
     <link
       rel="stylesheet"
       href="https://cdn.skypack.dev/@primer/css/dist/primer.css"
+    />
+    <!-- GitHub Syntax Highlighting -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.skypack.dev/github-syntax-light/lib/github-light.css"
     />
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
 
-    <script type="module" src="https://jspm.dev/es-module-shims"></script>
+    <!--<script type="module" src="https://jspm.dev/es-module-shims"></script>
     <script type="importmap-shim" src="/importmap.json"></script>
-    <script type="module-shim" src="/src/bootstrap.js"></script>
+    <script type="module-shim" src="/src/bootstrap.js"></script>-->
+    <script type="module" src="/src/bootstrap.js"></script>
   </body>
 </html>

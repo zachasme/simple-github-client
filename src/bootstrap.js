@@ -1,24 +1,24 @@
 import { render } from "preact";
 import { html } from "htm/preact";
-import { createClient, Provider } from "@urql/preact";
-import "@github/time-elements";
-import { createClientOptions } from "./urql.js";
-import { listen } from "./authentication.js";
 
 import Application from "./application/Application.js";
+import UrqlProvider from "./graphql/UrqlProvider.js";
+import { ToastProvider } from "./toast/ToastContext.js";
 
 export async function bootstrap() {
-  const client = createClient(await createClientOptions());
+  const response = await fetch("/src/schema.json");
+  const schema = await response.json();
 
   const container = document.getElementById("root");
   const root = html`
-    <${Provider} value=${client}>
-      <${Application} />
+    <${ToastProvider}>
+      <${UrqlProvider} schema=${schema}>
+        <${Application} />
+      <//>
     <//>
   `;
 
   render(root, container);
 }
 
-listen(bootstrap);
 bootstrap();

@@ -3,9 +3,12 @@ import { gql } from "@urql/preact";
 
 import useQuery from "../hooks/useQuery.js";
 import Link from "../primitives/Link.js";
+import UserLink from "../user/UserLink.js";
+import RelativeTime from "../utilities/RelativeTime.js";
+import IssueState from "../utilities/IssueState.js";
 
 import RepositoryShell from "./RepositoryShell.js";
-import Label from "../primitives/Label.js";
+import IssueLabel from "../primitives/IssueLabel.js";
 import TimelineItem from "../timeline/TimelineItem.js";
 import IssueTimelineIssueComment from "../timeline/IssueTimelineIssueComment.js";
 
@@ -17,30 +20,41 @@ const QUERY = gql`
   ) {
     repository(owner: $owner, name: $name) {
       id
-      issue(number: $number) {
-        id
-        title
-        assignees(first: 10) {
-          nodes {
-            id
-            avatarUrl
+      issue: issueOrPullRequest(number: $number) {
+        __typename
+        ... on Issue {
+          id
+          title
+          author {
             login
           }
-        }
-        labels(first: 10) {
-          nodes {
-            id
-            ...Label_label
+          createdAt
+          state
+          comments {
+            totalCount
           }
-        }
-        ...IssueTimelineIssueComment_comment
-        timelineItems(first: 50) {
-          edges {
-            node {
-              ... on Node {
-                id
+          assignees(first: 10) {
+            nodes {
+              id
+              avatarUrl
+              login
+            }
+          }
+          labels(first: 10) {
+            nodes {
+              id
+              ...Label_label
+            }
+          }
+          ...IssueTimelineIssueComment_comment
+          timelineItems(first: 50) {
+            edges {
+              node {
+                ... on Node {
+                  id
+                }
+                ...TimelineItem_issueTimelineItems
               }
-              ...TimelineItem_issueTimelineItems
             }
           }
         }
@@ -48,7 +62,7 @@ const QUERY = gql`
       ...TimelineItem_repository
     }
   }
-  ${Label.fragments.label}
+  ${IssueLabel.fragments.label}
   ${TimelineItem.fragments.issueTimelineItems}
   ${TimelineItem.fragments.repository}
   ${IssueTimelineIssueComment.fragments.comment}
@@ -63,24 +77,41 @@ function RepositoryIssueRoute({ matches }) {
   const [{ data, error, fetching }] = useQuery({ query: QUERY, variables });
 
   if (error) throw error;
-
   let content = "...";
   if (data?.repository?.issue) {
+    if (data?.repository?.issue.__typename !== "Issue") {
+      return "pull";
+    }
+
     const { repository } = data;
+    const { issue } = repository;
+
     content = html`
       <div class="container-xl clearfix px-3 px-md-4 px-lg-5">
-        <div class="">
+        <div class="border-bottom pb-3">
           <h1 class="mb-2 lh-condensed f1-light mr-0 flex-auto break-word">
-            <span>${repository.issue.title}</span>
+            <span>${issue.title}</span>
             ${" "}
             <span class="text-gray-light">#${matches.number}</span>
           </h1>
+          <div class="d-flex flex-items-center flex-wrap">
+            <div class="flex-shrink-0 mr-2">
+              <${IssueState} state=${issue.state} />
+            </div>
+            <div class="flex-auto text-gray-light">
+              <${UserLink} login=${issue.author.login} />
+              ${" opened this issue "}
+              <${RelativeTime} date=${issue.createdAt} />
+              ${` · ${issue.comments.totalCount} `}
+              ${issue.comments.totalCount === 1 ? "comment" : "comments"}
+            </div>
+          </div>
         </div>
 
         <div class="gutter-condensed gutter-lg flex-column flex-md-row d-flex">
           <div class="ml-6 pl-3 flex-shrink-0 col-12 col-md-9 mb-4 mb-md-0">
-            <${IssueTimelineIssueComment} comment=${repository.issue} />
-            ${repository.issue.timelineItems.edges.map(
+            <${IssueTimelineIssueComment} comment=${issue} />
+            ${issue.timelineItems.edges.map(
               ({ node }) =>
                 html`<${TimelineItem}
                   repository=${repository}
@@ -95,8 +126,8 @@ function RepositoryIssueRoute({ matches }) {
             <div class="border-bottom border-black-fade py-4">
               <h2 class="mb-2 h6 text-gray">Assignees</h2>
               <ol>
-                ${repository.issue.assignees.length
-                  ? repository.issue.assignees.nodes.map(
+                ${issue.assignees.length
+                  ? issue.assignees.nodes.map(
                       (node) => html`
                         <${Link}
                           href=${`/${node.login}`}
@@ -119,10 +150,10 @@ function RepositoryIssueRoute({ matches }) {
             <div class="border-bottom border-black-fade py-4">
               <h2 class="mb-2 h6 text-gray">Labels</h2>
               <span class="labels d-flex flex-wrap">
-                ${repository.issue.labels.length
-                  ? repository.issue.labels.nodes.map(
+                ${issue.labels.nodes.length
+                  ? issue.labels.nodes.map(
                       (label) => html`
-                        <${Label}
+                        <${IssueLabel}
                           class="mr-1 mb-1"
                           nameWithOwner=${repository.nameWithOwner}
                           label=${label}
