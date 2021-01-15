@@ -48,8 +48,6 @@ export function ToastProvider({ children }) {
   `;
 }
 
-export function ToastDock() {}
-
 export function useToast() {
   return useContext(ToastContext);
 }

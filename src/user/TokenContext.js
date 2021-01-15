@@ -7,6 +7,14 @@ import useLocalStorageState from "../utilities/useLocalStorageState.js";
 
 const TokenContext = createContext(null);
 
+/**
+ * Authentication context
+ *
+ * stores current auth state and exposes login/logout methods
+ *
+ * Requires:
+ *  - Toast context for showing errors
+ */
 export function TokenProvider({ children }) {
   const { addToast } = useToast();
 

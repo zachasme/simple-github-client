@@ -35,7 +35,7 @@ const QUERY = gql`
         totalCount
       }
       viewerHasStarred
-      watchers(first: 1) {
+      watchers {
         totalCount
       }
       viewerSubscription

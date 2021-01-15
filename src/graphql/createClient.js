@@ -9,6 +9,10 @@ import {
   addStarOptimsitic,
   removeStarOptimsitic,
 } from "../repository/starMutations.js";
+import {
+  updateSubscriptionOptimsitic,
+  updateSubscriptionUpdate,
+} from "../repository/subscriptionMutations.js";
 
 export default ({ schema, token, logout, addToast }) => {
   return createClient({
@@ -24,6 +28,12 @@ export default ({ schema, token, logout, addToast }) => {
         optimistic: {
           addStar: addStarOptimsitic,
           removeStar: removeStarOptimsitic,
+          updateSubscription: updateSubscriptionOptimsitic,
+        },
+        updates: {
+          Mutation: {
+            updateSubscription: updateSubscriptionUpdate,
+          },
         },
       }),
       errorExchange(addToast),

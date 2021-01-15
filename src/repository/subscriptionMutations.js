@@ -5,31 +5,55 @@ export const UPDATE_SUBSCRIPTION_MUTATION = gql`
     updateSubscription(input: $input) {
       subscribable {
         id
-        viewerSubscription
       }
     }
   }
 `;
 
-export const addOrRemoveStarOptimistic = (add) => (variables, cache, info) => {
-  const stargazers = cache.resolve(
-    `Repository:${variables.input.starrableId}`,
-    "stargazers"
-  );
-  const totalCount = cache.resolve(stargazers, "totalCount");
+export const updateSubscriptionOptimsitic = (variables, cache, info) => {
   return {
-    starrable: {
-      id: variables.input.starrableId,
-      viewerHasStarred: add,
-      stargazers: {
-        totalCount: totalCount + (add ? 1 : -1),
-        __typename: "StargazerConnection",
+    updateSubscription: {
+      __typename: "UpdateSubscriptionPayload",
+      subscribable: {
+        __typename: "Subscribable",
+        id: variables.input.subscribableId,
       },
-      __typename: "Repository",
     },
-    __typename: add ? "AddStarPayload" : "RemoveStarPayload",
   };
 };
 
-export const addStarOptimsitic = addOrRemoveStarOptimistic(true);
-export const removeStarOptimsitic = addOrRemoveStarOptimistic(false);
+export const updateSubscriptionUpdate = (parent, args, cache, info) => {
+  const subscription = cache.resolve(
+    `Repository:${args.input.subscribableId}`,
+    "viewerSubscription"
+  );
+  const watchers = cache.resolve(
+    `Repository:${args.input.subscribableId}`,
+    "watchers"
+  );
+  let totalCount = cache.resolve(watchers, "totalCount");
+  const wasSubscribed = subscription === "SUBSCRIBED";
+  const isSubscribing = args.input.state === "SUBSCRIBED";
+  if (wasSubscribed && !isSubscribing) totalCount -= 1;
+  if (!wasSubscribed && isSubscribing) totalCount += 1;
+  cache.writeFragment(
+    gql`
+      fragment _ on Repository {
+        id
+        viewerSubscription
+        watchers {
+          totalCount
+        }
+      }
+    `,
+    {
+      __typename: "Repository",
+      id: args.input.subscribableId,
+      viewerSubscription: args.input.state,
+      watchers: {
+        __typename: "UserConnection",
+        totalCount: totalCount,
+      },
+    }
+  );
+};
