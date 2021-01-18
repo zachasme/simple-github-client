@@ -1,14 +1,15 @@
-import { html } from "htm/preact";
-import { gql } from "@urql/preact";
+import { html } from "htm/react";
+import { gql } from "urql";
 
+import RelativeTime from "../utilities/RelativeTime.js";
 import Link from "../primitives/Link.js";
 
 function IssueTimelineIssueComment({ comment }) {
   return html`
-    <div class="TimelineItem">
-      <div class="TimelineItem-avatar">
+    <div className="TimelineItem">
+      <div className="TimelineItem-avatar">
         <img
-          class="avatar"
+          className="avatar"
           height="40"
           width="40"
           alt="@octocat"
@@ -16,28 +17,28 @@ function IssueTimelineIssueComment({ comment }) {
         />
       </div>
       <div
-        class="TimelineItem-body Box Box--condensed ${comment.viewerDidAuthor
+        className="TimelineItem-body Box Box--condensed ${comment.viewerDidAuthor
           ? "Box--blue"
           : ""}
           position-relative ml-n2"
       >
-        <div class="Box-header f5 text-normal">
+        <div className="Box-header f5 text-normal">
           <strong>
             <a
               href="/${comment.author?.login || "ghost"}"
-              class="link-gray-dark"
+              className="link-gray-dark"
               >${comment.author?.login || "ghost"}</a
             >
           </strong>
           ${" commented "}
-          <${Link} href="#" class="link-gray">
-            <relative-time datetime="${comment.createdAt}">
+          <${Link} href="#" className="link-gray">
+            <${RelativeTime} date=${comment.createdAt}>
               on ${comment.createdAt}
-            </relative-time>
+            <//>
           <//>
         </div>
         <div
-          class="Box-body markdown-body f5 py-3"
+          className="Box-body markdown-body f5 py-3"
           dangerouslySetInnerHTML=${{ __html: comment.bodyHTML }}
         />
       </div>

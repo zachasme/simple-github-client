@@ -19,20 +19,19 @@ module.exports = {
 EOT
 
 yarn add snowpack \
-    @github/time-elements \
-    @primer/octicons \
+    @primer/octicons-react \
     @urql/core \
     @urql/exchange-auth \
     @urql/exchange-graphcache \
     @urql/exchange-request-policy \
     @urql/introspection \
-    @urql/preact \
     date-fns \
     graphql \
     htm \
     marked \
-    preact-router \
-    preact \
+    react \
+    react-dom \
+    react-router-dom \
     urql
 
 yarn snowpack dev

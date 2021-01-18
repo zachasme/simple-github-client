@@ -1,5 +1,5 @@
-import { html } from "htm/preact";
-import { gql } from "@urql/preact";
+import { html } from "htm/react";
+import { gql } from "urql";
 
 import Link from "./Link.js";
 import { emojify } from "../emojis.js";
@@ -16,17 +16,15 @@ function textColor(backgroundColor) {
   }
 }
 
-function IssueLabel({ nameWithOwner, label, class: className = "" }) {
+function IssueLabel({ nameWithOwner, label, className = "" }) {
   return html`
     <${Link}
-      class="d-inline-block IssueLabel ${className}"
+      className="d-inline-block IssueLabel ${className}"
       title="Something isn't working"
       href="/${nameWithOwner}/issues?q=is%3Aissue+is%3Aopen+label%3A${label.name}"
-      ...${{
-        style: `
-          color: #${textColor(label.color)};
-          background-color: #${label.color};
-        `,
+      style=${{
+        color: `#${textColor(label.color)}`,
+        backgroundColor: `#${label.color}`,
       }}
     >
       ${emojify(label.name)}

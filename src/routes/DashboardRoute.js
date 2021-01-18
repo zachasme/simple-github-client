@@ -1,10 +1,18 @@
-import { html } from "htm/preact";
+import { Fragment } from "react";
+import { html } from "htm/react";
 import useQuery from "../hooks/useQuery.js";
-import { gql } from "@urql/preact";
+import { gql } from "urql";
 
 import Link from "../primitives/Link.js";
 import Select from "../primitives/Select.js";
-import Octicon from "../primitives/Octicon.js";
+import {
+  CheckIcon,
+  OrganizationIcon,
+  PlusIcon,
+  LockIcon,
+  RepoIcon,
+  GitForkIcon,
+} from "@primer/octicons-react";
 import Button from "../primitives/Button.js";
 
 const QUERY = gql`
@@ -42,9 +50,9 @@ const QUERY = gql`
 
 function repoIconName(repository) {
   const { isFork, isPrivate } = repository;
-  if (isPrivate) return "lock";
-  if (isFork) return "git-fork";
-  else return "repo";
+  if (isPrivate) return LockIcon;
+  if (isFork) return GitForkIcon;
+  else return RepoIcon;
 }
 function repoIconColor(repository) {
   if (repository.isPrivate) return "yellow";
@@ -55,22 +63,27 @@ function DashboardRoute() {
   const [{ data }] = useQuery({ query: QUERY });
 
   return html`
-    <div class="d-flex flex-wrap bg-gray height-full">
+    <div className="d-flex flex-wrap bg-gray height-full">
       <aside
-        class="col-12 col-md-4 col-lg-3 bg-white border-right border-bottom px-3 py-3"
+        className="col-12 col-md-4 col-lg-3 bg-white border-right border-bottom px-3 py-3"
       >
-        <div class="border-bottom py-3 mb-4">
+        <div className="border-bottom py-3 mb-4">
           <${Select}
             label=${html`
-              <img class="avatar avatar-1 mr-2" src=${data?.viewer.avatarUrl} />
-              <strong>${data?.viewer?.login}</strong>
+              <${Fragment}>
+                <img
+                  className="avatar avatar-1 mr-2"
+                  src=${data?.viewer.avatarUrl}
+                />
+                <strong>${data?.viewer?.login}</strong>
+              <//>
             `}
             title="Switch dashboard context"
           >
-            <${Link} class="SelectMenu-item" role="menuitem" href="/">
-              <${Octicon} name="check" class="SelectMenu-icon" />
+            <${Link} className="SelectMenu-item" role="menuitem" href="/">
+              <${CheckIcon} className="SelectMenu-icon" />
               <img
-                class="avatar avatar-1 mr-2"
+                className="avatar avatar-1 mr-2"
                 alt="jonrohan"
                 src=${data?.viewer?.avatarUrl}
               />
@@ -79,12 +92,13 @@ function DashboardRoute() {
             ${data?.viewer?.organizations?.edges?.map(
               ({ node }) => html`
                 <${Link}
-                  class="SelectMenu-item pl-6"
+                  key=${node.id}
+                  className="SelectMenu-item pl-6"
                   role="menuitem"
                   href="/orgs/${node.login}/dashboard"
                 >
                   <img
-                    class="avatar avatar-1 mr-2"
+                    className="avatar avatar-1 mr-2"
                     alt="jonrohan"
                     src=${node.avatarUrl}
                   />
@@ -93,36 +107,37 @@ function DashboardRoute() {
               `
             )}
             <${Link}
-              class="SelectMenu-item"
+              className="SelectMenu-item"
               role="menuitem"
               href="/account/organizations"
             >
-              <${Octicon} name="organization" class="SelectMenu-icon" />
+              <${OrganizationIcon} className="SelectMenu-icon" />
               <span>Manage organizations</span>
             <//>
             <${Link}
-              class="SelectMenu-item"
+              className="SelectMenu-item"
               role="menuitem"
               href="/account/organizations/new"
             >
-              <${Octicon} name="plus" class="SelectMenu-icon" />
+              <${PlusIcon} className="SelectMenu-icon" />
               <span>Create organizations</span>
             <//>
           <//>
         </div>
 
-        <h2 class="f5 mb-1 d-flex flex-justify-between">
+        <h2 className="f5 mb-1 d-flex flex-justify-between">
           Repositories
-          <${Button} small primary icon="repo" href="/new">New<//>
+          <${Button} small primary icon=${html`<${RepoIcon} />`} href="/new">
+            New
+          <//>
         </h2>
-        <ul class="list-style-none">
+        <ul className="list-style-none">
           ${data?.viewer.topRepositories.edges.map(
             ({ node }) => html`
-              <li class="text-bold mb-2">
+              <li key=${node.id} className="text-bold mb-2">
                 <${Link} href="/${node.nameWithOwner}">
-                  <${Octicon}
-                    name=${repoIconName(node)}
-                    class="SelectMenu-icon text-${repoIconColor(node)} mr-2"
+                  <${repoIconName(node)}
+                    className="SelectMenu-icon text-${repoIconColor(node)} mr-2"
                   />
                   <span>${node.name}</span>
                 <//>
@@ -132,7 +147,7 @@ function DashboardRoute() {
         </ul>
       </aside>
       <div
-        class="col-12 col-md-8 col-lg-6 p-responsive mt-3 border-bottom d-flex flex-auto"
+        className="col-12 col-md-8 col-lg-6 p-responsive mt-3 border-bottom d-flex flex-auto"
       >
         <h1>Recent activity</h1>
         <a href="https://github.community/t/get-event-equivalent-for-v4/13600/7"

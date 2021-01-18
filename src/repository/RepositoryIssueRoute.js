@@ -1,5 +1,6 @@
-import { html } from "htm/preact";
-import { gql } from "@urql/preact";
+import { html } from "htm/react";
+import { useParams } from "react-router-dom";
+import { gql } from "urql";
 
 import useQuery from "../hooks/useQuery.js";
 import Link from "../primitives/Link.js";
@@ -68,7 +69,8 @@ const QUERY = gql`
   ${IssueTimelineIssueComment.fragments.comment}
 `;
 
-function RepositoryIssueRoute({ matches }) {
+function RepositoryIssueRoute() {
+  const matches = useParams();
   const variables = {
     owner: matches.owner,
     name: matches.name,
@@ -87,19 +89,21 @@ function RepositoryIssueRoute({ matches }) {
     const { issue } = repository;
 
     content = html`
-      <div class="container-xl clearfix px-3 px-md-4 px-lg-5">
-        <div class="border-bottom pb-3">
-          <h1 class="mb-2 lh-condensed f1-light mr-0 flex-auto break-word">
+      <div className="container-xl clearfix px-3 px-md-4 px-lg-5">
+        <div className="border-bottom pb-3">
+          <h1 className="mb-2 lh-condensed f1-light mr-0 flex-auto break-word">
             <span>${issue.title}</span>
             ${" "}
-            <span class="text-gray-light">#${matches.number}</span>
+            <span className="text-gray-light">#${matches.number}</span>
           </h1>
-          <div class="d-flex flex-items-center flex-wrap">
-            <div class="flex-shrink-0 mr-2">
+          <div className="d-flex flex-items-center flex-wrap">
+            <div className="flex-shrink-0 mr-2">
               <${IssueState} state=${issue.state} />
             </div>
-            <div class="flex-auto text-gray-light">
-              <${UserLink} login=${issue.author.login} />
+            <div className="flex-auto text-gray-light">
+              ${issue.author
+                ? html`<${UserLink} login=${issue.author.login} />`
+                : "x"}
               ${" opened this issue "}
               <${RelativeTime} date=${issue.createdAt} />
               ${` · ${issue.comments.totalCount} `}
@@ -108,12 +112,15 @@ function RepositoryIssueRoute({ matches }) {
           </div>
         </div>
 
-        <div class="gutter-condensed gutter-lg flex-column flex-md-row d-flex">
-          <div class="ml-6 pl-3 flex-shrink-0 col-12 col-md-9 mb-4 mb-md-0">
+        <div
+          className="gutter-condensed gutter-lg flex-column flex-md-row d-flex"
+        >
+          <div className="ml-6 pl-3 flex-shrink-0 col-12 col-md-9 mb-4 mb-md-0">
             <${IssueTimelineIssueComment} comment=${issue} />
             ${issue.timelineItems.edges.map(
               ({ node }) =>
                 html`<${TimelineItem}
+                  key=${node.id}
                   repository=${repository}
                   timelineItem=${node}
                 />`
@@ -122,21 +129,22 @@ function RepositoryIssueRoute({ matches }) {
 
           <!-- Gutter -->
 
-          <div class="flex-shrink-0 col-12 col-md-3 text-small">
-            <div class="border-bottom border-black-fade py-4">
-              <h2 class="mb-2 h6 text-gray">Assignees</h2>
+          <div className="flex-shrink-0 col-12 col-md-3 text-small">
+            <div className="border-bottom border-black-fade py-4">
+              <h2 className="mb-2 h6 text-gray">Assignees</h2>
               <ol>
                 ${issue.assignees.length
                   ? issue.assignees.nodes.map(
                       (node) => html`
                         <${Link}
+                          key=${node.id}
                           href=${`/${node.login}`}
-                          class="text-bold link-gray-dark"
+                          className="text-bold link-gray-dark"
                         >
                           <img
                             width="16"
                             height="16"
-                            class="avatar mb-2 mr-1"
+                            className="avatar mb-2 mr-1"
                             src=${node.avatarUrl}
                           />
                           ${node.login}
@@ -147,14 +155,15 @@ function RepositoryIssueRoute({ matches }) {
                   : "No one is assigned"}
               </ol>
             </div>
-            <div class="border-bottom border-black-fade py-4">
-              <h2 class="mb-2 h6 text-gray">Labels</h2>
-              <span class="labels d-flex flex-wrap">
+            <div className="border-bottom border-black-fade py-4">
+              <h2 className="mb-2 h6 text-gray">Labels</h2>
+              <span className="labels d-flex flex-wrap">
                 ${issue.labels.nodes.length
                   ? issue.labels.nodes.map(
                       (label) => html`
                         <${IssueLabel}
-                          class="mr-1 mb-1"
+                          key=${label.id}
+                          className="mr-1 mb-1"
                           nameWithOwner=${repository.nameWithOwner}
                           label=${label}
                         />

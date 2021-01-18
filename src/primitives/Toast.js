@@ -1,31 +1,39 @@
-import { html } from "htm/preact";
-import Octicon from "./Octicon.js";
+import { html } from "htm/react";
+import {
+  XIcon,
+  InfoIcon,
+  CheckIcon,
+  AlertIcon,
+  StopIcon,
+} from "@primer/octicons-react";
 
-function iconName(type) {
+function icon(type) {
   switch (type) {
     case "info":
-      return "info";
+      return InfoIcon;
     case "success":
-      return "check";
+      return CheckIcon;
     case "warning":
-      return "alert";
+      return AlertIcon;
     case "error":
-      return "stop";
+      return StopIcon;
   }
 }
 
 function Toast({ onDismiss, type = "info", children }) {
+  const Icon = icon(type);
+
   return html`
-    <div class="p-1">
-      <div class=${`Toast Toast--${type} Toast--animateIn`}>
-        <span class="Toast-icon">
-          <${Octicon} name=${iconName(type)} />
+    <div className="p-1">
+      <div className=${`Toast Toast--${type} Toast--animateIn`}>
+        <span className="Toast-icon">
+          <${Icon} />
         </span>
-        <span class="Toast-content">${children}</span>
+        <span className="Toast-content">${children}</span>
         ${onDismiss &&
         html`
-          <button class="Toast-dismissButton" onClick=${onDismiss}>
-            <${Octicon} name="x" />
+          <button className="Toast-dismissButton" onClick=${onDismiss}>
+            <${XIcon} />
           </button>
         `}
       </div>

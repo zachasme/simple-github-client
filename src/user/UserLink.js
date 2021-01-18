@@ -1,4 +1,4 @@
-import { html } from "htm/preact";
+import { html } from "htm/react";
 import Link from "../primitives/Link.js";
 
 function UserLink({ login }) {

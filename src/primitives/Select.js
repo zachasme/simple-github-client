@@ -1,10 +1,10 @@
-import { html } from "htm/preact";
+import { html } from "htm/react";
 
 import Link from "../primitives/Link.js";
-import Octicon from "../primitives/Octicon.js";
+import { XIcon } from "@primer/octicons-react";
 
 function Select({
-  class: extraClasses,
+  className: extraClasses,
   label,
   icon,
   disabled,
@@ -21,35 +21,35 @@ function Select({
 
   let content = html`
     <details
-      class="details-reset details-overlay ${(count &&
+      className="details-reset details-overlay ${(count &&
         countHref &&
         "float-left") ||
       ""}"
     >
       <summary
-        class=${classNames}
+        className=${classNames}
         aria-haspopup="true"
         aria-disabled=${disabled}
       >
-        ${icon && html`<${Octicon} name=${icon} />`}
+        ${icon}
         <span>${label}</span>
-        <span class="dropdown-caret hide-sm" />
+        <span className="dropdown-caret hide-sm" />
       </summary>
-      <div class="SelectMenu">
-        <div class="SelectMenu-modal">
-          <header class="SelectMenu-header">
-            <h3 class="SelectMenu-title">${title}</h3>
+      <div className="SelectMenu">
+        <div className="SelectMenu-modal">
+          <header className="SelectMenu-header">
+            <h3 className="SelectMenu-title">${title}</h3>
             <!--
             <button
-              class="SelectMenu-closeButton"
+              className="SelectMenu-closeButton"
               type="button"
               data-toggle-for="targetid"
             >
-              <${Octicon} name="x" />
+              <${XIcon} />
             </button>
             -->
           </header>
-          <div class="SelectMenu-list">${children}</div>
+          <div className="SelectMenu-list">${children}</div>
         </div>
       </div>
     </details>
@@ -58,9 +58,9 @@ function Select({
   // if count AND countHref show social style count
   if (count && countHref) {
     content = html`
-      <div class="${extraClasses}">
+      <div className="${extraClasses}">
         ${content}
-        <${Link} href=${countHref} class="social-count">${count}<//>
+        <${Link} href=${countHref} className="social-count">${count}<//>
       </div>
     `;
   }

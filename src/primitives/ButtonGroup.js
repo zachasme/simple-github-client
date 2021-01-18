@@ -1,12 +1,12 @@
-import { html } from "htm/preact";
-import { toChildArray, cloneElement } from "preact";
+import { html } from "htm/react";
+import { Children, cloneElement } from "react";
 
 const ButtonGroup = ({ children }) => {
   return html`
-    <div class="BtnGroup">
-      ${toChildArray(children).map((child) =>
+    <div className="BtnGroup">
+      ${Children.map(children, (child) =>
         cloneElement(child, {
-          class: `${child.props.class} BtnGroup-item`,
+          className: `${child.props.class} BtnGroup-item`,
         })
       )}
     </div>

@@ -1,8 +1,11 @@
-import { html } from "htm/preact";
+import { html } from "htm/react";
 import marked from "marked";
 
 function Markdown({ markdown }) {
-  return html`<div class="markdown-body">${html([marked(markdown)])}</div>`;
+  return html`<div
+    className="markdown-body"
+    dangerouslySetInnerHTML=${{ __html: marked(markdown) }}
+  />`;
 }
 
 export default Markdown;

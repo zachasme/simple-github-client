@@ -1,23 +1,19 @@
-import { html } from "htm/preact";
-import Octicon from "./Octicon.js";
+import { html } from "htm/react";
 
 import Link from "../primitives/Link.js";
 
 export default function UnderlineNavItem({
-  icon,
+  Icon,
   label,
   count,
   href,
   ...props
 }) {
   return html`
-    <${Link} class="UnderlineNav-item" href=${href} ...${props}>
-      <${Octicon}
-        name=${icon}
-        class="UnderlineNav-octicon d-none d-sm-inline"
-      />
+    <${Link} className="UnderlineNav-item" href=${href} ...${props}>
+      <${Icon} className="UnderlineNav-octicon d-none d-sm-inline" />
       <span>${label}</span>
-      <span class="Counter">${count}</span>
+      <span className="Counter">${count}</span>
     <//>
   `;
 }

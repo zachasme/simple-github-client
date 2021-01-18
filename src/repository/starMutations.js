@@ -1,4 +1,4 @@
-import { gql } from "@urql/preact";
+import { gql } from "urql";
 
 export const ADD_STAR_MUTATION = gql`
   mutation($input: AddStarInput!) {

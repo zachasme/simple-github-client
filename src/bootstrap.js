@@ -1,5 +1,6 @@
-import { render } from "preact";
-import { html } from "htm/preact";
+import { render } from "react-dom";
+import { html } from "htm/react";
+import { BrowserRouter as RouterProvider } from "react-router-dom";
 
 import Application from "./application/Application.js";
 import UrqlProvider from "./graphql/UrqlProvider.js";
@@ -12,10 +13,12 @@ export async function bootstrap() {
 
   const container = document.getElementById("root");
   const root = html`
-    <${ToastProvider}>
-      <${TokenProvider}>
-        <${UrqlProvider} schema=${schema}>
-          <${Application} />
+    <${RouterProvider}>
+      <${ToastProvider}>
+        <${TokenProvider}>
+          <${UrqlProvider} schema=${schema}>
+            <${Application} />
+          <//>
         <//>
       <//>
     <//>

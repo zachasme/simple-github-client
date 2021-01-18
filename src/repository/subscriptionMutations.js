@@ -1,4 +1,4 @@
-import { gql } from "@urql/preact";
+import { gql } from "urql";
 
 export const UPDATE_SUBSCRIPTION_MUTATION = gql`
   mutation($input: UpdateSubscriptionInput!) {

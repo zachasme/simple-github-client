@@ -1,5 +1,11 @@
-import { html } from "htm/preact";
-import { gql } from "@urql/preact";
+import { html } from "htm/react";
+import {
+  PersonIcon,
+  RepoIcon,
+  ProjectIcon,
+  PackageIcon,
+} from "@primer/octicons-react";
+import { gql } from "urql";
 
 import Link from "../primitives/Link.js";
 import UnderlineNav from "../primitives/UnderlineNav.js";
@@ -10,15 +16,15 @@ function OrganizationShell({ active, organization, children }) {
   const { login } = org;
 
   return html`<div>
-    <div class="bg-gray-light pt-3 mb-5">
-      <div class="d-flex mb-3 px-3 px-md-4 px-lg-5">
-        <div class="flex-auto min-width-0 width-fit mr-3">
+    <div className="bg-gray-light pt-3 mb-5">
+      <div className="d-flex mb-3 px-3 px-md-4 px-lg-5">
+        <div className="flex-auto min-width-0 width-fit mr-3">
           <nav
             aria-label="Breadcrumb"
-            class="d-flex flex-wrap flex-items-center break-word f3 text-normal"
+            className="d-flex flex-wrap flex-items-center break-word f3 text-normal"
           >
             <ol>
-              <li class="breadcrumb-item" aria-current="page">
+              <li className="breadcrumb-item" aria-current="page">
                 <${Link} href="/${login}">${login}<//>
               </li>
             </ol>
@@ -27,27 +33,27 @@ function OrganizationShell({ active, organization, children }) {
       </div>
       <${UnderlineNav}>
         <${UnderlineNavItem}
-          icon="repo"
+          Icon=${RepoIcon}
           label="Repositories"
           count=${org?.repositories.totalCount}
           href="/${login}"
           aria-current=${active === "repositories" && "page"}
         />
         <${UnderlineNavItem}
-          icon="package"
+          Icon=${PackageIcon}
           label="Packages"
           href="/orgs/${login}/packages"
           aria-current=${active === "packages" && "page"}
         />
         <${UnderlineNavItem}
-          icon="person"
+          Icon=${PersonIcon}
           label="People"
           count=${org?.membersWithRole.totalCount}
           href="/orgs/${login}/people"
           aria-current=${active === "people" && "page"}
         />
         <${UnderlineNavItem}
-          icon="project"
+          Icon=${ProjectIcon}
           label="Projects"
           count=${org?.projects.totalCount}
           href="/orgs/${login}/projects"
@@ -55,7 +61,9 @@ function OrganizationShell({ active, organization, children }) {
         />
       <//>
     </div>
-    <div class="container-xl clearfix px-3 px-md-4 px-lg-5">${children}</div>
+    <div className="container-xl clearfix px-3 px-md-4 px-lg-5">
+      ${children}
+    </div>
   </div>`;
 }
 

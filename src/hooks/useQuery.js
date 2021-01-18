@@ -1,4 +1,4 @@
-import { useQuery } from "@urql/preact";
+import { useQuery } from "urql";
 
 function traverse(prefix, object, callback) {
   for (const [key, value] of Object.entries(object)) {

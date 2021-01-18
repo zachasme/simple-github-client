@@ -1,6 +1,8 @@
-import PreactRouter from "preact-router";
-import { html } from "htm/preact";
+import { Switch, Route } from "react-router-dom";
+import { html } from "htm/react";
 
+import NotImplementedRoute from "../routes/NotImplementedRoute.js";
+import NotFoundRoute from "../routes/NotFoundRoute.js";
 import DashboardRoute from "../routes/DashboardRoute.js";
 import OrganizationPackagesRoute from "../organization/OrganizationPackagesRoute.js";
 import OrganizationPeopleRoute from "../organization/OrganizationPeopleRoute.js";
@@ -12,36 +14,96 @@ import RepositoryLabelsRoute from "../repository/RepositoryLabelsRoute.js";
 import RepositoryIssueRoute from "../repository/RepositoryIssueRoute.js";
 import RepositoryOwnerRoute from "../repositoryOwner/RepositoryOwnerRoute.js";
 import SchemaRoute from "../debug/SchemaRoute.js";
-import NotFoundRoute from "../routes/NotFoundRoute.js";
 import LogInRoute from "../user/LogInRoute.js";
 import UserRepositoriesRoute from "../user/UserRepositoriesRoute.js";
 import UserPackagesRoute from "../user/UserPackagesRoute.js";
 import UserProjectsRoute from "../user/UserProjectsRoute.js";
 
-function Router() {
-  // hack to support optional url prefix in preact-router
-  const routes = (p = "") => [
-    // p is prefix
-    html`<${DashboardRoute} path="${p}/" />`,
-    html`<${LogInRoute} path="${p}/login" />`,
-    html`<${OrganizationPackagesRoute} path="${p}/orgs/:login/packages" />`,
-    html`<${OrganizationPeopleRoute} path="${p}/orgs/:login/people" />`,
-    html`<${OrganizationProjectsRoute} path="${p}/orgs/:login/projects" />`,
-    html`<${UserRepositoriesRoute} path="${p}/users/:login/repositories" />`,
-    html`<${UserPackagesRoute} path="${p}/users/:login/packages" />`,
-    html`<${UserProjectsRoute} path="${p}/users/:login/projects" />`,
-    html`<${RepositoryRoute} path="${p}/:owner/:name" />`,
-    html`<${RepositoryIssueRoute} path="${p}/:owner/:name/issues/:number" />`,
-    html`<${RepositoryIssuesRoute} path="${p}/:owner/:name/issues" />`,
-    html`<${RepositoryPullRequestsRoute} path="${p}/:owner/:name/pulls" />`,
-    html`<${RepositoryLabelsRoute} path="${p}/:owner/:name/labels" />`,
-    html`<${RepositoryOwnerRoute} path="${p}/:login" />`,
-    html`<${SchemaRoute} path="${p}/debug/schema" />`,
-    html`<${NotFoundRoute} default />`,
-  ];
+const NOT_IMPLEMENTED = [
+  "/issues",
+  "/pulls",
+  "/new",
+  "/discussions",
+  "/settings/profile",
+  "/settings/organizations",
+  "/users/:login/stars",
+  "/users/:login/following",
+  "/users/:login/followers",
+  "/orgs/:login/dashboard",
+  "/:owner/:repo/milestones",
+  "/:owner/:repo/stargazers",
+  "/:owner/:repo/watchers",
+  "/:owner/:repo/network/members",
+  "/:owner/:repo/issues/new",
+  "/:owner/:repo/issues/new/choose",
+];
 
+function Router() {
   return html`
-    <${PreactRouter}>${routes("/simple-github-client")}${routes()}<//>
+    <${Switch}>
+      <!-- Base routes -->
+      <${Route} path="/" exact>
+        <${DashboardRoute} />
+      <//>
+      <${Route} path="/login" exact>
+        <${LogInRoute} />
+      <//>
+      <${Route} path="/debug/schema" exact>
+        <${SchemaRoute} />
+      <//>
+      <!-- Placeholder routes -->
+      ${NOT_IMPLEMENTED.map(
+        (path) => html`
+          <${Route} key=${path} path=${path} exact>
+            <${NotImplementedRoute} />
+          <//>
+        `
+      )}
+      <!-- Organization routes -->
+      <${Route} path="/orgs/:login/packages" exact>
+        <${OrganizationPackagesRoute} />
+      <//>
+      <${Route} path="/orgs/:login/people" exact>
+        <${OrganizationPeopleRoute} />
+      <//>
+      <${Route} path="/orgs/:login/projects" exact>
+        <${OrganizationProjectsRoute} />
+      <//>
+      <!-- User routes -->
+      <${Route} path="/users/:login/repositories" exact>
+        <${UserRepositoriesRoute} />
+      <//>
+      <${Route} path="/users/:login/packages" exact>
+        <${UserPackagesRoute} />
+      <//>
+      <${Route} path="/users/:login/projects" exact>
+        <${UserProjectsRoute} />
+      <//>
+      <!-- Repository routes -->
+      <${Route} path="/:owner/:name/issues/:number" exact>
+        <${RepositoryIssueRoute} />
+      <//>
+      <${Route} path="/:owner/:name/issues" exact>
+        <${RepositoryIssuesRoute} />
+      <//>
+      <${Route} path="/:owner/:name/pulls" exact>
+        <${RepositoryPullRequestsRoute} />
+      <//>
+      <${Route} path="/:owner/:name/labels" exact>
+        <${RepositoryLabelsRoute} />
+      <//>
+      <!-- Catch-alls -->
+      <${Route} path="/:owner/:name" exact>
+        <${RepositoryRoute} />
+      <//>
+      <${Route} path="/:login" exact>
+        <${RepositoryOwnerRoute} />
+      <//>
+      <!-- 404 Fallback -->
+      <${Route}>
+        <${NotFoundRoute} />
+      <//>
+    <//>
   `;
 }
 

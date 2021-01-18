@@ -1,6 +1,7 @@
-import { html } from "htm/preact";
+import { html } from "htm/react";
+import { useParams } from "react-router-dom";
 import useQuery from "../hooks/useQuery.js";
-import { gql } from "@urql/preact";
+import { gql } from "urql";
 
 import RepositoryList from "../repository/RepositoryList.js";
 import RepositoryOwnerShell from "../repositoryOwner/RepositoryOwnerShell.js";
@@ -15,7 +16,8 @@ const QUERY = gql`
   ${RepositoryList.fragments.repositoryOwner}
 `;
 
-function UserRepositoriesRoute({ matches }) {
+function UserRepositoriesRoute() {
+  const matches = useParams();
   const variables = { login: matches.login };
   const [{ data, fetching }] = useQuery({ query: QUERY, variables });
 

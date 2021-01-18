@@ -26,9 +26,12 @@ export const progressExchange = ({ forward }) => {
 };
 
 function broadcast(observed) {
-  for (const listener of listeners) {
-    listener(observed);
-  }
+  // DEBT: Why does it break without setTimeout???
+  setTimeout(() => {
+    for (const listener of listeners) {
+      listener(observed);
+    }
+  });
 }
 
 const listeners = new Set();

@@ -20,10 +20,15 @@ export default ({ schema, token, logout, addToast }) => {
     requestPolicy: "cache-and-network",
     exchanges: [
       dedupExchange,
+      /*requestPolicyExchange({
+        ttl: 2000,
+      }),*/
       cacheExchange({
         schema,
         keys: {
           TreeEntry: () => null,
+          User: (user) => user.login,
+          GitActor: (actor) => actor.name,
         },
         optimistic: {
           addStar: addStarOptimsitic,

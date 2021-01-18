@@ -1,4 +1,4 @@
-import { html } from "htm/preact";
+import { html } from "htm/react";
 
 function NotFoundRoute() {
   return html`<p>404 Not found</p>`;

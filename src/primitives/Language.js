@@ -1,11 +1,11 @@
-import { html } from "htm/preact";
-import { gql } from "@urql/preact";
+import { html } from "htm/react";
+import { gql } from "urql";
 
 import Dot from "./Dot.js";
 
 function Language({ language }) {
   return html`
-    <span class="ml-0 mr-3">
+    <span className="ml-0 mr-3">
       <${Dot} color=${language.color} />
       <span>${language.name}</span>
     </span>

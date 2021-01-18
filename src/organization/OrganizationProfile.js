@@ -1,5 +1,5 @@
-import { html } from "htm/preact";
-import { gql } from "@urql/preact";
+import { html } from "htm/react";
+import { gql } from "urql";
 
 import RepositoryList from "../repository/RepositoryList.js";
 

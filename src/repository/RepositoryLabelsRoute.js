@@ -1,6 +1,8 @@
-import { html } from "htm/preact";
+import { html } from "htm/react";
+import { TagIcon, MilestoneIcon } from "@primer/octicons-react";
+import { useParams } from "react-router-dom";
 import useQuery from "../hooks/useQuery.js";
-import { gql } from "@urql/preact";
+import { gql } from "urql";
 
 import Link from "../primitives/Link.js";
 import ButtonGroup from "../primitives/ButtonGroup.js";
@@ -34,7 +36,8 @@ const QUERY = gql`
   ${IssueLabel.fragments.label}
 `;
 
-function RepositoryLabelsRoute({ matches }) {
+function RepositoryLabelsRoute() {
+  const matches = useParams();
   const variables = {
     owner: matches.owner,
     name: matches.name,
@@ -48,41 +51,50 @@ function RepositoryLabelsRoute({ matches }) {
   if (data) {
     const { repository } = data;
     content = html`
-      <div class="container-xl clearfix px-3 px-md-4 px-lg-5">
+      <div className="container-xl clearfix px-3 px-md-4 px-lg-5">
         <div
-          class="d-flex flex-column-reverse flex-md-row flex-items-stretch width-full mb-md-3"
+          className="d-flex flex-column-reverse flex-md-row flex-items-stretch width-full mb-md-3"
         >
           <${ButtonGroup}>
-            <${Button} selected icon="tag" href="/${ownerWithName}/labels">
+            <${Button}
+              selected
+              icon=${html`<${TagIcon} />`}
+              href="/${ownerWithName}/labels"
+            >
               Labels
             <//>
-            <${Button} icon="milestone" href="/${ownerWithName}/milestones">
+            <${Button}
+              icon=${html`<${MilestoneIcon} />`}
+              href="/${ownerWithName}/milestones"
+            >
               Milestones
             <//>
           <//>
         </div>
 
-        <div class="Box ${fetching ? "bg-gray" : ""}">
-          <div class="Box-header">
+        <div className="Box ${fetching ? "bg-gray" : ""}">
+          <div className="Box-header">
             <strong>${repository?.labels?.totalCount} labels</strong>
           </div>
 
           ${repository?.labels?.edges.map(
             ({ node }) => html`
-              <div class="Box-row d-flex">
-                <div class="col-3 pr-3">
+              <div key=${node.id} className="Box-row d-flex">
+                <div className="col-3 pr-3">
                   <${IssueLabel}
                     nameWithOwner=${repository.nameWithOwner}
                     label=${node}
                   />
                 </div>
-                <div class="col-4 f6 text-gray pr-3">${node.description}</div>
-                <div class="col-3 f6 text-gray pr-3">
+                <div className="col-4 f6 text-gray pr-3">
+                  ${node.description}
+                </div>
+                <div className="col-3 f6 text-gray pr-3">
                   ${node.issues.totalCount + node.pullRequests.totalCount > 0 &&
                   html`
                     <${Link}
                       href="/${ownerWithName}/issues?q=label%3A%22${node.name}%22+is%3Aopen"
-                      class="muted-link"
+                      className="muted-link"
                     >
                       ${node.issues.totalCount + node.pullRequests.totalCount}
                       ${" "}open issues and pull requests

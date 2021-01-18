@@ -1,15 +1,16 @@
-import { html } from "htm/preact";
-import { gql } from "@urql/preact";
+import { html } from "htm/react";
+import { gql } from "urql";
 
 import Link from "../primitives/Link.js";
 
 function RepositoryTopics({ repository }) {
   return html`
-    <div class="mt-3 f6">
+    <div className="mt-3 f6">
       ${repository.repositoryTopics.edges.map(
         ({ node }) => html`
           <${Link}
-            class="Label Label--blue mr-1 mb-1"
+            key=${node.id}
+            className="Label Label--blue mr-1 mb-1"
             href="/topics/${node.topic.name}"
           >
             ${node.topic.name}

@@ -1,19 +1,17 @@
 {
   "imports": {
-    "@github/time-elements": "https://cdn.skypack.dev/@github/time-elements",
     "@primer/octicons": "https://cdn.skypack.dev/@primer/octicons",
     "@urql/core": "https://cdn.skypack.dev//@urql/core",
     "@urql/exchange-auth": "https://cdn.skypack.dev//@urql/exchange-auth",
     "@urql/exchange-graphcache": "https://cdn.skypack.dev/@urql/exchange-graphcache",
     "@urql/exchange-request-policy": "https://cdn.skypack.dev/@urql/exchange-request-policy",
     "@urql/introspection": "https://cdn.skypack.dev/@urql/introspection",
-    "@urql/preact": "https://cdn.skypack.dev/@urql/preact",
     "date-fns": "https://cdn.skypack.dev/date-fns",
     "graphql": "https://cdn.skypack.dev/graphql",
-    "htm/preact": "https://cdn.skypack.dev/htm/preact",
+    "htm/react": "https://cdn.skypack.dev/htm/react",
     "marked": "https://cdn.skypack.dev/marked",
-    "preact-router": "https://cdn.skypack.dev/preact-router",
-    "preact": "https://cdn.skypack.dev/preact",
-    "preact/hooks": "https://cdn.skypack.dev/preact/hooks"
+    "react-router-dom": "https://cdn.skypack.dev/react-router-dom",
+    "react": "https://cdn.skypack.dev/react",
+    "urql": "https://cdn.skypack.dev/urql"
   }
 }

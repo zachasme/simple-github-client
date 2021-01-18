@@ -1,6 +1,8 @@
-import { html } from "htm/preact";
+import { html } from "htm/react";
+import { ProjectIcon } from "@primer/octicons-react";
+import { useParams } from "react-router-dom";
 import useQuery from "../hooks/useQuery.js";
-import { gql } from "@urql/preact";
+import { gql } from "urql";
 
 import RepositoryOwnerShell from "../repositoryOwner/RepositoryOwnerShell.js";
 import BlankSlate from "../primitives/BlankSlate.js";
@@ -17,7 +19,8 @@ const QUERY = gql`
   }
 `;
 
-function OrganizationProjectsRoute({ matches }) {
+function OrganizationProjectsRoute() {
+  const matches = useParams();
   const variables = {
     login: matches.login,
   };
@@ -26,7 +29,7 @@ function OrganizationProjectsRoute({ matches }) {
   return html`
     <${RepositoryOwnerShell} active="projects" login=${matches.login}>
       <${BlankSlate}
-        icon="project"
+        Icon=${ProjectIcon}
         title="${data?.organization?.name ||
         matches.login} doesn’t have any public projects."
       >

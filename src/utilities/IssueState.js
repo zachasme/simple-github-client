@@ -1,19 +1,16 @@
-import { html } from "htm/preact";
-import Octicon from "../primitives/Octicon.js";
+import { html } from "htm/react";
+import { IssueOpenedIcon, IssueClosedIcon } from "@primer/octicons-react";
 
-function IssueState({ state, class: className = "" }) {
+function IssueState({ state, className = "" }) {
   const isOpen = state === "OPEN";
   const title = isOpen ? "Open" : "Closed";
 
   return html`
     <span
-      class=${`State State--${isOpen ? "green" : "red"} ${className}`}
+      className=${`State State--${isOpen ? "green" : "red"} ${className}`}
       title=${`Status: ${title}`}
     >
-      <${Octicon}
-        class="mr-2"
-        name=${isOpen ? "issue-opened" : "issue-closed"}
-      />
+      <${isOpen ? IssueOpenedIcon : IssueClosedIcon} className="mr-2" />
       ${title}
     </span>
   `;

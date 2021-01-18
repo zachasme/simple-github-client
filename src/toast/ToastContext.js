@@ -1,6 +1,6 @@
-import { html } from "htm/preact";
-import { createContext } from "preact";
-import { useContext, useState, useRef } from "preact/hooks";
+import { html } from "htm/react";
+import { createContext } from "react";
+import { useContext, useState, useRef } from "react";
 
 import Toast from "../primitives/Toast.js";
 
@@ -30,11 +30,12 @@ export function ToastProvider({ children }) {
 
   return html`
     <${ToastContext.Provider} value=${value}>
-      <div class="position-fixed bottom-0 left-0">
+      <div className="position-fixed bottom-0 left-0">
         ${toasts.map(
           (toast) =>
             html`
               <${Toast}
+                key=${toast.key}
                 type=${toast.type}
                 onDismiss=${() => dismissToast(toast.key)}
               >

@@ -1,6 +1,6 @@
-import { html } from "htm/preact";
+import { html } from "htm/react";
 import useQuery from "../hooks/useQuery.js";
-import { gql } from "@urql/preact";
+import { gql } from "urql";
 
 import UserShell from "../user/UserShell.js";
 import OrganizationShell from "../organization/OrganizationShell.js";
@@ -44,7 +44,7 @@ function RepositoryOwnerShell({ login, ...props }) {
       user=${repositoryOwner}
       ...${props}
       active=${active}
-    /> `;
+    />`;
   } else {
     let active = props.active || "repositories";
     return html`<${OrganizationShell}

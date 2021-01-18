@@ -1,9 +1,9 @@
-import { html } from "htm/preact";
+import { html } from "htm/react";
 import { formatRelative } from "date-fns";
 
 function RelativeTime({ date }) {
   return html`
-    <time datetime="${date}">
+    <time dateTime="${date}">
       ${formatRelative(new Date(date), new Date())}
     </time>
   `;

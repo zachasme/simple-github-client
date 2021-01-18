@@ -1,11 +1,11 @@
-import { html } from "htm/preact";
-import Octicon from "../primitives/Octicon.js";
+import { Fragment } from "react";
+import { html } from "htm/react";
 
 import Link from "../primitives/Link.js";
 
 const Button = ({
   children,
-  class: extraClasses,
+  className: extraClasses,
   large,
   small,
   disabled,
@@ -43,29 +43,28 @@ const Button = ({
 
   // add optional icon
   if (icon) {
-    content = html`
-      <${Octicon} name=${icon} />
-      ${content}
-    `;
+    content = html`<${Fragment}>${icon}${content}<//>`;
   }
 
   // add simple count
   if (count && !countHref) {
     content = html`
-      ${content}
-      <span class="Counter"> ${count} </span>
+      <${Fragment}>
+        ${content}
+        <span className="Counter">${count}</span>
+      <//>
     `;
   }
 
   // make anchor if href given
   if (href) {
     content = html`
-      <${Link} class=${classNames} href=${href} ...${props}>${content}<//>
+      <${Link} className=${classNames} href=${href} ...${props}>${content}<//>
     `;
     // button otherwise
   } else {
     content = html`
-      <button class=${classNames} disabled=${disabled} ...${props}>
+      <button className=${classNames} disabled=${disabled} ...${props}>
         ${content}
       </button>
     `;
@@ -74,9 +73,9 @@ const Button = ({
   // if count AND countHref show social style count
   if (count && countHref) {
     content = html`
-      <div class="clearfix ${extraClasses}">
+      <div className="clearfix ${extraClasses}">
         ${content}
-        <${Link} href=${countHref} class="social-count">${count}<//>
+        <${Link} href=${countHref} className="social-count">${count}<//>
       </div>
     `;
   }

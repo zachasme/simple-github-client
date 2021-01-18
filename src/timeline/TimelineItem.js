@@ -1,13 +1,19 @@
-import { html } from "htm/preact";
-import { gql } from "@urql/preact";
+import { html } from "htm/react";
+import { gql } from "urql";
 
+import RelativeTime from "../utilities/RelativeTime.js";
 import IssueLabel from "../primitives/IssueLabel.js";
-import Octicon from "../primitives/Octicon.js";
+import { FlameIcon, TagIcon } from "@primer/octicons-react";
 import IssueTimelineAssignedEvent from "./IssueTimelineAssignedEvent.js";
 import IssueTimelineIssueComment from "./IssueTimelineIssueComment.js";
+import IssueTimelineRenamedTitleEvent from "./IssueTimelineRenamedTitleEvent.js";
 
 function TimelineItem({ repository, timelineItem }) {
   switch (timelineItem.__typename) {
+    case "RenamedTitleEvent":
+      return html`<${IssueTimelineRenamedTitleEvent}
+        renamedTitleEvent=${timelineItem}
+      />`;
     case "IssueComment":
       return html`<${IssueTimelineIssueComment} comment=${timelineItem} />`;
     case "AssignedEvent":
@@ -16,15 +22,15 @@ function TimelineItem({ repository, timelineItem }) {
       />`;
     case "LabeledEvent":
       return html`
-        <div class="TimelineItem">
-          <div class="TimelineItem-badge">
-            <${Octicon} name="tag" />
+        <div className="TimelineItem">
+          <div className="TimelineItem-badge">
+            <${TagIcon} />
           </div>
 
-          <div class="TimelineItem-body">
+          <div className="TimelineItem-body">
             <a
               href="/${timelineItem.actor.login}"
-              class="text-bold link-gray-dark"
+              className="text-bold link-gray-dark"
             >
               ${timelineItem?.actor.login}
             <//>
@@ -34,22 +40,22 @@ function TimelineItem({ repository, timelineItem }) {
               label=${timelineItem.label}
             />
             ${" label "}
-            <a href="#" class="link-gray">
-              <relative-time datetime="${timelineItem.createdAt}">
+            <a href="#" className="link-gray">
+              <${RelativeTime} date=${timelineItem.createdAt}>
                 on ${timelineItem.createdAt}
-              </relative-time>
+              <//>
             <//>
           </div>
         </div>
       `;
     default:
       return html`
-        <div class="TimelineItem">
-          <div class="TimelineItem-badge">
-            <${Octicon} name="flame" />
+        <div className="TimelineItem">
+          <div className="TimelineItem-badge">
+            <${FlameIcon} />
           </div>
 
-          <div class="TimelineItem-body">
+          <div className="TimelineItem-body">
             type: ${timelineItem.__typename}, ...
             ${JSON.stringify(timelineItem)}
           </div>
@@ -70,6 +76,9 @@ TimelineItem.fragments = {
       __typename
       ... on IssueComment {
         ...IssueTimelineIssueComment_comment
+      }
+      ... on RenamedTitleEvent {
+        ...IssueTimelineRenamedTitleEvent_renamedTitleEvent
       }
       ... on MentionedEvent {
         id
@@ -95,6 +104,7 @@ TimelineItem.fragments = {
       ...IssueTimelineAssignedEvent_issueTimelineItems
     }
     ${IssueTimelineAssignedEvent.fragments.issueTimelineItems}
+    ${IssueTimelineRenamedTitleEvent.fragments.renamedTitleEvent}
     ${IssueTimelineIssueComment.fragments.comment}
   `,
 };

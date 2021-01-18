@@ -1,6 +1,7 @@
-import { html } from "htm/preact";
+import { html } from "htm/react";
 import useQuery from "../hooks/useQuery.js";
-import { gql } from "@urql/preact";
+import { gql } from "urql";
+import { useParams } from "react-router-dom";
 
 import UserProfile from "../user/UserProfile.js";
 import OrganizationProfile from "../organization/OrganizationProfile.js";
@@ -26,7 +27,8 @@ const QUERY = gql`
   ${UserProfile.fragments.user}
 `;
 
-function RepositoryOwnerRoute({ matches }) {
+function RepositoryOwnerRoute() {
+  const matches = useParams();
   const [{ data, fetching }] = useQuery({
     query: QUERY,
     variables: matches,
@@ -44,8 +46,7 @@ function RepositoryOwnerRoute({ matches }) {
       <${OrganizationProfile} organization=${data.repositoryOwner} />
     `;
   }
-
-  return html` <${RepositoryOwnerShell} login=${matches.login}>${content}<//> `;
+  return html`<${RepositoryOwnerShell} login=${matches.login}>${content}<//>`;
 }
 
 export default RepositoryOwnerRoute;

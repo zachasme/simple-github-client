@@ -1,6 +1,6 @@
-import { html } from "htm/preact";
-import { useMemo } from "preact/hooks";
-import { Provider } from "@urql/preact";
+import { html } from "htm/react";
+import { useMemo } from "react";
+import { Provider } from "urql";
 
 import createClient from "./createClient.js";
 import { useToast } from "../toast/ToastContext.js";

@@ -1,6 +1,7 @@
-import { html } from "htm/preact";
+import { html } from "htm/react";
+import { useParams } from "react-router-dom";
 import useQuery from "../hooks/useQuery.js";
-import { gql } from "@urql/preact";
+import { gql } from "urql";
 
 import Link from "../primitives/Link.js";
 import RepositoryOwnerShell from "../repositoryOwner/RepositoryOwnerShell.js";
@@ -21,7 +22,8 @@ const QUERY = gql`
   }
 `;
 
-function OrganizationPeopleRoute({ matches }) {
+function OrganizationPeopleRoute() {
+  const matches = useParams();
   const variables = {
     ...matches,
   };
@@ -37,7 +39,7 @@ function OrganizationPeopleRoute({ matches }) {
       <ol>
         ${organization.membersWithRole.edges.map(
           ({ node }) => html`
-            <li>
+            <li key=${node.id}>
               <${Link} href=${`/${node.login}`}>${node.login}<//>
             </li>
           `

@@ -1,25 +1,25 @@
-import { html } from "htm/preact";
-import { gql } from "@urql/preact";
-import { useEffect, useState } from "preact/hooks";
+import { html } from "htm/react";
+import { gql } from "urql";
+import { useEffect, useState } from "react";
 
 import { useToken } from "../user/TokenContext";
 
 import useQuery from "../hooks/useQuery.js";
 
-import Octicon from "../primitives/Octicon.js";
+import { MarkGithubIcon } from "@primer/octicons-react";
 import Link from "../primitives/Link.js";
 import { onProgressChange } from "../graphql/progress";
 
-function HeaderLink({ children, class: className, ...props }) {
-  return html`<${Link} class="Header-link ${className}" ...${props}>
+function HeaderLink({ children, className, ...props }) {
+  return html`<${Link} className="Header-link ${className}" ...${props}>
     ${children}
   <//>`;
 }
 function HeaderItem({ children, ...props }) {
-  return html`<div class="Header-item" ...${props}>${children}<//>`;
+  return html`<div className="Header-item" ...${props}>${children}<//>`;
 }
 function Header({ children, ...props }) {
-  return html`<div class="Header" ...${props}>${children}<//>`;
+  return html`<div className="Header" ...${props}>${children}<//>`;
 }
 
 const QUERY = gql`
@@ -49,68 +49,72 @@ function ApplicationShell({ children }) {
   return html`
     <div>
       <span
-        class=${`bg-gray-dark Progress Progress--small rounded-0 position-absolute width-full ${
+        className=${`bg-gray-dark Progress Progress--small rounded-0 position-absolute width-full ${
           progress === 0 ? "v-hidden" : "v-shown"
         }`}
       >
-        <span key=${progress} class="Progress-item bg-blue fetch-progress" />
+        <span
+          key=${progress}
+          className="Progress-item bg-blue fetch-progress"
+        />
       </span>
       <${Header}>
         <${HeaderItem}>
-          <${HeaderLink} href="/" class="f4 d-flex flex-items-center">
-            <${Octicon} name="mark-github" medium />
+          <${HeaderLink} href="/" className="f4 d-flex flex-items-center">
+            <${MarkGithubIcon} size="medium" />
           <//>
         <//>
         <${HeaderItem}>
           <input
             type="search"
             placeholder="Search..."
-            class="form-control input-dark"
+            className="form-control input-dark"
           />
         <//>
         <${HeaderItem}>
           <${HeaderLink} href="/pulls">
-            Pull<span class="d-inline d-md-none d-lg-inline"> request</span>s
+            Pull<span className="d-inline d-md-none d-lg-inline"> request</span
+            >s
           <//>
         <//>
         <${HeaderItem}>
           <${HeaderLink} href="/issues">Issues <//>
         <//>
-        <div class="Header-item Header-item--full"></div>
+        <div className="Header-item Header-item--full"></div>
 
-        <div class="Header-item mr-0">
+        <div className="Header-item mr-0">
           <div>
             <details
-              class="dropdown details-reset details-overlay d-inline-block"
+              className="dropdown details-reset details-overlay d-inline-block"
             >
-              <summary class="text-gray p-2 d-inline" aria-haspopup="true">
+              <summary className="text-gray p-2 d-inline" aria-haspopup="true">
                 <img
-                  class="avatar mr-2"
+                  className="avatar mr-2"
                   height="20"
                   width="20"
                   src=${data?.viewer?.avatarUrl}
                 />
-                <div class="dropdown-caret"></div>
+                <div className="dropdown-caret"></div>
               </summary>
 
-              <div class="dropdown-menu dropdown-menu-sw">
-                <div class="css-truncate">
+              <div className="dropdown-menu dropdown-menu-sw">
+                <div className="css-truncate">
                   <${Link}
                     href="/${data?.viewer?.login}"
-                    class="no-underline user-profile-link px-3 pt-2 pb-2 mb-n2 mt-n1 d-block"
+                    className="no-underline user-profile-link px-3 pt-2 pb-2 mb-n2 mt-n1 d-block"
                   >
                     Signed in as
-                    <strong class="css-truncate-target">
+                    <strong className="css-truncate-target">
                       ${data?.viewer?.login}
                     </strong>
                   <//>
                 </div>
                 <ul>
-                  <li class="dropdown-divider" role="separator"></li>
+                  <li className="dropdown-divider" role="separator"></li>
                   <li>
                     <${Link}
                       href="/${data?.viewer?.login}"
-                      class="dropdown-item"
+                      className="dropdown-item"
                     >
                       Your profile
                     <//>
@@ -118,7 +122,7 @@ function ApplicationShell({ children }) {
                   <li>
                     <${Link}
                       href="/users/${data?.viewer?.login}/repositories"
-                      class="dropdown-item"
+                      className="dropdown-item"
                     >
                       Your repositories
                     <//>
@@ -126,7 +130,7 @@ function ApplicationShell({ children }) {
                   <li>
                     <${Link}
                       href="/settings/organizations"
-                      class="dropdown-item"
+                      className="dropdown-item"
                     >
                       Your organizations
                     <//>
@@ -134,32 +138,35 @@ function ApplicationShell({ children }) {
                   <li>
                     <${Link}
                       href="/users/${data?.viewer?.login}/projects"
-                      class="dropdown-item"
+                      className="dropdown-item"
                     >
                       Your projects
                     <//>
                   </li>
                   <li>
-                    <${Link} href="/discussions" class="dropdown-item">
+                    <${Link} href="/discussions" className="dropdown-item">
                       Your discussions
                     <//>
                   </li>
                   <li>
                     <${Link}
                       href="/users/${data?.viewer?.login}/stars"
-                      class="dropdown-item"
+                      className="dropdown-item"
                     >
                       Your stars
                     <//>
                   </li>
-                  <li class="dropdown-divider" role="separator"></li>
+                  <li className="dropdown-divider" role="separator"></li>
                   <li>
-                    <${Link} href="/settings/profile" class="dropdown-item">
+                    <${Link} href="/settings/profile" className="dropdown-item">
                       Settings
                     <//>
                   </li>
                   <li>
-                    <button class="btn-link dropdown-item" onClick=${logout}>
+                    <button
+                      className="btn-link dropdown-item"
+                      onClick=${logout}
+                    >
                       Sign out
                     </button>
                   </li>
@@ -169,11 +176,10 @@ function ApplicationShell({ children }) {
           </div>
         </div>
       <//>
-      ${data &&
-      html` <main>${error ? "Something went wrong" : children}</main> `}
-      <footer class="container-xl width-full p-responsive">
+      ${data && html`<main>${error ? "Something went wrong" : children}</main>`}
+      <footer className="container-xl width-full p-responsive">
         <div
-          class="py-6 mt-6 position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between f6 text-gray border-top border-gray-light"
+          className="py-6 mt-6 position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between f6 text-gray border-top border-gray-light"
         >
           This clone is in no way affiliated with GitHub Inc.
         </div>

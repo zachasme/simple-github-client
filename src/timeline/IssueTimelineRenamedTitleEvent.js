@@ -5,7 +5,7 @@ import RelativeTime from "../utilities/RelativeTime.js";
 import Link from "../primitives/Link.js";
 import { PersonIcon } from "@primer/octicons-react";
 
-function IssueTimelineAssignedEvent({ issueTimelineItems: item }) {
+function IssueTimelineRenamedTitleEvent({ renamedTitleEvent: item }) {
   return html`
     <div className="TimelineItem">
       <div className="TimelineItem-badge">
@@ -19,14 +19,7 @@ function IssueTimelineAssignedEvent({ issueTimelineItems: item }) {
         >
           ${item.actor.login}
         <//>
-        ${" assigned "}
-        <${Link}
-          href="/${item.assignee.login}"
-          className="text-bold link-gray-dark"
-        >
-          ${item.assignee.login}
-        <//>
-        ${" "}
+        ${" change the title to "} ${item.currentTitle} ${" "}
         <${Link} href="#" className="link-gray">
           <${RelativeTime} date=${item.createdAt}>on ${item.createdAt}<//>
         <//>
@@ -35,27 +28,21 @@ function IssueTimelineAssignedEvent({ issueTimelineItems: item }) {
   `;
 }
 
-IssueTimelineAssignedEvent.fragments = {
-  issueTimelineItems: gql`
-    fragment IssueTimelineAssignedEvent_issueTimelineItems on IssueTimelineItems {
-      ... on AssignedEvent {
-        id
-        createdAt
-        actor {
-          ... on User {
-            id
-          }
-          login
+IssueTimelineRenamedTitleEvent.fragments = {
+  renamedTitleEvent: gql`
+    fragment IssueTimelineRenamedTitleEvent_renamedTitleEvent on RenamedTitleEvent {
+      id
+      createdAt
+      currentTitle
+      previousTitle
+      actor {
+        ... on User {
+          id
         }
-        assignee {
-          ... on User {
-            id
-            login
-          }
-        }
+        login
       }
     }
   `,
 };
 
-export default IssueTimelineAssignedEvent;
+export default IssueTimelineRenamedTitleEvent;

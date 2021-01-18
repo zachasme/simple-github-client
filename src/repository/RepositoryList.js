@@ -1,19 +1,26 @@
-import { html } from "htm/preact";
-import { gql } from "@urql/preact";
+import { html } from "htm/react";
+import { gql } from "urql";
+import {
+  StarIcon,
+  RepoForkedIcon,
+  LawIcon,
+  InfoIcon,
+  GitPullRequestIcon,
+} from "@primer/octicons-react";
 
 import RepositoryTopics from "./RepositoryTopics.js";
 
+import RelativeTime from "../utilities/RelativeTime.js";
 import Link from "../primitives/Link.js";
 import UserLink from "../user/UserLink.js";
-import Octicon from "../primitives/Octicon.js";
 import Language from "../primitives/Language.js";
 
 function RepositoryList({ repositoryOwner, ...props }) {
   return html`
-    <ol class="list-style-none">
+    <ol className="list-style-none">
       ${repositoryOwner.repositories.edges.map(
         ({ node: repo }) => html`
-          <li class="py-4 border-bottom">
+          <li key=${repo.id} className="py-4 border-bottom">
             <h3>
               <${UserLink} login=${repo.owner.login} />
               <span> / </span>
@@ -21,44 +28,44 @@ function RepositoryList({ repositoryOwner, ...props }) {
                 ${repo.name}
               <//>
             </h3>
-            <p class="col-9 d-inline-block text-gray mb-2 pr-4">
+            <p className="col-9 d-inline-block text-gray mb-2 pr-4">
               ${repo.description}
             </p>
             <${RepositoryTopics} repository=${repo} />
-            <div class="f6 text-gray mt-2">
+            <div className="f6 text-gray mt-2">
               ${repo.primaryLanguage &&
               html`<${Language} language=${repo.primaryLanguage} />`}
               ${repo.stargazers.totalCount > 0 &&
               html`
-                <a
-                  href="/${repo.nameWithOwner}/stargazers"
-                  class="muted-link mr-3"
+                <${Link}
+                  to="/${repo.nameWithOwner}/stargazers"
+                  className="muted-link mr-3"
                 >
-                  <${Octicon} name="star" />
+                  <${StarIcon} />
                   ${repo.stargazers.totalCount}
                 <//>
               `}
               ${repo.forkCount > 0 &&
               html`
-                <a
-                  href="/${repo.nameWithOwner}/network/members"
-                  class="muted-link mr-3"
+                <${Link}
+                  to="/${repo.nameWithOwner}/network/members"
+                  className="muted-link mr-3"
                 >
-                  <${Octicon} name="repo-forked" />
+                  <${RepoForkedIcon} />
                   ${repo.forkCount}
                 <//>
               `}
               ${repo.licenseInfo?.featured &&
               html`
-                <span class="mr-3">
-                  <${Octicon} name="law" class="mr-1" />
+                <span className="mr-3">
+                  <${LawIcon} className="mr-1" />
                   ${repo.licenseInfo.spdxId}
                 </span>
               `}
               ${repo.issues.totalCount > 0 &&
               html`
-                <${Link} href="/${repo.nameWithOwner}/issues" class="muted-link mr-3">
-                  <${Octicon} name="info" />
+                <${Link} href="/${repo.nameWithOwner}/issues" className="muted-link mr-3">
+                  <${InfoIcon}/>
                   <span> ${repo.issues.totalCount} </span>
                 </span>
               `}
@@ -66,16 +73,14 @@ function RepositoryList({ repositoryOwner, ...props }) {
               html`
                 <${Link}
                   href="/${repo.nameWithOwner}/pulls"
-                  class="muted-link mr-3"
+                  className="muted-link mr-3"
                 >
-                  <${Octicon} name="git-pull-request" />
+                  <${GitPullRequestIcon} />
                   <span> ${repo.pullRequests.totalCount} </span>
                 <//>
               `}
               ${"Updated "}
-              <relative-time datetime="${repo.pushedAt}">
-                on ${repo.pushedAt}
-              </relative-time>
+              <${RelativeTime} date=${repo.pushedAt}> on ${repo.pushedAt} <//>
             </div>
           </li>
         `

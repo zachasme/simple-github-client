@@ -1,5 +1,5 @@
-import { html } from "htm/preact";
-import { useEffect, useState, useMemo } from "preact/hooks";
+import { html } from "htm/react";
+import { useEffect, useState, useMemo } from "react";
 import { getIntrospectionQuery } from "graphql";
 import {
   getIntrospectedSchema,
@@ -7,7 +7,6 @@ import {
 } from "@urql/introspection";
 
 import Toast from "../primitives/Toast.js";
-import Octicon from "../primitives/Octicon.js";
 import useQuery from "../hooks/useQuery.js";
 
 function useFile(url) {
@@ -45,30 +44,32 @@ function SchemaRoute() {
 
   return html`
     <div
-      class="container-xl clearfix new-discussion-timeline px-3 px-md-4 px-lg-5"
+      className="container-xl clearfix new-discussion-timeline px-3 px-md-4 px-lg-5"
     >
       ${data
         ? html`
-            <div class="p-1">
+            <div className="p-1">
               <${Toast} type=${upToDate ? "success" : "warning"}>
                 Schema is ${upToDate ? "up-to-date" : "outdated"}.
               <//>
             </div>
-            <div class="form-group">
-              <div class="form-group-body">
-                <textarea class="form-control" readonly>${minified}</textarea>
+            <div className="form-group">
+              <div className="form-group-body">
+                <textarea className="form-control" readonly>
+${minified}</textarea
+                >
               </div>
             </div>
           `
         : html`
             <div>
               <button
-                class="btn btn-primary mt-3"
+                className="btn btn-primary mt-3"
                 onClick=${execute}
                 disabled=${fetching}
               >
                 <span>Compar${fetching ? "ing" : "e"}</span>
-                ${fetching && html`<span class="AnimatedEllipsis"></span>`}
+                ${fetching && html`<span className="AnimatedEllipsis"></span>`}
               </button>
             </div>
           `}
