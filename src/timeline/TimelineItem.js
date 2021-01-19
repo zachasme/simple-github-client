@@ -1,112 +1,39 @@
 import { html } from "htm/react";
-import { gql } from "urql";
 
 import RelativeTime from "../utilities/RelativeTime.js";
-import IssueLabel from "../primitives/IssueLabel.js";
-import { FlameIcon, TagIcon } from "@primer/octicons-react";
-import IssueTimelineAssignedEvent from "./IssueTimelineAssignedEvent.js";
-import IssueTimelineIssueComment from "./IssueTimelineIssueComment.js";
-import IssueTimelineRenamedTitleEvent from "./IssueTimelineRenamedTitleEvent.js";
 
-function TimelineItem({ repository, timelineItem }) {
-  switch (timelineItem.__typename) {
-    case "RenamedTitleEvent":
-      return html`<${IssueTimelineRenamedTitleEvent}
-        renamedTitleEvent=${timelineItem}
-      />`;
-    case "IssueComment":
-      return html`<${IssueTimelineIssueComment} comment=${timelineItem} />`;
-    case "AssignedEvent":
-      return html`<${IssueTimelineAssignedEvent}
-        issueTimelineItems=${timelineItem}
-      />`;
-    case "LabeledEvent":
-      return html`
-        <div className="TimelineItem">
-          <div className="TimelineItem-badge">
-            <${TagIcon} />
-          </div>
+function TimelineItem({ item, Badge, style, children, text }) {
+  let badgeClassNames = "TimelineItem-badge";
+  if (style === "red") badgeClassNames += " text-white bg-red";
 
-          <div className="TimelineItem-body">
-            <a
-              href="/${timelineItem.actor.login}"
-              className="text-bold link-gray-dark"
-            >
-              ${timelineItem?.actor.login}
-            <//>
-            ${" added the "}
-            <${IssueLabel}
-              nameWithOwner=${repository.nameWithOwner}
-              label=${timelineItem.label}
+  return html`
+    <div className="TimelineItem">
+      <div className=${badgeClassNames}>
+        <${Badge} />
+      </div>
+
+      <div className="TimelineItem-body">
+        <div>
+          <a
+            href="/${item.actor.login}"
+            className="text-bold link-gray-dark mr-1"
+          >
+            <img
+              className="avatar avatar-1 mr-1"
+              alt="jonrohan"
+              src=${item.actor?.avatarUrl}
             />
-            ${" label "}
-            <a href="#" className="link-gray">
-              <${RelativeTime} date=${timelineItem.createdAt}>
-                on ${timelineItem.createdAt}
-              <//>
-            <//>
-          </div>
+            ${item.actor.login}
+          <//>
+          ${text}
+          <a href="#" className="link-gray ml-1">
+            <${RelativeTime} date=${item.createdAt} />
+          <//>
         </div>
-      `;
-    default:
-      return html`
-        <div className="TimelineItem">
-          <div className="TimelineItem-badge">
-            <${FlameIcon} />
-          </div>
-
-          <div className="TimelineItem-body">
-            type: ${timelineItem.__typename}, ...
-            ${JSON.stringify(timelineItem)}
-          </div>
-        </div>
-      `;
-  }
+        ${children}
+      </div>
+    </div>
+  `;
 }
-
-TimelineItem.fragments = {
-  repository: gql`
-    fragment TimelineItem_repository on Repository {
-      id
-      nameWithOwner
-    }
-  `,
-  issueTimelineItems: gql`
-    fragment TimelineItem_issueTimelineItems on IssueTimelineItems {
-      __typename
-      ... on IssueComment {
-        ...IssueTimelineIssueComment_comment
-      }
-      ... on RenamedTitleEvent {
-        ...IssueTimelineRenamedTitleEvent_renamedTitleEvent
-      }
-      ... on MentionedEvent {
-        id
-        createdAt
-        actor {
-          ... on User {
-            id
-          }
-          login
-        }
-      }
-      ... on LabeledEvent {
-        id
-        createdAt
-        actor {
-          login
-        }
-        label {
-          id
-          ...Label_label
-        }
-      }
-      ...IssueTimelineAssignedEvent_issueTimelineItems
-    }
-    ${IssueTimelineAssignedEvent.fragments.issueTimelineItems}
-    ${IssueTimelineRenamedTitleEvent.fragments.renamedTitleEvent}
-    ${IssueTimelineIssueComment.fragments.comment}
-  `,
-};
 
 export default TimelineItem;

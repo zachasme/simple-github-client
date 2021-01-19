@@ -4,7 +4,7 @@ import { gql } from "urql";
 import RelativeTime from "../utilities/RelativeTime.js";
 import Link from "../primitives/Link.js";
 
-function IssueTimelineIssueComment({ comment }) {
+function IssueComment({ item }) {
   return html`
     <div className="TimelineItem">
       <div className="TimelineItem-avatar">
@@ -13,11 +13,11 @@ function IssueTimelineIssueComment({ comment }) {
           height="40"
           width="40"
           alt="@octocat"
-          src=${comment.author?.avatarUrl}
+          src=${item.author?.avatarUrl}
         />
       </div>
       <div
-        className="TimelineItem-body Box Box--condensed ${comment.viewerDidAuthor
+        className="TimelineItem-body Box Box--condensed ${item.viewerDidAuthor
           ? "Box--blue"
           : ""}
           position-relative ml-n2"
@@ -25,30 +25,28 @@ function IssueTimelineIssueComment({ comment }) {
         <div className="Box-header f5 text-normal">
           <strong>
             <a
-              href="/${comment.author?.login || "ghost"}"
+              href="/${item.author?.login || "ghost"}"
               className="link-gray-dark"
-              >${comment.author?.login || "ghost"}</a
+              >${item.author?.login || "ghost"}</a
             >
           </strong>
           ${" commented "}
           <${Link} href="#" className="link-gray">
-            <${RelativeTime} date=${comment.createdAt}>
-              on ${comment.createdAt}
-            <//>
+            <${RelativeTime} date=${item.createdAt} />
           <//>
         </div>
         <div
           className="Box-body markdown-body f5 py-3"
-          dangerouslySetInnerHTML=${{ __html: comment.bodyHTML }}
+          dangerouslySetInnerHTML=${{ __html: item.bodyHTML }}
         />
       </div>
     </div>
   `;
 }
 
-IssueTimelineIssueComment.fragments = {
-  comment: gql`
-    fragment IssueTimelineIssueComment_comment on Comment {
+IssueComment.fragments = {
+  item: gql`
+    fragment IssueComment_item on Comment {
       id
       bodyHTML
       viewerDidAuthor
@@ -64,4 +62,4 @@ IssueTimelineIssueComment.fragments = {
   `,
 };
 
-export default IssueTimelineIssueComment;
+export default IssueComment;

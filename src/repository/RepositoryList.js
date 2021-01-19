@@ -80,7 +80,7 @@ function RepositoryList({ repositoryOwner, ...props }) {
                 <//>
               `}
               ${"Updated "}
-              <${RelativeTime} date=${repo.pushedAt}> on ${repo.pushedAt} <//>
+              <${RelativeTime} date=${repo.pushedAt} />
             </div>
           </li>
         `

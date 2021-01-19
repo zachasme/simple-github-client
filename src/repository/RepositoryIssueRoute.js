@@ -10,8 +10,8 @@ import IssueState from "../utilities/IssueState.js";
 
 import RepositoryShell from "./RepositoryShell.js";
 import IssueLabel from "../primitives/IssueLabel.js";
-import TimelineItem from "../timeline/TimelineItem.js";
-import IssueTimelineIssueComment from "../timeline/IssueTimelineIssueComment.js";
+import Timeline from "../timeline/Timeline.js";
+import IssueComment from "../timeline/IssueComment.js";
 
 const QUERY = gql`
   query RepositoryIssueRouteQuery(
@@ -47,26 +47,17 @@ const QUERY = gql`
               ...Label_label
             }
           }
-          ...IssueTimelineIssueComment_comment
-          timelineItems(first: 50) {
-            edges {
-              node {
-                ... on Node {
-                  id
-                }
-                ...TimelineItem_issueTimelineItems
-              }
-            }
-          }
+          ...IssueComment_item
+          ...Timeline_issue
         }
       }
-      ...TimelineItem_repository
+      ...Timeline_repository
     }
   }
   ${IssueLabel.fragments.label}
-  ${TimelineItem.fragments.issueTimelineItems}
-  ${TimelineItem.fragments.repository}
-  ${IssueTimelineIssueComment.fragments.comment}
+  ${Timeline.fragments.issue}
+  ${Timeline.fragments.repository}
+  ${IssueComment.fragments.item}
 `;
 
 function RepositoryIssueRoute() {
@@ -116,15 +107,8 @@ function RepositoryIssueRoute() {
           className="gutter-condensed gutter-lg flex-column flex-md-row d-flex"
         >
           <div className="ml-6 pl-3 flex-shrink-0 col-12 col-md-9 mb-4 mb-md-0">
-            <${IssueTimelineIssueComment} comment=${issue} />
-            ${issue.timelineItems.edges.map(
-              ({ node }) =>
-                html`<${TimelineItem}
-                  key=${node.id}
-                  repository=${repository}
-                  timelineItem=${node}
-                />`
-            )}
+            <${IssueComment} item=${issue} />
+            <${Timeline} repository=${repository} issue=${issue} />
           </div>
 
           <!-- Gutter -->
