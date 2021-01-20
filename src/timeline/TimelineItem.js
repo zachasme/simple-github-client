@@ -1,6 +1,6 @@
 import { html } from "htm/react";
 
-import RelativeTime from "../utilities/RelativeTime.js";
+import RelativeTime from "../common/RelativeTime.js";
 
 function TimelineItem({ item, Badge, style, children, text }) {
   let badgeClassNames = "TimelineItem-badge";

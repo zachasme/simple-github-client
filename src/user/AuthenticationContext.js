@@ -2,10 +2,8 @@ import { html } from "htm/react";
 import { createContext } from "react";
 import { useContext } from "react";
 
-import { useToast } from "../toast/ToastContext.js";
-import useLocalStorageState from "../utilities/useLocalStorageState.js";
-
-const TokenContext = createContext(null);
+import { useToast } from "../common/ToastContext.js";
+import useLocalStorageState from "../common/useLocalStorageState.js";
 
 /**
  * Authentication context
@@ -15,7 +13,13 @@ const TokenContext = createContext(null);
  * Requires:
  *  - Toast context for showing errors
  */
-export function TokenProvider({ children }) {
+const AuthenticationContext = createContext(null);
+
+export function useAuthentication() {
+  return useContext(AuthenticationContext);
+}
+
+export function AuthenticationProvider({ children }) {
   const { addToast } = useToast();
 
   const [token, setToken] = useLocalStorageState("token");
@@ -35,6 +39,7 @@ export function TokenProvider({ children }) {
       if (!user) {
         throw new Error("Could not authenticate");
       }
+
       setToken(token);
     } catch (error) {
       addToast({ type: "error", message: error.message });
@@ -51,9 +56,7 @@ export function TokenProvider({ children }) {
     logout,
   };
 
-  return html`<${TokenContext.Provider} value=${value}>${children}<//>`;
-}
-
-export function useToken() {
-  return useContext(TokenContext);
+  return html`<${AuthenticationContext.Provider} value=${value}
+    >${children}<//
+  >`;
 }

@@ -1,5 +1,5 @@
-import { html } from "htm/react";
 import { formatRelative } from "date-fns";
+import { html } from "htm/react";
 
 function RelativeTime({ date }) {
   return html`

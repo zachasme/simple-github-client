@@ -1,14 +1,12 @@
+import { MarkGithubIcon } from "@primer/octicons-react";
+import { useEffect, useState } from "react";
 import { html } from "htm/react";
 import { gql } from "urql";
-import { useEffect, useState } from "react";
 
-import { useToken } from "../user/TokenContext";
-
-import useQuery from "../hooks/useQuery.js";
-
-import { MarkGithubIcon } from "@primer/octicons-react";
-import Link from "../primitives/Link.js";
+import { useAuthentication } from "../user/AuthenticationContext";
 import { onProgressChange } from "../graphql/progress";
+import useQuery from "../hooks/useQuery.js";
+import Link from "../primitives/Link.js";
 
 function HeaderLink({ children, className, ...props }) {
   return html`<${Link} className="Header-link ${className}" ...${props}>
@@ -33,7 +31,7 @@ const QUERY = gql`
 `;
 
 function ApplicationShell({ children }) {
-  const { logout } = useToken();
+  const { logout } = useAuthentication();
 
   const [{ data, error }] = useQuery({
     query: QUERY,

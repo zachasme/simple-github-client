@@ -1,5 +1,5 @@
-import { makeOperation } from "@urql/core";
 import { authExchange as exchange } from "@urql/exchange-auth";
+import { makeOperation } from "@urql/core";
 
 /**
  * The purpose of the authExchange is to provide a flexible API that

@@ -1,17 +1,17 @@
-import { html } from "htm/react";
 import { useParams } from "react-router-dom";
+import { html } from "htm/react";
 import { gql } from "urql";
 
-import useQuery from "../hooks/useQuery.js";
-import Link from "../primitives/Link.js";
-import UserLink from "../user/UserLink.js";
-import RelativeTime from "../utilities/RelativeTime.js";
-import IssueState from "../utilities/IssueState.js";
-
-import RepositoryShell from "./RepositoryShell.js";
+import IssueComment from "../timeline/IssueComment.js";
+import RelativeTime from "../common/RelativeTime.js";
+import IssueState from "../primitives/IssueState.js";
 import IssueLabel from "../primitives/IssueLabel.js";
 import Timeline from "../timeline/Timeline.js";
-import IssueComment from "../timeline/IssueComment.js";
+import useQuery from "../hooks/useQuery.js";
+import UserLink from "../user/UserLink.js";
+import Link from "../primitives/Link.js";
+
+import RepositoryShell from "./RepositoryShell.js";
 
 const QUERY = gql`
   query RepositoryIssueRouteQuery(

@@ -15,7 +15,7 @@ import {
   StarIcon,
 } from "@primer/octicons-react";
 
-import { humanReadableNumber } from "../number.js";
+import { humanReadableNumber } from "../common/number.js";
 import useQuery from "../hooks/useQuery.js";
 import Link from "../primitives/Link.js";
 import Button from "../primitives/Button.js";
@@ -25,7 +25,7 @@ import UnderlineNavItem from "../primitives/UnderlineNavItem.js";
 
 import { ADD_STAR_MUTATION, REMOVE_STAR_MUTATION } from "./starMutations.js";
 import { UPDATE_SUBSCRIPTION_MUTATION } from "./subscriptionMutations.js";
-import { useToast } from "../toast/ToastContext.js";
+import { useToast } from "../common/ToastContext.js";
 
 const QUERY = gql`
   query RepositoryShellQuery($owner: String!, $name: String!) {

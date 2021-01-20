@@ -1,10 +1,10 @@
-import { html } from "htm/react";
 import { useParams } from "react-router-dom";
-import useQuery from "../hooks/useQuery.js";
+import { html } from "htm/react";
 import { gql } from "urql";
 
-import Link from "../primitives/Link.js";
 import RepositoryOwnerShell from "../repositoryOwner/RepositoryOwnerShell.js";
+import Link from "../primitives/Link.js";
+import useQuery from "../hooks/useQuery.js";
 
 const QUERY = gql`
   query OrganizationPeopleRouteQuery($login: String!) {

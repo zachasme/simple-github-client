@@ -1,13 +1,13 @@
 import { html } from "htm/react";
 import { useState } from "react";
 
-import { useToken } from "./TokenContext.js";
+import { useAuthentication } from "./AuthenticationContext.js";
 
 import { MarkGithubIcon } from "@primer/octicons-react";
 import Button from "../primitives/Button.js";
 
 function LogInRoute() {
-  const { login } = useToken();
+  const { login } = useAuthentication();
   const [token, setToken] = useState("");
 
   const error = false;

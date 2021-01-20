@@ -4,7 +4,7 @@ import { html } from "htm/react";
 import { gql } from "urql";
 
 import Link from "../primitives/Link.js";
-import IssueState from "../utilities/IssueState.js";
+import IssueState from "../primitives/IssueState.js";
 import TimelineItem from "./TimelineItem.js";
 
 function CrossReferencedEvent({ item }) {

@@ -2,10 +2,10 @@ import { render } from "react-dom";
 import { html } from "htm/react";
 import { BrowserRouter as RouterProvider } from "react-router-dom";
 
-import Application from "./application/Application.js";
+import { AuthenticationProvider } from "./user/AuthenticationContext.js";
+import { ToastProvider } from "./common/ToastContext.js";
 import UrqlProvider from "./graphql/UrqlProvider.js";
-import { ToastProvider } from "./toast/ToastContext.js";
-import { TokenProvider } from "./user/TokenContext.js";
+import Application from "./common/Application.js";
 
 export async function bootstrap() {
   const response = await fetch("/src/schema.json");
@@ -15,7 +15,7 @@ export async function bootstrap() {
   const root = html`
     <${RouterProvider}>
       <${ToastProvider}>
-        <${TokenProvider}>
+        <${AuthenticationProvider}>
           <${UrqlProvider} schema=${schema}>
             <${Application} />
           <//>

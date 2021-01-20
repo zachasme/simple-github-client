@@ -2,9 +2,9 @@ import { html } from "htm/react";
 import { useMemo } from "react";
 import { Provider } from "urql";
 
+import { useAuthentication } from "../user/AuthenticationContext.js";
+import { useToast } from "../common/ToastContext.js";
 import createClient from "./createClient.js";
-import { useToast } from "../toast/ToastContext.js";
-import { useToken } from "../user/TokenContext.js";
 
 /**
  * URQL context
@@ -17,10 +17,10 @@ import { useToken } from "../user/TokenContext.js";
  */
 function UrqlProvider({ schema, children }) {
   const { addToast } = useToast();
-  const { token, logout } = useToken();
+  const { token, logout } = useAuthentication();
 
   const client = useMemo(() => {
-    console.debug("[URQL] create new client");
+    console.debug("[URQL] Creating new client...");
     return createClient({ schema, token, logout, addToast });
   }, [token]);
 

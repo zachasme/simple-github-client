@@ -1,6 +1,6 @@
-import { html } from "htm/react";
-import { useParams } from "react-router-dom";
 import { PackageIcon } from "@primer/octicons-react";
+import { useParams } from "react-router-dom";
+import { html } from "htm/react";
 
 import RepositoryOwnerShell from "../repositoryOwner/RepositoryOwnerShell.js";
 import BlankSlate from "../primitives/BlankSlate.js";

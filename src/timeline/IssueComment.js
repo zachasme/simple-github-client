@@ -1,7 +1,7 @@
 import { html } from "htm/react";
 import { gql } from "urql";
 
-import RelativeTime from "../utilities/RelativeTime.js";
+import RelativeTime from "../common/RelativeTime.js";
 import Link from "../primitives/Link.js";
 
 function IssueComment({ item }) {
@@ -16,29 +16,31 @@ function IssueComment({ item }) {
           src=${item.author?.avatarUrl}
         />
       </div>
-      <div
-        className="TimelineItem-body Box Box--condensed ${item.viewerDidAuthor
-          ? "Box--blue"
-          : ""}
-          position-relative ml-n2"
-      >
-        <div className="Box-header f5 text-normal">
-          <strong>
-            <a
-              href="/${item.author?.login || "ghost"}"
-              className="link-gray-dark"
-              >${item.author?.login || "ghost"}</a
-            >
-          </strong>
-          ${" commented "}
-          <${Link} href="#" className="link-gray">
-            <${RelativeTime} date=${item.createdAt} />
-          <//>
-        </div>
+      <div className="TimelineItem-body">
         <div
-          className="Box-body markdown-body f5 py-3"
-          dangerouslySetInnerHTML=${{ __html: item.bodyHTML }}
-        />
+          className=" Box Box--condensed ${item.viewerDidAuthor
+            ? "Box--blue"
+            : ""}
+          position-relative ml-n2"
+        >
+          <div className="Box-header f5 text-normal">
+            <strong>
+              <a
+                href="/${item.author?.login || "ghost"}"
+                className="link-gray-dark"
+                >${item.author?.login || "ghost"}</a
+              >
+            </strong>
+            ${" commented "}
+            <${Link} href="#" className="link-gray">
+              <${RelativeTime} date=${item.createdAt} />
+            <//>
+          </div>
+          <div
+            className="Box-body markdown-body f5 py-3"
+            dangerouslySetInnerHTML=${{ __html: item.bodyHTML }}
+          />
+        </div>
       </div>
     </div>
   `;

@@ -2,7 +2,7 @@ import { html } from "htm/react";
 import { gql } from "urql";
 import { StarIcon, RepoForkedIcon } from "@primer/octicons-react";
 
-import { humanReadableNumber } from "../number.js";
+import { humanReadableNumber } from "../common/number.js";
 
 import Link from "../primitives/Link.js";
 import Language from "../primitives/Language.js";

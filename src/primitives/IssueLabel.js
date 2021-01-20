@@ -2,7 +2,7 @@ import { html } from "htm/react";
 import { gql } from "urql";
 
 import Link from "./Link.js";
-import { emojify } from "../emojis.js";
+import { emojify } from "../common/emojis.js";
 
 function textColor(backgroundColor) {
   const r = parseInt(backgroundColor.substring(0, 2), 16);

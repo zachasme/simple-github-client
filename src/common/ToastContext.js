@@ -1,6 +1,5 @@
+import { createContext, useContext, useState, useRef } from "react";
 import { html } from "htm/react";
-import { createContext } from "react";
-import { useContext, useState, useRef } from "react";
 
 import Toast from "../primitives/Toast.js";
 

@@ -1,15 +1,15 @@
-import { html } from "htm/react";
 import {
   PersonIcon,
   RepoIcon,
   ProjectIcon,
   PackageIcon,
 } from "@primer/octicons-react";
+import { html } from "htm/react";
 import { gql } from "urql";
 
-import Link from "../primitives/Link.js";
-import UnderlineNav from "../primitives/UnderlineNav.js";
 import UnderlineNavItem from "../primitives/UnderlineNavItem.js";
+import UnderlineNav from "../primitives/UnderlineNav.js";
+import Link from "../primitives/Link.js";
 
 function OrganizationShell({ active, organization, children }) {
   const org = organization;

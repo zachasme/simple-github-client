@@ -10,7 +10,7 @@ import {
 
 import RepositoryTopics from "./RepositoryTopics.js";
 
-import RelativeTime from "../utilities/RelativeTime.js";
+import RelativeTime from "../common/RelativeTime.js";
 import Link from "../primitives/Link.js";
 import UserLink from "../user/UserLink.js";
 import Language from "../primitives/Language.js";

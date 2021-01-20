@@ -1,11 +1,11 @@
-import { html } from "htm/react";
 import { ProjectIcon } from "@primer/octicons-react";
 import { useParams } from "react-router-dom";
-import useQuery from "../hooks/useQuery.js";
+import { html } from "htm/react";
 import { gql } from "urql";
 
 import RepositoryOwnerShell from "../repositoryOwner/RepositoryOwnerShell.js";
 import BlankSlate from "../primitives/BlankSlate.js";
+import useQuery from "../hooks/useQuery.js";
 
 const QUERY = gql`
   query OrganizationProjectsRouteQuery($login: String!) {

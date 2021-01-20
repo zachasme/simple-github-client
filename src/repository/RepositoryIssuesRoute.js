@@ -1,23 +1,23 @@
-import { html } from "htm/react";
-import { LinkExternalIcon } from "@primer/octicons-react";
 import {
   TagIcon,
   MilestoneIcon,
   IssueOpenedIcon,
   CheckIcon,
+  LinkExternalIcon,
 } from "@primer/octicons-react";
 import { useParams } from "react-router-dom";
-import useQuery from "../hooks/useQuery.js";
+import { html } from "htm/react";
 import { useState } from "react";
 import { gql } from "urql";
 
-import RelativeTime from "../utilities/RelativeTime.js";
-import Link from "../primitives/Link.js";
-import IssueLabel from "../primitives/IssueLabel.js";
 import ButtonGroup from "../primitives/ButtonGroup.js";
+import RelativeTime from "../common/RelativeTime.js";
+import IssueLabel from "../primitives/IssueLabel.js";
+import useQuery from "../hooks/useQuery.js";
 import Button from "../primitives/Button.js";
-import Box from "../primitives/Box.js";
 import Select from "../primitives/Select.js";
+import Link from "../primitives/Link.js";
+import Box from "../primitives/Box.js";
 
 import RepositoryShell from "./RepositoryShell.js";
 
