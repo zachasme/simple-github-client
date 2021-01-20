@@ -12,7 +12,6 @@ import {
   PackageIcon,
 } from "@primer/octicons-react";
 
-import useQuery from "../hooks/useQuery.js";
 import Link from "../primitives/Link.js";
 import UnderlineNav from "../primitives/UnderlineNav.js";
 import UnderlineNavItem from "../primitives/UnderlineNavItem.js";

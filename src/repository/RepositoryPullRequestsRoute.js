@@ -1,9 +1,9 @@
 import { html } from "htm/react";
 import { useParams } from "react-router-dom";
-import useQuery from "../hooks/useQuery.js";
 import { useState } from "react";
 import { gql } from "urql";
 
+import useQuery from "../graphql/useQuery.js";
 import RelativeTime from "../common/RelativeTime.js";
 import Link from "../primitives/Link.js";
 import IssueLabel from "../primitives/IssueLabel.js";

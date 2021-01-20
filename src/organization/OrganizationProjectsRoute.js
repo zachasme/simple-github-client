@@ -5,7 +5,7 @@ import { gql } from "urql";
 
 import RepositoryOwnerShell from "../repositoryOwner/RepositoryOwnerShell.js";
 import BlankSlate from "../primitives/BlankSlate.js";
-import useQuery from "../hooks/useQuery.js";
+import useQuery from "../graphql/useQuery.js";
 
 const QUERY = gql`
   query OrganizationProjectsRouteQuery($login: String!) {

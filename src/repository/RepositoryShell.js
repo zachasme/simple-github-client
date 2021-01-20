@@ -16,7 +16,7 @@ import {
 } from "@primer/octicons-react";
 
 import { humanReadableNumber } from "../common/number.js";
-import useQuery from "../hooks/useQuery.js";
+import useQuery from "../graphql/useQuery.js";
 import Link from "../primitives/Link.js";
 import Button from "../primitives/Button.js";
 import Select from "../primitives/Select.js";

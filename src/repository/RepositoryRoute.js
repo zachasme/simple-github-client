@@ -9,10 +9,9 @@ import {
   FileIcon,
   FileDirectoryIcon,
 } from "@primer/octicons-react";
-
-import useQuery from "../hooks/useQuery.js";
 import { gql } from "urql";
 
+import useQuery from "../graphql/useQuery.js";
 import Markdown from "../primitives/Markdown.js";
 import Link from "../primitives/Link.js";
 import Select from "../primitives/Select.js";

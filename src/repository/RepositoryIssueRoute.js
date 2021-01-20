@@ -6,8 +6,8 @@ import IssueComment from "../timeline/IssueComment.js";
 import RelativeTime from "../common/RelativeTime.js";
 import IssueState from "../primitives/IssueState.js";
 import IssueLabel from "../primitives/IssueLabel.js";
-import Timeline from "../timeline/Timeline.js";
-import useQuery from "../hooks/useQuery.js";
+import IssueTimeline from "../timeline/IssueTimeline.js";
+import useQuery from "../graphql/useQuery.js";
 import UserLink from "../user/UserLink.js";
 import Link from "../primitives/Link.js";
 
@@ -48,15 +48,15 @@ const QUERY = gql`
             }
           }
           ...IssueComment_item
-          ...Timeline_issue
+          ...IssueTimeline_issue
         }
       }
-      ...Timeline_repository
+      ...IssueTimeline_repository
     }
   }
   ${IssueLabel.fragments.label}
-  ${Timeline.fragments.issue}
-  ${Timeline.fragments.repository}
+  ${IssueTimeline.fragments.issue}
+  ${IssueTimeline.fragments.repository}
   ${IssueComment.fragments.item}
 `;
 
@@ -106,9 +106,11 @@ function RepositoryIssueRoute() {
         <div
           className="gutter-condensed gutter-lg flex-column flex-md-row d-flex"
         >
-          <div className="ml-6 pl-3 flex-shrink-0 col-12 col-md-9 mb-4 mb-md-0">
-            <${IssueComment} item=${issue} />
-            <${Timeline} repository=${repository} issue=${issue} />
+          <div className="flex-shrink-0 col-12 col-md-9 mb-4 mb-md-0">
+            <div className="ml-6 pl-3">
+              <${IssueComment} item=${issue} />
+              <${IssueTimeline} repository=${repository} issue=${issue} />
+            </div>
           </div>
 
           <!-- Gutter -->

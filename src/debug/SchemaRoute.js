@@ -7,7 +7,7 @@ import {
 } from "@urql/introspection";
 
 import Toast from "../primitives/Toast.js";
-import useQuery from "../hooks/useQuery.js";
+import useQuery from "../graphql/useQuery.js";
 
 function useFile(url) {
   useEffect(() => {

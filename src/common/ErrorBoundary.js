@@ -1,26 +1,34 @@
 import { Component } from "react";
 import { html } from "htm/react";
 
+import RedBox from "redbox-react";
+
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { error: null };
   }
 
   static getDerivedStateFromError(error) {
     // Update state so the next render will show the fallback UI.
-    return { hasError: true };
+    return { error };
   }
   componentDidCatch(error, errorInfo) {
     // You can also log the error to an error reporting service
-    logErrorToMyService(error, errorInfo);
+    console.error(error);
+    console.debug({ errorInfo });
   }
   render() {
-    if (this.state.hasError) {
-      // You can render any custom fallback UI
-      return html`<h1>Something went wrong.</h1>`;
+    // You can render any custom fallback UI
+    if (!this.state.error) {
+      return this.props.children;
     }
-    return this.props.children;
+
+    if (this.props.fallback) {
+      return this.props.fallback;
+    }
+
+    return "Something went wrong";
   }
 }
 export default ErrorBoundary;

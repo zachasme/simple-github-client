@@ -1,3 +1,5 @@
+// based on code by Joshaven Potter
+// https://stackoverflow.com/a/28120564/1019211
 export function humanReadableNumber(number) {
   if (number <= 0) {
     return `${number}`;

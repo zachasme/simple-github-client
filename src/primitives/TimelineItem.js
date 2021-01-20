@@ -4,8 +4,10 @@ function TimelineItem({ children }) {
   return html`<div className="TimelineItem">${children}</div>`;
 }
 
-function TimelineItemBadge({ children }) {
-  return html`<div className="TimelineItem-badge">${children}</div>`;
+function TimelineItemBadge({ color, children }) {
+  let className = "TimelineItem-badge";
+  if (color) className += ` bg-${color} text-white`;
+  return html`<div className=${className}>${children}</div>`;
 }
 
 function TimelineItemBody({ children }) {
@@ -20,7 +22,7 @@ function TimelineItemAvatar({ src, alt }) {
   `;
 }
 
-export default {
+export {
   TimelineItem,
   TimelineItemBadge,
   TimelineItemBody,

@@ -1,9 +1,9 @@
 import { html } from "htm/react";
 import { TagIcon, MilestoneIcon } from "@primer/octicons-react";
 import { useParams } from "react-router-dom";
-import useQuery from "../hooks/useQuery.js";
 import { gql } from "urql";
 
+import useQuery from "../graphql/useQuery.js";
 import Link from "../primitives/Link.js";
 import ButtonGroup from "../primitives/ButtonGroup.js";
 import Button from "../primitives/Button.js";
@@ -14,10 +14,12 @@ import RepositoryShell from "./RepositoryShell.js";
 const QUERY = gql`
   query RepositoryLabelsRouteQuery($owner: String!, $name: String!) {
     repository(owner: $owner, name: $name) {
+      id
       nameWithOwner
       labels(first: 10) {
         edges {
           node {
+            id
             description
             name
             issues {
@@ -42,7 +44,7 @@ function RepositoryLabelsRoute() {
     owner: matches.owner,
     name: matches.name,
   };
-  const [{ data, fetching }] = useQuery({ query: QUERY, variables });
+  const [{ data, stale }] = useQuery({ query: QUERY, variables });
 
   const ownerWithName = `${matches.owner}/${matches.name}`;
 
@@ -72,7 +74,7 @@ function RepositoryLabelsRoute() {
           <//>
         </div>
 
-        <div className="Box ${fetching ? "bg-gray" : ""}">
+        <div className="Box ${stale ? "bg-gray" : ""}">
           <div className="Box-header">
             <strong>${repository?.labels?.totalCount} labels</strong>
           </div>

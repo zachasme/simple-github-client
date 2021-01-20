@@ -1,7 +1,7 @@
 import { html } from "htm/react";
-import useQuery from "../hooks/useQuery.js";
 import { gql } from "urql";
 
+import useQuery from "../graphql/useQuery.js";
 import UserShell from "../user/UserShell.js";
 import OrganizationShell from "../organization/OrganizationShell.js";
 

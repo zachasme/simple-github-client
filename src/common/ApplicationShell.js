@@ -1,11 +1,12 @@
 import { MarkGithubIcon } from "@primer/octicons-react";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { html } from "htm/react";
 import { gql } from "urql";
 
 import { useAuthentication } from "../user/AuthenticationContext";
 import { onProgressChange } from "../graphql/progress";
-import useQuery from "../hooks/useQuery.js";
+import useQuery from "../graphql/useQuery.js";
 import Link from "../primitives/Link.js";
 
 function HeaderLink({ children, className, ...props }) {
@@ -32,6 +33,7 @@ const QUERY = gql`
 
 function ApplicationShell({ children }) {
   const { logout } = useAuthentication();
+  const location = useLocation();
 
   const [{ data, error }] = useQuery({
     query: QUERY,
@@ -70,13 +72,21 @@ function ApplicationShell({ children }) {
           />
         <//>
         <${HeaderItem}>
-          <${HeaderLink} href="/pulls">
+          <${HeaderLink} to="/pulls">
             Pull<span className="d-inline d-md-none d-lg-inline"> request</span
             >s
           <//>
         <//>
         <${HeaderItem}>
-          <${HeaderLink} href="/issues">Issues <//>
+          <${HeaderLink} to="/issues">Issues<//>
+        <//>
+        <${HeaderItem}>
+          <a
+            href=${`https://github.com${location.pathname}`}
+            className="Header-link"
+          >
+            Compare
+          </a>
         <//>
         <div className="Header-item Header-item--full"></div>
 

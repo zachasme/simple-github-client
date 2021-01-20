@@ -9,6 +9,7 @@ import CrossReferencedEvent from "./CrossReferencedEvent.js";
 import IssueComment from "./IssueComment.js";
 import LabeledEvent from "./LabeledEvent.js";
 import UnlabeledEvent from "./UnlabeledEvent.js";
+import ReferencedEvent from "./ReferencedEvent.js";
 import RenamedTitleEvent from "./RenamedTitleEvent.js";
 
 const COMPONENTS = {
@@ -18,49 +19,54 @@ const COMPONENTS = {
   IssueComment,
   LabeledEvent,
   UnlabeledEvent,
+  ReferencedEvent,
   RenamedTitleEvent,
 };
 
-function GenericEvent({ item }) {
-  return html`
-    <div className="TimelineItem">
-      <div className="TimelineItem-badge">
-        <${FlameIcon} />
-      </div>
-
-      <div className="TimelineItem-body">
-        not implemented: ${item.__typename}, ... ${JSON.stringify(item)}
-      </div>
-    </div>
-  `;
-}
-
-function Timeline({ issue, repository }) {
+function IssueTimeline({ issue, repository }) {
   return html`
     <${Fragment}>
-      ${issue.timelineItems.edges.map(
-        ({ node }) => html`
-          <${COMPONENTS[node.__typename] || GenericEvent}
+      ${issue.timelineItems.edges.map(({ node }) => {
+        const EventComponent = COMPONENTS[node.__typename];
+        if (!EventComponent) {
+          console.warn(`Unimplemented event component for ${node.__typename}`);
+          console.debug(node);
+          return null;
+        }
+        return html`
+          <${EventComponent}
             key=${node.id}
             item=${node}
             repository=${repository}
           />
-        `
-      )}
+        `;
+      })}
     <//>
   `;
 }
 
-Timeline.fragments = {
+IssueTimeline.fragments = {
   repository: gql`
-    fragment Timeline_repository on Repository {
+    fragment IssueTimeline_repository on Repository {
       id
       nameWithOwner
     }
   `,
   issue: gql`
-    fragment Timeline_issue on Issue {
-      timelineItems(first: 50) {
+    fragment IssueTimeline_issue on Issue {
+      timelineItems(
+        first: 50
+        itemTypes: [
+          ASSIGNED_EVENT
+          CLOSED_EVENT
+          CROSS_REFERENCED_EVENT
+          ISSUE_COMMENT
+          LABELED_EVENT
+          RENAMED_TITLE_EVENT
+          REFERENCED_EVENT
+          UNLABELED_EVENT
+        ]
+      ) {
         edges {
           node {
             ... on Node {
@@ -73,6 +79,7 @@ Timeline.fragments = {
             ...IssueComment_item
             ...LabeledEvent_item
             ...RenamedTitleEvent_item
+            ...ReferencedEvent_item
             ...UnlabeledEvent_item
           }
         }
@@ -85,7 +92,8 @@ Timeline.fragments = {
     ${LabeledEvent.fragments.item}
     ${UnlabeledEvent.fragments.item}
     ${RenamedTitleEvent.fragments.item}
+    ${ReferencedEvent.fragments.item}
   `,
 };
 
-export default Timeline;
+export default IssueTimeline;

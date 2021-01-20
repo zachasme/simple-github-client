@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import { html } from "htm/react";
-import useQuery from "../hooks/useQuery.js";
 import { gql } from "urql";
 
+import useQuery from "../graphql/useQuery.js";
 import Link from "../primitives/Link.js";
 import Select from "../primitives/Select.js";
 import {
@@ -149,10 +149,14 @@ function DashboardRoute() {
       <div
         className="col-12 col-md-8 col-lg-6 p-responsive mt-3 border-bottom d-flex flex-auto"
       >
-        <h1>Recent activity</h1>
-        <a href="https://github.community/t/get-event-equivalent-for-v4/13600/7"
-          >yo</a
-        >
+        <div>
+          <h1>Recent activity</h1>
+          <a
+            href="https://github.community/t/get-event-equivalent-for-v4/13600/7"
+          >
+            Unsupported in GitHub GraphQL API
+          </a>
+        </div>
       </div>
     </div>
   `;

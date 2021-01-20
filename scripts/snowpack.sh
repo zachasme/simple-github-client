@@ -32,6 +32,7 @@ yarn add snowpack \
     react \
     react-dom \
     react-router-dom \
+    redbox-react \
     urql
 
 yarn snowpack dev

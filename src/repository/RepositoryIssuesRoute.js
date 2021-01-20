@@ -13,7 +13,7 @@ import { gql } from "urql";
 import ButtonGroup from "../primitives/ButtonGroup.js";
 import RelativeTime from "../common/RelativeTime.js";
 import IssueLabel from "../primitives/IssueLabel.js";
-import useQuery from "../hooks/useQuery.js";
+import useQuery from "../graphql/useQuery.js";
 import Button from "../primitives/Button.js";
 import Select from "../primitives/Select.js";
 import Link from "../primitives/Link.js";

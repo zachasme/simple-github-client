@@ -1,29 +1,19 @@
 import { PersonIcon } from "@primer/octicons-react";
-import { Fragment } from "react";
 import { html } from "htm/react";
 import { gql } from "urql";
 
-import Link from "../primitives/Link.js";
-import TimelineItem from "./TimelineItem.js";
+import UserLink from "../user/UserLink.js";
+import SimpleEvent from "./SimpleEvent.js";
 
 function AssignedEvent({ item }) {
   return html`
-    <${TimelineItem}
-      item=${item}
-      Badge=${PersonIcon}
-      text=${html`
-        <${Fragment}>
-          ${"assigned "}
-          <${Link}
-            href="/${item.assignee.login}"
-            className="text-bold link-gray-dark"
-          >
-            ${item.assignee.login}
-          <//>
-        </${Fragment}>
-      `}
-    >
-    </${TimelineItem}>
+    <${SimpleEvent} Badge=${PersonIcon} item=${item}>
+      assigned${" "}
+      <${UserLink}
+        login=${item.assignee.login}
+        className="text-bold link-gray-dark"
+      />
+    <//>
   `;
 }
 

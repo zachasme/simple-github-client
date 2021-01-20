@@ -1,8 +1,8 @@
 import { html } from "htm/react";
-import useQuery from "../hooks/useQuery.js";
 import { gql } from "urql";
 import { useParams } from "react-router-dom";
 
+import useQuery from "../graphql/useQuery.js";
 import UserProfile from "../user/UserProfile.js";
 import OrganizationProfile from "../organization/OrganizationProfile.js";
 import RepositoryOwnerShell from "./RepositoryOwnerShell.js";
