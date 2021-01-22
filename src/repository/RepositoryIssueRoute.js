@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 import { html } from "htm/react";
 import { gql } from "urql";
 
@@ -18,64 +19,102 @@ const QUERY = gql`
     $owner: String!
     $name: String!
     $number: Int!
+    $after: String
   ) {
     repository(owner: $owner, name: $name) {
       id
-      issue: issueOrPullRequest(number: $number) {
+      issueOrPullRequest(number: $number) {
         __typename
-        ... on Issue {
+        ... on Node {
           id
-          title
-          author {
+        }
+      }
+      issue(number: $number) {
+        id
+        title
+        author {
+          login
+        }
+        createdAt
+        state
+        comments {
+          totalCount
+        }
+        assignees(first: 10) {
+          nodes {
+            id
+            avatarUrl
             login
           }
-          createdAt
-          state
-          comments {
-            totalCount
-          }
-          assignees(first: 10) {
-            nodes {
-              id
-              avatarUrl
-              login
-            }
-          }
-          labels(first: 10) {
-            nodes {
-              id
-              ...Label_label
-            }
-          }
-          ...IssueComment_item
-          ...IssueTimeline_issue
         }
+        labels(first: 10) {
+          nodes {
+            id
+            ...Label_label
+          }
+        }
+        forward: timelineItems(
+          first: 30
+          after: $after
+          itemTypes: [
+            ASSIGNED_EVENT
+            CLOSED_EVENT
+            CROSS_REFERENCED_EVENT
+            ISSUE_COMMENT
+            LABELED_EVENT
+            RENAMED_TITLE_EVENT
+            REFERENCED_EVENT
+            UNLABELED_EVENT
+          ]
+        ) {
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
+          nodes {
+            ...IssueTimeline_issueTimelineItems
+          }
+        }
+        ...IssueComment_comment
+        ...IssueComment_reactable
       }
       ...IssueTimeline_repository
     }
   }
   ${IssueLabel.fragments.label}
-  ${IssueTimeline.fragments.issue}
   ${IssueTimeline.fragments.repository}
-  ${IssueComment.fragments.item}
+  ${IssueTimeline.fragments.issueTimelineItems}
+  ${IssueComment.fragments.comment}
+  ${IssueComment.fragments.reactable}
 `;
 
 function RepositoryIssueRoute() {
+  const [cursor, setCursor] = useState(null);
   const matches = useParams();
   const variables = {
     owner: matches.owner,
     name: matches.name,
     number: parseInt(matches.number, 10),
+    after: cursor,
   };
-  const [{ data, error, fetching }] = useQuery({ query: QUERY, variables });
+  const [{ data, error, fetching, stale }] = useQuery({
+    query: QUERY,
+    variables,
+  });
+
+  function handleLoadMore() {
+    setCursor(data.repository.issue.forward.pageInfo.endCursor);
+  }
 
   if (error) throw error;
   let content = "...";
+  if (
+    data?.repository?.issueOrPullRequest &&
+    data?.repository?.issueOrPullRequest.__typename !== "Issue"
+  ) {
+    return "pull";
+  }
   if (data?.repository?.issue) {
-    if (data?.repository?.issue.__typename !== "Issue") {
-      return "pull";
-    }
-
     const { repository } = data;
     const { issue } = repository;
 
@@ -109,7 +148,21 @@ function RepositoryIssueRoute() {
           <div className="flex-shrink-0 col-12 col-md-9 mb-4 mb-md-0">
             <div className="ml-6 pl-3">
               <${IssueComment} item=${issue} />
-              <${IssueTimeline} repository=${repository} issue=${issue} />
+              <${IssueTimeline}
+                repository=${repository}
+                issueTimelineItems=${issue.forward.nodes}
+              />
+              <div>
+                <p>xxx hidden items</p>
+                <p>total: ${issue.forward.totalCount}</p>
+                <button
+                  type="button"
+                  onClick=${handleLoadMore}
+                  disabled=${stale}
+                >
+                  Load more…
+                </button>
+              </div>
             </div>
           </div>
 

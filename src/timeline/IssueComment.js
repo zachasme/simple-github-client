@@ -1,5 +1,5 @@
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql, useMutation } from "urql";
 
 import RelativeTime from "../common/RelativeTime.js";
 import Link from "../primitives/Link.js";
@@ -8,10 +8,38 @@ import Box from "../primitives/Box.js";
 import {
   TimelineItem,
   TimelineItemAvatar,
-  TimelineItemBody,
 } from "../primitives/TimelineItem.js";
+import { reaction } from "../common/emojis";
+import {
+  ADD_REACTION_MUTATION,
+  REMOVE_REACTION_MUTATION,
+} from "./reactionMutations.js";
 
 function IssueComment({ item }) {
+  const [addReactionResult, addReaction] = useMutation(ADD_REACTION_MUTATION);
+  const [removeReactionResult, removeReaction] = useMutation(
+    REMOVE_REACTION_MUTATION
+  );
+  const reactionGroups =
+    item.reactionGroups; /*.filter(
+    (group) => group.users.totalCount
+  );*/
+
+  const isReacting =
+    addReactionResult.fetching || removeReactionResult.fetching;
+
+  function toggleReaction(group) {
+    const input = {
+      subjectId: item.id,
+      content: group.content,
+    };
+    if (group.viewerHasReacted) {
+      removeReaction({ input });
+    } else {
+      addReaction({ input });
+    }
+  }
+
   return html`
     <${TimelineItem}>
       <${TimelineItemAvatar} src=${item.author?.avatarUrl} alt="@octocat" />
@@ -34,14 +62,32 @@ function IssueComment({ item }) {
           className="Box-body markdown-body f5 py-3"
           dangerouslySetInnerHTML=${{ __html: item.bodyHTML }}
         />
+        ${reactionGroups.length > 0 &&
+        html`
+          <div className="Box-footer d-flex">
+            ${reactionGroups.map(
+              (group) => html`
+                <button
+                  disabled=${isReacting}
+                  key=${group.content}
+                  onClick=${() => toggleReaction(group)}
+                  className="btn-link px-2 py-1 border-right"
+                  type="button"
+                >
+                  ${reaction(group.content)} ${group.users.totalCount}
+                </button>
+              `
+            )}
+          </div>
+        `}
       <//>
     <//>
   `;
 }
 
 IssueComment.fragments = {
-  item: gql`
-    fragment IssueComment_item on Comment {
+  comment: gql`
+    fragment IssueComment_comment on Comment {
       id
       bodyHTML
       viewerDidAuthor
@@ -53,6 +99,18 @@ IssueComment.fragments = {
         avatarUrl
       }
       createdAt
+    }
+  `,
+  reactable: gql`
+    fragment IssueComment_reactable on Reactable {
+      id
+      reactionGroups {
+        viewerHasReacted
+        content
+        users {
+          totalCount
+        }
+      }
     }
   `,
 };

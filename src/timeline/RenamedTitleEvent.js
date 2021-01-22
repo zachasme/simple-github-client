@@ -5,8 +5,6 @@ import { gql } from "urql";
 import SimpleEvent from "./SimpleEvent.js";
 
 function RenamedTitleEvent({ item }) {
-  console.log("###", item);
-
   return html`
     <${SimpleEvent} Badge=${PencilIcon} item=${item}>
       ${"changed the title to "}

@@ -1,6 +1,6 @@
 import { pipe, tap } from "wonka";
 
-export const progressExchange = ({ forward }) => {
+export default ({ forward }) => {
   const observed = new Set();
   return (ops$) =>
     pipe(

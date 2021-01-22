@@ -23,10 +23,10 @@ const COMPONENTS = {
   RenamedTitleEvent,
 };
 
-function IssueTimeline({ issue, repository }) {
+function IssueTimeline({ issueTimelineItems, repository }) {
   return html`
     <${Fragment}>
-      ${issue.timelineItems.edges.map(({ node }) => {
+      ${issueTimelineItems.map((node) => {
         const EventComponent = COMPONENTS[node.__typename];
         if (!EventComponent) {
           console.warn(`Unimplemented event component for ${node.__typename}`);
@@ -46,53 +46,39 @@ function IssueTimeline({ issue, repository }) {
 }
 
 IssueTimeline.fragments = {
+  issueTimelineItems: gql`
+    fragment IssueTimeline_issueTimelineItems on IssueTimelineItems {
+      ... on Node {
+        id
+      }
+      ... on IssueComment {
+        ...IssueComment_comment
+        ...IssueComment_reactable
+      }
+      __typename
+      ...AssignedEvent_item
+      ...ClosedEvent_item
+      ...CrossReferencedEvent_item
+      ...LabeledEvent_item
+      ...RenamedTitleEvent_item
+      ...ReferencedEvent_item
+      ...UnlabeledEvent_item
+    }
+    ${AssignedEvent.fragments.item}
+    ${ClosedEvent.fragments.item}
+    ${CrossReferencedEvent.fragments.item}
+    ${IssueComment.fragments.comment}
+    ${IssueComment.fragments.reactable}
+    ${LabeledEvent.fragments.item}
+    ${UnlabeledEvent.fragments.item}
+    ${RenamedTitleEvent.fragments.item}
+    ${ReferencedEvent.fragments.item}
+  `,
   repository: gql`
     fragment IssueTimeline_repository on Repository {
       id
       nameWithOwner
     }
-  `,
-  issue: gql`
-    fragment IssueTimeline_issue on Issue {
-      timelineItems(
-        first: 50
-        itemTypes: [
-          ASSIGNED_EVENT
-          CLOSED_EVENT
-          CROSS_REFERENCED_EVENT
-          ISSUE_COMMENT
-          LABELED_EVENT
-          RENAMED_TITLE_EVENT
-          REFERENCED_EVENT
-          UNLABELED_EVENT
-        ]
-      ) {
-        edges {
-          node {
-            ... on Node {
-              id
-            }
-            __typename
-            ...AssignedEvent_item
-            ...ClosedEvent_item
-            ...CrossReferencedEvent_item
-            ...IssueComment_item
-            ...LabeledEvent_item
-            ...RenamedTitleEvent_item
-            ...ReferencedEvent_item
-            ...UnlabeledEvent_item
-          }
-        }
-      }
-    }
-    ${AssignedEvent.fragments.item}
-    ${ClosedEvent.fragments.item}
-    ${CrossReferencedEvent.fragments.item}
-    ${IssueComment.fragments.item}
-    ${LabeledEvent.fragments.item}
-    ${UnlabeledEvent.fragments.item}
-    ${RenamedTitleEvent.fragments.item}
-    ${ReferencedEvent.fragments.item}
   `,
 };
 

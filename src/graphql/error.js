@@ -1,7 +1,7 @@
-import { errorExchange as exchange } from "@urql/core";
+import { errorExchange } from "@urql/core";
 
-export const errorExchange = (addToast) =>
-  exchange({
+export default ({ addToast }) =>
+  errorExchange({
     onError(error) {
       for (const graphQLError of error.graphQLErrors) {
         addToast({

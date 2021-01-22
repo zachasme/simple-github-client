@@ -48,7 +48,10 @@ function CrossReferencedEvent({ item }) {
               to=${`/${item.source.repository?.nameWithOwner}/pulls/${item.source.number}`}
               className="link-gray-dark f4 text-bold"
             >
-              ${item.source?.title}
+              ${item.source?.title}${" "}
+              <span className="text-normal text-gray">
+                #${item.source?.number}
+              </span>
             <//>
           </div>
           <div className="flex-shrink-0 my-1 my-md-0 ml-md-3">

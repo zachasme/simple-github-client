@@ -6,6 +6,21 @@ export function emojify(text) {
   });
 }
 
+export function reaction(value) {
+  return ALIASES[REACTION_CONTENT[value]];
+}
+
+const REACTION_CONTENT = {
+  THUMBS_UP: "+1",
+  THUMBS_DOWN: "-1",
+  LAUGH: "laughing",
+  HOORAY: "tada",
+  CONFUSED: "confused",
+  HEART: "heart",
+  ROCKET: "rocket",
+  EYES: "eyes",
+};
+
 const ALIASES = {
   0: "0️⃣",
   1: "1️⃣",

@@ -1,12 +1,12 @@
-import { authExchange as exchange } from "@urql/exchange-auth";
+import { authExchange } from "@urql/exchange-auth";
 import { makeOperation } from "@urql/core";
 
 /**
  * The purpose of the authExchange is to provide a flexible API that
  * facilitates the typical authentication flow.
  */
-export function authExchange({ token, logout, addToast }) {
-  return exchange({
+export default ({ token, logout, addToast }) => {
+  return authExchange({
     /**
      * This provided method receives the `authState` (`null | T`). It should
      * then refresh the authentication state using either a `fetch` call or
@@ -63,4 +63,4 @@ export function authExchange({ token, logout, addToast }) {
       return error?.response?.status === 401;
     },
   });
-}
+};
