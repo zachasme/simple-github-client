@@ -1,73 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!--
-      This attribute declares the document's character encoding.
-    -->
-    <meta charset="utf-8" />
-    <!--
-      A favicon (favorite icon) is a tiny icon included along with a website,
-      which is displayed in places like the browser's address bar, page tabs
-      and bookmarks menu.
-    -->
-    <link rel="icon" href="/images/favicon.ico" />
-    <!--
-      The browser's viewport is the area of the window in which web content can
-      be seen. This is often not the same size as the rendered page, in which
-      case the browser provides scrollbars for the user to scroll around and
-      access all the content. See https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag
-    -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!--
-      Indicates a suggested color that user agents should use to customize
-      the display of the page or of the surrounding user interface.
-    -->
-    <meta name="theme-color" content="#24292e" />
-    <!--
-      Short and accurate summary of the content of the page.
 
-      Several browsers, like Firefox and Opera, use this as the default
-      description of bookmarked pages.
-    -->
-    <meta
-      name="description"
-      content="A GitHub clone using as little tooling as possible"
-    />
-    <!--
-      When iOS Safari users add Progressive Web Apps (PWAs) to their home
-      screens, the icon that appears is called the Apple touch icon.
-      <link rel="apple-touch-icon" href="/images/logo192.png" />
-    -->
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-      <link rel="manifest" href="/manifest.json" />
-    -->
-    <!--
-      Defines the document's title that is shown in a browser's title bar
-      or a page's tab.
-    -->
-    <title>GitHub Client</title>
-    <!-- Custom styles stylesheet -->
-    <link rel="stylesheet" href="/src/style.css" />
-    <!-- GitHub Primer CSS stylesheet -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.skypack.dev/@primer/css/dist/primer.css"
-    />
-    <!-- GitHub Syntax Highlighting -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.skypack.dev/github-syntax-light/lib/github-light.css"
-    />
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+<head>
+  <!--
+    This attribute declares the document's character encoding.
+  -->
+  <meta charset="utf-8" />
+  <!--
+    A favicon (favorite icon) is a tiny icon included along with a website,
+    which is displayed in places like the browser's address bar, page tabs
+    and bookmarks menu.
+  -->
+  <link rel="icon" href="/images/favicon.ico" />
+  <!--
+    The browser's viewport is the area of the window in which web content can
+    be seen. This is often not the same size as the rendered page, in which
+    case the browser provides scrollbars for the user to scroll around and
+    access all the content. See https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--
+    Indicates a suggested color that user agents should use to customize
+    the display of the page or of the surrounding user interface.
+  -->
+  <meta name="theme-color" content="#24292e" />
+  <!--
+    Short and accurate summary of the content of the page.
 
-    <!--<script type="module" src="https://jspm.dev/es-module-shims"></script>
-    <script type="importmap-shim" src="/importmap.json"></script>
-    <script type="module-shim" src="/src/bootstrap.js"></script>-->
-    <script type="module" src="/src/bootstrap.js"></script>
-  </body>
+    Several browsers, like Firefox and Opera, use this as the default
+    description of bookmarked pages.
+  -->
+  <meta name="description" content="A GitHub clone using as little tooling as possible" />
+  <!--
+    When iOS Safari users add Progressive Web Apps (PWAs) to their home
+    screens, the icon that appears is called the Apple touch icon.
+    <link rel="apple-touch-icon" href="/images/logo192.png" />
+  -->
+  <!--
+    manifest.json provides metadata used when your web app is installed on a
+    user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    <link rel="manifest" href="/manifest.json" />
+  -->
+  <!--
+    Defines the document's title that is shown in a browser's title bar
+    or a page's tab.
+  -->
+  <title>GitHub Client</title>
+  <!-- Custom styles stylesheet -->
+  <link rel="stylesheet" href="/src/style.css" />
+  <!-- GitHub Primer CSS stylesheet -->
+  <link href="https://unpkg.com/@primer/css@^19.0.0/dist/primer.css" rel="stylesheet" />
+  <!-- GitHub Syntax Highlighting -->
+  <link rel="stylesheet" href="https://cdn.skypack.dev/github-syntax-light/lib/github-light.css" />
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+
+  <!-- start of boilerplate -->
+  <!--
+  JSPM Generator Import Map
+  Edit URL: https://generator.jspm.io/#hY+xcsMgEEQpkjpfAhKSLbu8XyHoIhgLkI/TJH+fnLEmRZq0uzu7b19flHr7VjWmbUW9RA77u/ZrxMwKNooJqSueoy+5akLnGezFjKZXsNN97XwhhMGcfwX88sHlBbXbOUBvrLn8dRZyW/DOB4STOZnhP18cJlePWMxMpW4oUCXLwCgFs2PUH7kKyXAVlNZwX8FOjSxwglFIbNceqOTohrOUC96kmqbnksBeJdQfApWdkZo+tcPH+2fmgfJYM1Z9lnxzz7LzD7KEToZPAQ
+-->
+  <script type="importmap">
+{
+  "imports": {
+    "@primer/octicons-react": "https://ga.jspm.io/npm:@primer/octicons-react@17.3.0/dist/index.esm.js",
+    "@urql/core": "https://ga.jspm.io/npm:@urql/core@2.5.0/dist/urql-core.mjs",
+    "@urql/exchange-auth": "https://ga.jspm.io/npm:@urql/exchange-auth@0.1.7/dist/urql-exchange-auth.mjs",
+    "@urql/exchange-graphcache": "https://ga.jspm.io/npm:@urql/exchange-graphcache@4.4.2/dist/urql-exchange-graphcache.mjs",
+    "@urql/exchange-graphcache/extras": "https://ga.jspm.io/npm:@urql/exchange-graphcache@4.4.2/dist/urql-exchange-graphcache-extras.mjs",
+    "@urql/introspection": "https://ga.jspm.io/npm:@urql/introspection@0.3.2/dist/urql-introspection.mjs",
+    "date-fns": "https://ga.jspm.io/npm:date-fns@2.28.0/esm/index.js",
+    "graphql": "https://ga.jspm.io/npm:graphql@16.5.0/index.mjs",
+    "htm/react": "https://ga.jspm.io/npm:htm@3.1.1/react/index.module.js",
+    "marked": "https://ga.jspm.io/npm:marked@4.0.16/lib/marked.esm.js",
+    "react": "https://ga.jspm.io/npm:react@18.1.0/dev.index.js",
+    "react-dom": "https://ga.jspm.io/npm:react-dom@18.1.0/dev.index.js",
+    "react-router-dom": "https://ga.jspm.io/npm:react-router-dom@6.3.0/index.js",
+    "urql": "https://ga.jspm.io/npm:urql@2.2.1/dist/urql.es.js",
+    "wonka": "https://ga.jspm.io/npm:wonka@4.0.15/dist/wonka.mjs"
+  },
+  "scopes": {
+    "https://ga.jspm.io/": {
+      "@babel/runtime/helpers/esm/extends": "https://ga.jspm.io/npm:@babel/runtime@7.18.3/helpers/esm/extends.js",
+      "graphql/error/GraphQLError.mjs": "https://ga.jspm.io/npm:graphql@16.5.0/error/GraphQLError.mjs",
+      "graphql/execution/execute.mjs": "https://ga.jspm.io/npm:graphql@16.5.0/execution/execute.mjs",
+      "graphql/language/kinds.mjs": "https://ga.jspm.io/npm:graphql@16.5.0/language/kinds.mjs",
+      "graphql/language/parser.mjs": "https://ga.jspm.io/npm:graphql@16.5.0/language/parser.mjs",
+      "graphql/language/printer.mjs": "https://ga.jspm.io/npm:graphql@16.5.0/language/printer.mjs",
+      "graphql/language/visitor.mjs": "https://ga.jspm.io/npm:graphql@16.5.0/language/visitor.mjs",
+      "graphql/utilities/buildASTSchema.mjs": "https://ga.jspm.io/npm:graphql@16.5.0/utilities/buildASTSchema.mjs",
+      "graphql/utilities/index.mjs": "https://ga.jspm.io/npm:graphql@16.5.0/utilities/index.mjs",
+      "graphql/utilities/valueFromASTUntyped.mjs": "https://ga.jspm.io/npm:graphql@16.5.0/utilities/valueFromASTUntyped.mjs",
+      "history": "https://ga.jspm.io/npm:history@5.3.0/index.js",
+      "htm": "https://ga.jspm.io/npm:htm@3.1.1/dist/htm.module.js",
+      "process": "https://ga.jspm.io/npm:@jspm/core@2.0.0-beta.24/nodelibs/browser/process.js",
+      "react-router": "https://ga.jspm.io/npm:react-router@6.3.0/index.js",
+      "scheduler": "https://ga.jspm.io/npm:scheduler@0.22.0/dev.index.js"
+    }
+  }
+}
+</script>
+
+  <!-- ES Module Shims: Import maps polyfill for modules browsers without import maps support (all except Chrome 89+) -->
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js"
+    crossorigin="anonymous"></script>
+  <!-- end of boilerplate -->
+
+  <script type="module">
+    import { html } from "htm/react";
+    console.log(html)
+  </script>
+  <script type="module" src="/src/bootstrap.js"></script>
+</body>
+
 </html>

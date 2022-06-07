@@ -1,7 +1,4 @@
 import { Component } from "react";
-import { html } from "htm/react";
-
-import RedBox from "redbox-react";
 
 class ErrorBoundary extends Component {
   constructor(props) {

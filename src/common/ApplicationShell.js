@@ -4,8 +4,8 @@ import { useLocation } from "react-router-dom";
 import { html } from "htm/react";
 import { gql } from "urql";
 
-import { useAuthentication } from "../user/AuthenticationContext";
-import { onProgressChange } from "../graphql/progress";
+import { useAuthentication } from "../user/AuthenticationContext.js";
+import { onProgressChange } from "../graphql/progress.js";
 import useQuery from "../graphql/useQuery.js";
 import Link from "../primitives/Link.js";
 

@@ -1,9 +1,9 @@
 import { createClient, dedupExchange, fetchExchange } from "@urql/core";
 //import { requestPolicyExchange } from "@urql/exchange-request-policy";
-import authExchange from "./auth";
-import errorExchange from "./error";
-import progressExchange from "./progress";
-import cacheExchange from "./cache";
+import authExchange from "./auth.js";
+import errorExchange from "./error.js";
+import progressExchange from "./progress.js";
+import cacheExchange from "./cache.js";
 
 export default ({ schema, token, logout, addToast }) => {
   return createClient({

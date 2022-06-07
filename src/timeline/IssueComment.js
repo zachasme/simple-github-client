@@ -9,7 +9,7 @@ import {
   TimelineItem,
   TimelineItemAvatar,
 } from "../primitives/TimelineItem.js";
-import { reaction } from "../common/emojis";
+import { reaction } from "../common/emojis.js";
 import {
   ADD_REACTION_MUTATION,
   REMOVE_REACTION_MUTATION,
@@ -20,8 +20,7 @@ function IssueComment({ item }) {
   const [removeReactionResult, removeReaction] = useMutation(
     REMOVE_REACTION_MUTATION
   );
-  const reactionGroups =
-    item.reactionGroups; /*.filter(
+  const reactionGroups = item.reactionGroups; /*.filter(
     (group) => group.users.totalCount
   );*/
 

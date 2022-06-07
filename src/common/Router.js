@@ -1,4 +1,4 @@
-import { Switch, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { html } from "htm/react";
 
 import NotImplementedRoute from "../routes/NotImplementedRoute.js";
@@ -40,7 +40,7 @@ const NOT_IMPLEMENTED = [
 
 function Router() {
   return html`
-    <${Switch}>
+    <${Routes}>
       <!-- Base routes -->
       <${Route} path="/" exact>
         <${DashboardRoute} />

@@ -7,13 +7,13 @@ import {
   CommentIcon,
   IssueClosedIcon,
 } from "@primer/octicons-react";
-import { useParams, useLocation, useHistory } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { html } from "htm/react";
 import { useState } from "react";
 import { gql } from "urql";
 
-import { searchMerge } from "../common/url";
-import { humanReadableList } from "../common/text";
+import { searchMerge } from "../common/url.js";
+import { humanReadableList } from "../common/text.js";
 import ButtonGroup from "../primitives/ButtonGroup.js";
 import RelativeTime from "../common/RelativeTime.js";
 import IssueLabel from "../primitives/IssueLabel.js";
@@ -109,7 +109,7 @@ const ORDERINGS = {
 function RepositoryIssuesRoute() {
   const matches = useParams();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const search = new URLSearchParams(location.search);
   const query = search.get("q") || "is:issue is:open";
   const [queryInput, setQueryInput] = useState(query);
@@ -127,7 +127,7 @@ function RepositoryIssuesRoute() {
 
   function handleSearch(event) {
     event.preventDefault();
-    history.push({
+    navigate({
       search: searchMerge(search, {
         q: queryInput.replace(" ", "+"),
       }),

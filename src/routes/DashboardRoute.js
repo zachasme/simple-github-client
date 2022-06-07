@@ -4,7 +4,7 @@ import {
   PlusIcon,
   LockIcon,
   RepoIcon,
-  GitForkIcon,
+  RepoForkedIcon,
   PeopleIcon,
 } from "@primer/octicons-react";
 import { Fragment, useState } from "react";
@@ -62,7 +62,7 @@ const QUERY = gql`
 function repoIconName(repository) {
   const { isFork, isPrivate } = repository;
   if (isPrivate) return LockIcon;
-  if (isFork) return GitForkIcon;
+  if (isFork) return RepoForkedIcon;
   else return RepoIcon;
 }
 function repoIconColor(repository) {

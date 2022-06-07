@@ -1,10 +1,9 @@
 import { gql } from "urql";
-import { reaction } from "../common/emojis";
 
 // input = { subjectId, content }
 
 export const ADD_REACTION_MUTATION = gql`
-  mutation($input: AddReactionInput!) {
+  mutation ($input: AddReactionInput!) {
     addReaction(input: $input) {
       subject {
         id
@@ -21,7 +20,7 @@ export const ADD_REACTION_MUTATION = gql`
 `;
 
 export const REMOVE_REACTION_MUTATION = gql`
-  mutation($input: RemoveReactionInput!) {
+  mutation ($input: RemoveReactionInput!) {
     removeReaction(input: $input) {
       subject {
         id
