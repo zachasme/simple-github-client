@@ -14,15 +14,23 @@ function UserProfile({ user }) {
       <ol
         className="d-flex flex-wrap list-style-none gutter-condensed mb-4 js-pinned-items-reorder-list"
       >
-        ${user.pinnedItems.nodes.map(
-          (node) => html`
+        ${user.pinnedItems.nodes.map((node) => {
+          const owner = node.repositoryOwner || node.gistOwner;
+          const href =
+            node.__typename === "Repository"
+              ? `/${node.nameWithOwner}`
+              : node.url;
+
+          return html`
             <li
               key=${node.id}
               className="col-12 col-md-6 col-lg-6 mb-3 d-flex flex-content-stretch"
             >
               <div className="Box p-3 width-full">
-                <${Link} className="text-bold" href=${`/${node.nameWithOwner}`}>
-                  <span className="text-normal">${node.owner.login}</span>
+                <${Link} className="text-bold" href=${href}>
+                  <span className="text-normal">
+                    ${owner?.login || "ghost"}
+                  </span>
                   <span>/</span>
                   <span>${node.name}</span>
                 <//>
@@ -30,8 +38,9 @@ function UserProfile({ user }) {
                   ${node.description}
                 </p>
                 <p className="text-gray text-small">
-                  <${Language} language=${node.primaryLanguage} />
-                  ${node.stargazers.totalCount > 0 &&
+                  ${node.primaryLanguage &&
+                  html`<${Language} language=${node.primaryLanguage} />`}
+                  ${node.stargazers?.totalCount > 0 &&
                   html`
                     <${Link}
                       href="/${node.nameWithOwner}/stargazers"
@@ -54,8 +63,8 @@ function UserProfile({ user }) {
                 </p>
               </div>
             </li>
-          `
-        )}
+          `;
+        })}
       </ol>
     </div>
   `;
@@ -74,7 +83,7 @@ UserProfile.fragments = {
             id
             description
             name
-            owner {
+            repositoryOwner: owner {
               id
               login
             }
@@ -86,6 +95,22 @@ UserProfile.fragments = {
             primaryLanguage {
               id
               ...Language_language
+            }
+          }
+          ... on Gist {
+            id
+            description
+            name
+            gistOwner: owner {
+              id
+              login
+            }
+            stargazers {
+              totalCount
+            }
+            url
+            files(limit: 1) {
+              text(truncate: 100)
             }
           }
         }

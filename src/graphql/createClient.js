@@ -5,6 +5,7 @@ import {
   InMemoryCache,
   concat,
 } from "@apollo/client";
+import { relayStylePagination } from "@apollo/client/utilities";
 
 export default ({ schema, token, logout, addToast }) => {
   const httpLink = new HttpLink({ uri: "https://api.github.com/graphql" });
@@ -35,6 +36,13 @@ export default ({ schema, token, logout, addToast }) => {
     link: concat(authMiddleware, httpLink),
     cache: new InMemoryCache({
       possibleTypes,
+      typePolicies: {
+        Issue: {
+          fields: {
+            timelineItems: relayStylePagination(),
+          },
+        },
+      },
     }),
   });
 };

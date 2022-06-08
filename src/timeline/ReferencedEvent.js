@@ -20,8 +20,8 @@ function ReferencedEvent({ item }) {
       <${TimelineItemBody}>
         <div>
           <${UserLink}
-            login=${item.actor.login}
-            avatar=${item.actor.avatarUrl}
+            login=${item.actor?.login || "ghost"}
+            avatar=${item.actor?.avatarUrl}
             className="text-bold link-gray-dark mr-1"
           />
           added a commit to ${item.commitRepository.nameWithOwner} that

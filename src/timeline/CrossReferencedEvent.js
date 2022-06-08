@@ -30,7 +30,7 @@ function CrossReferencedEvent({ item }) {
       <${TimelineItemBody}>
         <div>
           <${UserLink}
-            login=${item.actor.login}
+            login=${item.actor?.login || "ghost"}
             avatar=${item.actor?.avatarUrl}
             className="text-bold link-gray-dark mr-1"
           />

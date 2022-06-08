@@ -53,7 +53,7 @@ const QUERY = gql`
             ...Label_label
           }
         }
-        forward: timelineItems(
+        timelineItems(
           first: 30
           after: $after
           itemTypes: [
@@ -71,8 +71,13 @@ const QUERY = gql`
             hasNextPage
             endCursor
           }
-          nodes {
-            ...IssueTimeline_issueTimelineItems
+          filteredCount
+          pageCount
+          totalCount
+          edges {
+            node {
+              ...IssueTimeline_issueTimelineItems
+            }
           }
         }
         ...IssueComment_comment
@@ -89,19 +94,23 @@ const QUERY = gql`
 `;
 
 function RepositoryIssueRoute({ params: matches }) {
-  const [cursor, setCursor] = useState(null);
   const variables = {
     owner: matches.owner,
     name: matches.name,
     number: parseInt(matches.number, 10),
-    after: cursor,
   };
-  const { data, error, stale } = useQuery(QUERY, {
+  const { data, error, loading, fetchMore } = useQuery(QUERY, {
+    notifyOnNetworkStatusChange: true,
     variables,
   });
 
+  const timelineItems = data?.repository.issue.timelineItems;
+  const pageInfo = timelineItems?.pageInfo;
+
   function handleLoadMore() {
-    setCursor(data.repository.issue.forward.pageInfo.endCursor);
+    fetchMore({
+      variables: { after: pageInfo.endCursor },
+    });
   }
 
   if (error) throw error;
@@ -148,18 +157,26 @@ function RepositoryIssueRoute({ params: matches }) {
               <${IssueComment} item=${issue} />
               <${IssueTimeline}
                 repository=${repository}
-                issueTimelineItems=${issue.forward.nodes}
+                issueTimelineItems=${issue.timelineItems.edges.map(
+                  (edge) => edge.node
+                )}
               />
               <div>
-                <p>xxx hidden items</p>
-                <p>total: ${issue.forward.totalCount}</p>
-                <button
-                  type="button"
-                  onClick=${handleLoadMore}
-                  disabled=${stale}
-                >
-                  Load more…
-                </button>
+                <p>
+                  ${timelineItems.filteredCount}/${timelineItems.pageCount}/${timelineItems.totalCount}
+                  hidden items
+                </p>
+                <p>total: ${issue.timelineItems.totalCount}</p>
+                ${pageInfo.hasNextPage &&
+                html`
+                  <button
+                    type="button"
+                    onClick=${handleLoadMore}
+                    disabled=${loading}
+                  >
+                    ${loading ? "Loading" : "Load more"}…
+                  </button>
+                `}
               </div>
             </div>
           </div>

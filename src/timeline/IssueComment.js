@@ -49,7 +49,7 @@ function IssueComment({ item }) {
       >
         <div className="Box-header f5 text-normal">
           <${UserLink}
-            login=${item.author.login || "ghost"}
+            login=${item.author?.login || "ghost"}
             className="link-gray-dark text-bold"
           />
           ${" commented "}
