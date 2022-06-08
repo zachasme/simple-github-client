@@ -26,7 +26,7 @@ function ReferencedEvent({ item }) {
           />
           added a commit to ${item.commitRepository.nameWithOwner} that
           referenced this issue
-          <${Link} to="#" className="link-gray ml-1">
+          <${Link} href="#" className="link-gray ml-1">
             <${RelativeTime} date=${item.createdAt} />
           <//>
         </div>
@@ -36,7 +36,7 @@ function ReferencedEvent({ item }) {
             <code className="pr-1 flex-auto min-width-0">
               <${Link}
                 className="link-gray"
-                to=${`/${item.commitRepository.nameWithOwner}/commit/${item.commit.oid}`}
+                href=${`/${item.commitRepository.nameWithOwner}/commit/${item.commit.oid}`}
               >
                 ${item.commit.message}
               <//>
@@ -44,7 +44,7 @@ function ReferencedEvent({ item }) {
             <code className="text-right ml-1">
               <${Link}
                 className="link-gray"
-                to=${`/${item.commitRepository.nameWithOwner}/commit/${item.commit.oid}`}
+                href=${`/${item.commitRepository.nameWithOwner}/commit/${item.commit.oid}`}
               >
                 ${item.commit.abbreviatedOid}
               <//>

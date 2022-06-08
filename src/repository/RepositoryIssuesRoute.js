@@ -164,7 +164,7 @@ function RepositoryIssuesRoute({ params: matches }) {
     const openClosed = html`
       <div className="flex-auto pl-0">
         <${Link}
-          to="/${repository.nameWithOwner}/issues?q=is%3Aopen+is%3Aissue"
+          href="/${repository.nameWithOwner}/issues?q=is%3Aopen+is%3Aissue"
           className="link-gray-dark ${issueStates.includes("OPEN")
             ? "text-bold"
             : "link-gray"}"
@@ -175,7 +175,7 @@ function RepositoryIssuesRoute({ params: matches }) {
         <//>
 
         <${Link}
-          to="/${repository.nameWithOwner}/issues?q=is%3Aissue+is%3Aclosed"
+          href="/${repository.nameWithOwner}/issues?q=is%3Aissue+is%3Aclosed"
           className="ml-4 link-gray-dark ${issueStates.includes("CLOSED")
             ? "text-bold"
             : "link-gray"}"
@@ -335,7 +335,7 @@ function RepositoryIssuesRoute({ params: matches }) {
                 </div>
                 <div className="flex-auto min-width-0 p-2 pr-3 pr-md-2">
                   <${Link}
-                    to="/${repository.nameWithOwner}/issues/${node.number}"
+                    href="/${repository.nameWithOwner}/issues/${node.number}"
                     className="link-gray-dark v-align-middle no-underline h4 js-navigation-open"
                   >
                     ${node.title}
@@ -360,7 +360,7 @@ function RepositoryIssuesRoute({ params: matches }) {
                         className="muted-link"
                         title="Open issues created by ${node.author?.login ||
                         "ghost"}"
-                        to="/${repository.nameWithOwner}/issues?q=is%3Aissue+is%3Aopen+author%3A${node
+                        href="/${repository.nameWithOwner}/issues?q=is%3Aissue+is%3Aopen+author%3A${node
                           .author?.login || "ghost"}"
                       >
                         ${node.author?.login || "ghost"}
@@ -389,7 +389,7 @@ function RepositoryIssuesRoute({ params: matches }) {
                         >
                           ${node.assignees.nodes.map(
                             (node) => html`
-                              <a
+                              <${Link}
                                 key=${node.id}
                                 className="avatar avatar-user"
                                 aria-label="nrabinowitz’s assigned issues"
@@ -402,7 +402,7 @@ function RepositoryIssuesRoute({ params: matches }) {
                                   width="20"
                                   height="20"
                                 />
-                              </a>
+                              <//>
                             `
                           )}
                         </div>
@@ -414,7 +414,7 @@ function RepositoryIssuesRoute({ params: matches }) {
                     ${node.comments.totalCount > 0 &&
                     html`
                       <${Link}
-                        to="/${repository.nameWithOwner}/issues/${node.number}"
+                        href="/${repository.nameWithOwner}/issues/${node.number}"
                         className="muted-link"
                         aria-label="${node.comments.totalCount} comments"
                       >
@@ -438,7 +438,7 @@ function RepositoryIssuesRoute({ params: matches }) {
                   <${Link}
                     className="previous_page"
                     rel="next"
-                    to=${{
+                    href=${{
                       search: searchMerge(search, {
                         before: repository.issues.pageInfo.startCursor,
                       }),
@@ -459,7 +459,7 @@ function RepositoryIssuesRoute({ params: matches }) {
                     aria-disabled=${!repository.issues.pageInfo.hasNextPage}
                     className="next_page"
                     rel="next"
-                    to=${{
+                    href=${{
                       search: searchMerge(search, {
                         after: repository.issues.pageInfo.endCursor,
                       }),

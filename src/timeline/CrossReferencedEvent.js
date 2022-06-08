@@ -37,7 +37,7 @@ function CrossReferencedEvent({ item }) {
 
           ${description(item.source.__typename)}
           ${item.willCloseTarget && " that will close this issue"}
-          <${Link} to="#" className="link-gray ml-1">
+          <${Link} href="#" className="link-gray ml-1">
             <${RelativeTime} date=${item.createdAt} />
           <//>
         </div>
@@ -45,7 +45,7 @@ function CrossReferencedEvent({ item }) {
         <div className="mt-2 d-flex flex-items-start flex-column flex-md-row">
           <div className="flex-auto break-word">
             <${Link}
-              to=${`/${item.source.repository?.nameWithOwner}/pulls/${item.source.number}`}
+              href=${`/${item.source.repository?.nameWithOwner}/pulls/${item.source.number}`}
               className="link-gray-dark f4 text-bold"
             >
               ${item.source?.title}${" "}

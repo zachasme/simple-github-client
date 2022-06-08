@@ -63,13 +63,13 @@ function ApplicationShell({ children }) {
           />
         <//>
         <${HeaderItem}>
-          <${HeaderLink} to="/pulls">
+          <${HeaderLink} href="/pulls">
             Pull<span className="d-inline d-md-none d-lg-inline"> request</span
             >s
           <//>
         <//>
         <${HeaderItem}>
-          <${HeaderLink} to="/issues">Issues<//>
+          <${HeaderLink} href="/issues">Issues<//>
         <//>
         <${HeaderItem}>
           <a href=${`https://github.com${location}`} className="Header-link">

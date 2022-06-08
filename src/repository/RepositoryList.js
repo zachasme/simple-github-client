@@ -40,7 +40,7 @@ function RepositoryList(props) {
               ${repo.stargazers.totalCount > 0 &&
               html`
                 <${Link}
-                  to="/${repo.nameWithOwner}/stargazers"
+                  href="/${repo.nameWithOwner}/stargazers"
                   className="muted-link mr-3"
                 >
                   <${StarIcon} />
@@ -50,7 +50,7 @@ function RepositoryList(props) {
               ${repo.forkCount > 0 &&
               html`
                 <${Link}
-                  to="/${repo.nameWithOwner}/network/members"
+                  href="/${repo.nameWithOwner}/network/members"
                   className="muted-link mr-3"
                 >
                   <${RepoForkedIcon} />

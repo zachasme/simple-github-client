@@ -26,7 +26,7 @@ function SimpleEvent({ item, Badge, style, children }) {
             className="text-bold link-gray-dark mr-1"
           />
           ${children}
-          <${Link} to="#" className="link-gray ml-1">
+          <${Link} href="#" className="link-gray ml-1">
             <${RelativeTime} date=${item.createdAt} />
           <//>
         </div>

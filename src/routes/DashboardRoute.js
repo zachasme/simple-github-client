@@ -73,8 +73,7 @@ function repoIconColor(repository) {
 function DashboardRoute() {
   const [showMoreRepos, setShowMoreRepos] = useState(false);
   const [teamsQuery, setTeamsQuery] = useState("");
-  const { data } = useQuery({
-    query: QUERY,
+  const { data } = useQuery(QUERY, {
     variables: { teamsQuery, first: showMoreRepos ? 100 : 7 },
   });
 
@@ -222,7 +221,7 @@ function DashboardRoute() {
               (team) => html`
                 <li key=${team.id}>
                   <div className="width-full text-bold">
-                    <a
+                    <${Link}
                       href="/orgs/laosdirg/teams/devs"
                       className="d-inline-flex mb-2width-fit"
                     >
@@ -232,7 +231,7 @@ function DashboardRoute() {
                       <span className="css-truncate css-truncate-target">
                         ${team.combinedSlug}
                       </span>
-                    </a>
+                    <//>
                   </div>
                 </li>
               `

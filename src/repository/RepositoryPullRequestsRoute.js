@@ -222,7 +222,7 @@ function RepositoryPullRequestsRoute({ params: matches }) {
                 </div>
                 <div className="flex-auto min-width-0 p-2 pr-3 pr-md-2">
                   <${Link}
-                    to="/${repository.nameWithOwner}/issues/${node.number}"
+                    href="/${repository.nameWithOwner}/issues/${node.number}"
                     className="link-gray-dark v-align-middle no-underline h4 js-navigation-open"
                   >
                     ${node.title}
@@ -247,7 +247,7 @@ function RepositoryPullRequestsRoute({ params: matches }) {
                         className="muted-link"
                         title="Open issues created by ${node.author?.login ||
                         "ghost"}"
-                        to="/${repository.nameWithOwner}/issues?q=is%3Aissue+is%3Aopen+author%3A${node
+                        href="/${repository.nameWithOwner}/issues?q=is%3Aissue+is%3Aopen+author%3A${node
                           .author?.login || "ghost"}"
                       >
                         ${node.author?.login || "ghost"}
