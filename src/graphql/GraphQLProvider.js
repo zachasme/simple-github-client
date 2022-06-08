@@ -7,24 +7,24 @@ import { useToast } from "../common/ToastContext.js";
 import createClient from "./createClient.js";
 
 /**
- * URQL context
+ * GraphQL context
  *
- * provides the urql client
+ * provides the GraphQL client
  *
  * Requires:
  *  - Authentication context for token and logout method
  *  - Toast context for showing errors
  */
-function UrqlProvider({ schema, children }) {
+function GraphQLProvider({ schema, children }) {
   const { addToast } = useToast();
   const { token, logout } = useAuthentication();
 
   const client = useMemo(() => {
-    console.debug("[URQL] Creating new client...");
+    console.debug("[GraphQL] Creating new client...");
     return createClient({ schema, token, logout, addToast });
   }, [token]);
 
   return html`<${ApolloProvider} client=${client}>${children}<//>`;
 }
 
-export default UrqlProvider;
+export default GraphQLProvider;
