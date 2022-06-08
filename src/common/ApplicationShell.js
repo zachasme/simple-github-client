@@ -1,11 +1,9 @@
 import { MarkGithubIcon } from "@primer/octicons-react";
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "./routing.js";
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import { useAuthentication } from "../user/AuthenticationContext.js";
-import { onProgressChange } from "../graphql/progress.js";
 import useQuery from "../graphql/useQuery.js";
 import Link from "../primitives/Link.js";
 
@@ -35,16 +33,9 @@ function ApplicationShell({ children }) {
   const { logout } = useAuthentication();
   const location = useLocation();
 
-  const [{ data, error }] = useQuery({
-    query: QUERY,
-  });
+  const { data, error } = useQuery(QUERY);
 
-  const [progress, setProgress] = useState(0);
-  useEffect(() => {
-    return onProgressChange((queries) => {
-      setProgress(queries.size);
-    });
-  }, []);
+  const progress = 0;
 
   return html`
     <div>

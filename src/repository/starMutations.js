@@ -1,7 +1,7 @@
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 export const ADD_STAR_MUTATION = gql`
-  mutation($input: AddStarInput!) {
+  mutation ($input: AddStarInput!) {
     addStar(input: $input) {
       starrable {
         id
@@ -14,7 +14,7 @@ export const ADD_STAR_MUTATION = gql`
   }
 `;
 export const REMOVE_STAR_MUTATION = gql`
-  mutation($input: RemoveStarInput!) {
+  mutation ($input: RemoveStarInput!) {
     removeStar(input: $input) {
       starrable {
         id

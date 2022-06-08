@@ -1,5 +1,5 @@
 import { html } from "htm/react";
-import { gql, useMutation } from "urql";
+import { gql, useMutation } from "@apollo/client";
 
 import RelativeTime from "../common/RelativeTime.js";
 import Link from "../primitives/Link.js";

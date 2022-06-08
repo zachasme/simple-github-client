@@ -1,7 +1,7 @@
 import { ProjectIcon } from "@primer/octicons-react";
-import { useParams } from "react-router-dom";
+import { useParams } from "../common/routing.js";
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import RepositoryOwnerShell from "../repositoryOwner/RepositoryOwnerShell.js";
 import BlankSlate from "../primitives/BlankSlate.js";
@@ -19,12 +19,11 @@ const QUERY = gql`
   }
 `;
 
-function OrganizationProjectsRoute() {
-  const matches = useParams();
+function OrganizationProjectsRoute({ params: matches }) {
   const variables = {
     login: matches.login,
   };
-  const [{ data }] = useQuery({ query: QUERY, variables });
+  const { data } = useQuery(QUERY, { variables });
 
   return html`
     <${RepositoryOwnerShell} active="projects" login=${matches.login}>

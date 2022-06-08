@@ -1,6 +1,6 @@
 import { PersonIcon } from "@primer/octicons-react";
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import UserLink from "../user/UserLink.js";
 import SimpleEvent from "./SimpleEvent.js";

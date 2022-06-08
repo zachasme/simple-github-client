@@ -1,6 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "../common/routing.js";
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import RepositoryOwnerShell from "../repositoryOwner/RepositoryOwnerShell.js";
 import Link from "../primitives/Link.js";
@@ -22,12 +22,11 @@ const QUERY = gql`
   }
 `;
 
-function OrganizationPeopleRoute() {
-  const matches = useParams();
+function OrganizationPeopleRoute({ params: matches }) {
   const variables = {
     ...matches,
   };
-  const [{ data, fetching, error }] = useQuery({ query: QUERY, variables });
+  const { data, error } = useQuery(QUERY, { variables });
 
   let content = "...";
 

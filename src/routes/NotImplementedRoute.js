@@ -1,5 +1,5 @@
 import { html } from "htm/react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "../common/routing.js";
 
 function NotImplementedRoute() {
   const location = useLocation();

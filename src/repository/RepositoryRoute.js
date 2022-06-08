@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { html } from "htm/react";
-import { useParams } from "react-router-dom";
+import { useParams } from "../common/routing.js";
 import {
   GitBranchIcon,
   TagIcon,
@@ -9,7 +9,7 @@ import {
   FileIcon,
   FileDirectoryIcon,
 } from "@primer/octicons-react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import useQuery from "../graphql/useQuery.js";
 import Markdown from "../primitives/Markdown.js";
@@ -88,9 +88,8 @@ const QUERY = gql`
   ${RepositoryTopics.fragments.repository}
 `;
 
-function RepositoryRoute() {
-  const matches = useParams();
-  const [{ data, fetching }] = useQuery({ query: QUERY, variables: matches });
+function RepositoryRoute({ params: matches }) {
+  const { data } = useQuery(QUERY, { variables: matches });
 
   const ownerWithName = `${matches.owner}/${matches.name}`;
 

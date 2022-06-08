@@ -1,5 +1,5 @@
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import useQuery from "../graphql/useQuery.js";
 import UserShell from "../user/UserShell.js";
@@ -28,12 +28,11 @@ const QUERY = gql`
 `;
 
 function RepositoryOwnerShell({ login, ...props }) {
-  const [{ data, fetching }] = useQuery({
-    query: QUERY,
+  const { data, loading } = useQuery(QUERY, {
     variables: { login },
   });
 
-  if (fetching) return html`<p>fetching...</p>`;
+  if (loading) return html`<p>loading...</p>`;
   if (data && !data.repositoryOwner) return html`<p>404</p>`;
 
   const { repositoryOwner } = data;

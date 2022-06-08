@@ -7,10 +7,10 @@ import {
   CommentIcon,
   IssueClosedIcon,
 } from "@primer/octicons-react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "../common/routing.js";
 import { html } from "htm/react";
 import { useState } from "react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import { searchMerge } from "../common/url.js";
 import { humanReadableList } from "../common/text.js";
@@ -106,10 +106,9 @@ const ORDERINGS = {
   "Least recently updated": { field: "UPDATED_AT", direction: "ASC" },
 };
 
-function RepositoryIssuesRoute() {
-  const matches = useParams();
-  const location = useLocation();
-  const navigate = useNavigate();
+function RepositoryIssuesRoute({ params: matches }) {
+  const [location, setLocation] = useLocation();
+  console.log(location);
   const search = new URLSearchParams(location.search);
   const query = search.get("q") || "is:issue is:open";
   const [queryInput, setQueryInput] = useState(query);
@@ -127,7 +126,7 @@ function RepositoryIssuesRoute() {
 
   function handleSearch(event) {
     event.preventDefault();
-    navigate({
+    setLocation({
       search: searchMerge(search, {
         q: queryInput.replace(" ", "+"),
       }),
@@ -150,7 +149,7 @@ function RepositoryIssuesRoute() {
     variables.first = 25;
     variables.after = after;
   }
-  const [{ data, fetching, error }] = useQuery({ query: QUERY, variables });
+  const { data, loading, error } = useQuery(QUERY, { variables });
   console.debug("[RepositoryIssuesRoute] query:", data);
 
   const ownerWithName = `${matches.owner}/${matches.name}`;
@@ -282,7 +281,7 @@ function RepositoryIssuesRoute() {
 
         <div className="d-block d-lg-none no-wrap">${openClosed}</div>
 
-        <${Box} condensed className="mt-3 ${fetching ? "bg-gray" : ""}">
+        <${Box} condensed className="mt-3 ${loading ? "bg-gray" : ""}">
           <div className="Box-header d-flex flex-justify-between">
             <div className="flex-auto d-flex min-width-0 flex-items-center">
               <div className="flex-auto d-none d-lg-block no-wrap">

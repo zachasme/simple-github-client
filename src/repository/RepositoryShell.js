@@ -1,5 +1,5 @@
 import { html } from "htm/react";
-import { gql, useMutation } from "urql";
+import { gql, useMutation } from "@apollo/client";
 import {
   BellSlashIcon,
   CheckIcon,
@@ -62,8 +62,7 @@ function RepositoryShell({ active, owner, name, children }) {
   );
   const [addStarResult, addStar] = useMutation(ADD_STAR_MUTATION);
   const [removeStarResult, removeStar] = useMutation(REMOVE_STAR_MUTATION);
-  const [{ data, fetching }] = useQuery({
-    query: QUERY,
+  const { data } = useQuery(QUERY, {
     variables: { owner, name },
   });
   const { addToast } = useToast();

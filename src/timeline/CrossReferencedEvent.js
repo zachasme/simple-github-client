@@ -1,6 +1,6 @@
 import { CrossReferenceIcon } from "@primer/octicons-react";
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import IssueState from "../primitives/IssueState.js";
 import RelativeTime from "../common/RelativeTime.js";

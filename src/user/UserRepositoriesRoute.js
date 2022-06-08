@@ -1,7 +1,7 @@
 import { html } from "htm/react";
-import { useParams } from "react-router-dom";
+import { print } from "graphql";
 import useQuery from "../graphql/useQuery.js";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import RepositoryList from "../repository/RepositoryList.js";
 import RepositoryOwnerShell from "../repositoryOwner/RepositoryOwnerShell.js";
@@ -16,14 +16,18 @@ const QUERY = gql`
   ${RepositoryList.fragments.repositoryOwner}
 `;
 
-function UserRepositoriesRoute() {
-  const matches = useParams();
+function UserRepositoriesRoute({ params: matches }) {
   const variables = { login: matches.login };
-  const [{ data, fetching }] = useQuery({ query: QUERY, variables });
+  const { data, loading, error } = useQuery(QUERY, { variables });
+  if (error) throw error;
+
+  console.log("@@", loading, data);
+  console.log(print(QUERY));
 
   return html`
     <${RepositoryOwnerShell} login=${matches.login} active="repositories">
-      ${!fetching && html`<${RepositoryList} repositoryOwner=${data.user} />`}
+      ${data?.user?.repositories &&
+      html`<${RepositoryList} repositoryOwner=${data.user} />`}
     <//>
   `;
 }

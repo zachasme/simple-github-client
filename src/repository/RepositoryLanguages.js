@@ -1,6 +1,6 @@
 import { html } from "htm/react";
 import { Fragment } from "react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 import { DotFillIcon } from "@primer/octicons-react";
 
 import Link from "../primitives/Link.js";

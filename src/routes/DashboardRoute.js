@@ -9,7 +9,7 @@ import {
 } from "@primer/octicons-react";
 import { Fragment, useState } from "react";
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import useQuery from "../graphql/useQuery.js";
 import Link from "../primitives/Link.js";
@@ -73,7 +73,7 @@ function repoIconColor(repository) {
 function DashboardRoute() {
   const [showMoreRepos, setShowMoreRepos] = useState(false);
   const [teamsQuery, setTeamsQuery] = useState("");
-  const [{ data }] = useQuery({
+  const { data } = useQuery({
     query: QUERY,
     variables: { teamsQuery, first: showMoreRepos ? 100 : 7 },
   });

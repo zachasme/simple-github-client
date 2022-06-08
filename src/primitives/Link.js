@@ -1,5 +1,5 @@
 import { html } from "htm/react";
-import { Link as UpstreamLink } from "react-router-dom";
+import { Link as UpstreamLink } from "../common/routing.js";
 
 // todo: preloading
 function Link({ href, ...props }) {

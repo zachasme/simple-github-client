@@ -1,6 +1,6 @@
 import { TagIcon } from "@primer/octicons-react";
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import SimpleEvent from "./SimpleEvent.js";
 import IssueLabel from "../primitives/IssueLabel.js";

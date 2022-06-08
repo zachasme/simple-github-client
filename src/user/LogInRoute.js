@@ -11,7 +11,7 @@ function LogInRoute() {
   const [token, setToken] = useState("");
 
   const error = false;
-  const fetching = false;
+  const loading = false;
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -45,7 +45,7 @@ function LogInRoute() {
         </div>
         <div className="form-group-body">
           <input
-            disabled=${fetching}
+            disabled=${loading}
             className="form-control"
             type="text"
             value=${token}
@@ -57,7 +57,7 @@ function LogInRoute() {
       </div>
 
       <${Button}
-        disabled=${fetching}
+        disabled=${loading}
         type="submit"
         value="Sign in"
         primary

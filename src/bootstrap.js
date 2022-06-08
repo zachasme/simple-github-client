@@ -1,10 +1,9 @@
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 import { html } from "htm/react";
-import { BrowserRouter as RouterProvider } from "react-router-dom";
 
 import { AuthenticationProvider } from "./user/AuthenticationContext.js";
 import { ToastProvider } from "./common/ToastContext.js";
-import UrqlProvider from "./graphql/UrqlProvider.js";
+import GraphQLProvider from "./graphql/GraphQLProvider.js";
 import Application from "./common/Application.js";
 
 export async function bootstrap() {
@@ -12,19 +11,16 @@ export async function bootstrap() {
   const schema = await response.json();
 
   const container = document.getElementById("root");
-  const root = html`
-    <${RouterProvider}>
-      <${ToastProvider}>
-        <${AuthenticationProvider}>
-          <${UrqlProvider} schema=${schema}>
-            <${Application} />
-          <//>
+  const root = createRoot(container);
+  root.render(html`
+    <${ToastProvider}>
+      <${AuthenticationProvider}>
+        <${GraphQLProvider} schema=${schema}>
+          <${Application} />
         <//>
       <//>
     <//>
-  `;
-
-  render(root, container);
+  `);
 }
 
 bootstrap();

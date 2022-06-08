@@ -1,7 +1,7 @@
 import { html } from "htm/react";
-import { useParams } from "react-router-dom";
+import { useParams } from "../common/routing.js";
 import { useState } from "react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import useQuery from "../graphql/useQuery.js";
 import RelativeTime from "../common/RelativeTime.js";
@@ -72,8 +72,7 @@ const ORDERINGS = {
   "Least recently updated": { field: "UPDATED_AT", direction: "ASC" },
 };
 
-function RepositoryPullRequestsRoute() {
-  const matches = useParams();
+function RepositoryPullRequestsRoute({ params: matches }) {
   const [query, setQuery] = useState(matches.q || "is:issue+is:open");
 
   const parts = query.split("+");
@@ -89,7 +88,7 @@ function RepositoryPullRequestsRoute() {
     orderBy: ordering,
     ...matches,
   };
-  const [{ data, fetching, error }] = useQuery({ query: QUERY, variables });
+  const { data, loading, error } = useQuery(QUERY, { variables });
 
   const ownerWithName = `${matches.owner}/${matches.name}`;
 
@@ -188,7 +187,7 @@ function RepositoryPullRequestsRoute() {
           </div>
         </div>
 
-        <${Box} condensed className="${fetching ? "bg-gray" : ""}">
+        <${Box} condensed className="${loading ? "bg-gray" : ""}">
           <div className="Box-header">
             <${Select} label="Sort" title="Sort by">
               ${Object.entries(ORDERINGS).map(

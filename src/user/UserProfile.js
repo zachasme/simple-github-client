@@ -1,5 +1,5 @@
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 import { StarIcon, RepoForkedIcon } from "@primer/octicons-react";
 
 import { humanReadableNumber } from "../common/number.js";

@@ -1,24 +1,40 @@
-import { createClient, dedupExchange, fetchExchange } from "@urql/core";
-//import { requestPolicyExchange } from "@urql/exchange-request-policy";
-import authExchange from "./auth.js";
-import errorExchange from "./error.js";
-import progressExchange from "./progress.js";
-import cacheExchange from "./cache.js";
+import {
+  ApolloClient,
+  HttpLink,
+  ApolloLink,
+  InMemoryCache,
+  concat,
+} from "@apollo/client";
 
 export default ({ schema, token, logout, addToast }) => {
-  return createClient({
-    url: "https://api.github.com/graphql",
-    requestPolicy: "cache-and-network",
-    exchanges: [
-      dedupExchange,
-      /*requestPolicyExchange({
-        ttl: 2000,
-      }),*/
-      cacheExchange({ schema }),
-      errorExchange({ addToast }),
-      authExchange({ token, logout, addToast }),
-      progressExchange,
-      fetchExchange,
-    ],
+  const httpLink = new HttpLink({ uri: "https://api.github.com/graphql" });
+
+  const authMiddleware = new ApolloLink((operation, forward) => {
+    // add the authorization to the headers
+
+    operation.setContext(({ headers = {} }) => ({
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${token}`,
+      },
+    }));
+
+    return forward(operation);
+  });
+
+  const possibleTypes = {};
+  schema.__schema.types.forEach((supertype) => {
+    if (supertype.possibleTypes) {
+      possibleTypes[supertype.name] = supertype.possibleTypes.map(
+        (subtype) => subtype.name
+      );
+    }
+  });
+
+  return new ApolloClient({
+    link: concat(authMiddleware, httpLink),
+    cache: new InMemoryCache({
+      possibleTypes,
+    }),
   });
 };

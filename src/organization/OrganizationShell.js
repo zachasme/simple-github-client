@@ -5,7 +5,7 @@ import {
   PackageIcon,
 } from "@primer/octicons-react";
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import UnderlineNavItem from "../primitives/UnderlineNavItem.js";
 import UnderlineNav from "../primitives/UnderlineNav.js";

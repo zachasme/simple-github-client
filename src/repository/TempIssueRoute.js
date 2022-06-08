@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { html } from "htm/react";
-import { gql, useQuery } from "urql";
+import { gql, useQuery } from "@apollo/client";
 
 const QUERY = gql`
   query RepositoryIssueRouteQuery(
@@ -57,8 +57,7 @@ function RepositoryIssueRoute() {
     after: cursor,
   };
 
-  const [{ data, error, stale }] = useQuery({
-    query: QUERY,
+  const { data, error, stale } = useQuery(QUERY, {
     variables,
   });
   console.log(data?.repository?.issue?.forward?.pageInfo, cursor);

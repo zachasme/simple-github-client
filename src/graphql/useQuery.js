@@ -1,4 +1,4 @@
-import { useQuery } from "urql";
+import { useQuery } from "@apollo/client";
 
 function traverse(prefix, object, callback) {
   for (const [key, value] of Object.entries(object)) {
@@ -13,6 +13,7 @@ function traverse(prefix, object, callback) {
 }
 
 function useDebugQuery(options) {
+  console.log("debug q");
   if (!options.query.loc) console.log(`Not using gql tag in ${options.query}`);
   if (!options.query.definitions[0].name) {
     console.log(`No query name in ${options.query.loc.source.body}`);

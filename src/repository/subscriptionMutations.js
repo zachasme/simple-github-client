@@ -1,7 +1,7 @@
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 export const UPDATE_SUBSCRIPTION_MUTATION = gql`
-  mutation($input: UpdateSubscriptionInput!) {
+  mutation ($input: UpdateSubscriptionInput!) {
     updateSubscription(input: $input) {
       subscribable {
         id

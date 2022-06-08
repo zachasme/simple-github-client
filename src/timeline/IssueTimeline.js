@@ -1,7 +1,7 @@
 import { FlameIcon } from "@primer/octicons-react";
 import { Fragment } from "react";
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import AssignedEvent from "./AssignedEvent.js";
 import ClosedEvent from "./ClosedEvent.js";

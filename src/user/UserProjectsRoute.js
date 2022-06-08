@@ -1,12 +1,11 @@
 import { html } from "htm/react";
-import { useParams } from "react-router-dom";
+import { useParams } from "../common/routing.js";
 import { ProjectIcon } from "@primer/octicons-react";
 
 import BlankSlate from "../primitives/BlankSlate.js";
 import RepositoryOwnerShell from "../repositoryOwner/RepositoryOwnerShell.js";
 
-function UserProjectsRoute() {
-  const matches = useParams();
+function UserProjectsRoute({ params: matches }) {
   return html`
     <${RepositoryOwnerShell} login=${matches.login} active="projects">
       <${BlankSlate} Icon=${ProjectIcon} title="Not implemented">

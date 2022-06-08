@@ -1,5 +1,5 @@
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 import {
   StarIcon,
   RepoForkedIcon,
@@ -15,7 +15,9 @@ import Link from "../primitives/Link.js";
 import UserLink from "../user/UserLink.js";
 import Language from "../primitives/Language.js";
 
-function RepositoryList({ repositoryOwner, ...props }) {
+function RepositoryList(props) {
+  const { repositoryOwner } = props;
+  console.log("EYO", repositoryOwner);
   return html`
     <ol className="list-style-none">
       ${repositoryOwner.repositories.edges.map(

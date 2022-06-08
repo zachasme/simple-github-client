@@ -27,7 +27,7 @@ function useFile(url) {
 function SchemaRoute() {
   const schema = useFile("/src/schema.json");
 
-  const [{ data, fetching, error }, execute] = useQuery({
+  const [{ data, loading, error }, execute] = useQuery({
     query: getIntrospectionQuery({ descriptions: false }),
     pause: true,
   });
@@ -66,10 +66,10 @@ ${minified}</textarea
               <button
                 className="btn btn-primary mt-3"
                 onClick=${execute}
-                disabled=${fetching}
+                disabled=${loading}
               >
-                <span>Compar${fetching ? "ing" : "e"}</span>
-                ${fetching && html`<span className="AnimatedEllipsis"></span>`}
+                <span>Compar${loading ? "ing" : "e"}</span>
+                ${loading && html`<span className="AnimatedEllipsis"></span>`}
               </button>
             </div>
           `}

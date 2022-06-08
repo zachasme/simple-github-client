@@ -1,7 +1,7 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "../common/routing.js";
 import { useState } from "react";
 import { html } from "htm/react";
-import { gql } from "urql";
+import { gql } from "@apollo/client";
 
 import IssueComment from "../timeline/IssueComment.js";
 import RelativeTime from "../common/RelativeTime.js";
@@ -88,17 +88,15 @@ const QUERY = gql`
   ${IssueComment.fragments.reactable}
 `;
 
-function RepositoryIssueRoute() {
+function RepositoryIssueRoute({ params: matches }) {
   const [cursor, setCursor] = useState(null);
-  const matches = useParams();
   const variables = {
     owner: matches.owner,
     name: matches.name,
     number: parseInt(matches.number, 10),
     after: cursor,
   };
-  const [{ data, error, fetching, stale }] = useQuery({
-    query: QUERY,
+  const { data, error, stale } = useQuery(QUERY, {
     variables,
   });
 

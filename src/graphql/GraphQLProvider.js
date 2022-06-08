@@ -1,6 +1,6 @@
 import { html } from "htm/react";
 import { useMemo } from "react";
-import { Provider } from "urql";
+import { ApolloProvider } from "@apollo/client";
 
 import { useAuthentication } from "../user/AuthenticationContext.js";
 import { useToast } from "../common/ToastContext.js";
@@ -24,7 +24,7 @@ function UrqlProvider({ schema, children }) {
     return createClient({ schema, token, logout, addToast });
   }, [token]);
 
-  return html`<${Provider} value=${client}>${children}<//>`;
+  return html`<${ApolloProvider} client=${client}>${children}<//>`;
 }
 
 export default UrqlProvider;

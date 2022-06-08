@@ -1,6 +1,5 @@
 import { html } from "htm/react";
-import { gql } from "urql";
-import { useParams } from "react-router-dom";
+import { gql } from "@apollo/client";
 
 import useQuery from "../graphql/useQuery.js";
 import UserProfile from "../user/UserProfile.js";
@@ -27,16 +26,14 @@ const QUERY = gql`
   ${UserProfile.fragments.user}
 `;
 
-function RepositoryOwnerRoute() {
-  const matches = useParams();
-  const [{ data, fetching }] = useQuery({
-    query: QUERY,
+function RepositoryOwnerRoute({ params: matches }) {
+  const { data, loading } = useQuery(QUERY, {
     variables: matches,
   });
 
   let content = null;
-  if (fetching) {
-    content = html`<p>fetching...</p>`;
+  if (loading) {
+    content = html`<p>loading...</p>`;
   } else if (data && !data.repositoryOwner) {
     content = html`<p>404</p>`;
   } else if (data.repositoryOwner.__typename === "User") {

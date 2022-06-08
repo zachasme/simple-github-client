@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Route, Switch } from "wouter";
 import { html } from "htm/react";
 
 import NotImplementedRoute from "../routes/NotImplementedRoute.js";
@@ -13,11 +13,12 @@ import RepositoryPullRequestsRoute from "../repository/RepositoryPullRequestsRou
 import RepositoryLabelsRoute from "../repository/RepositoryLabelsRoute.js";
 import RepositoryIssueRoute from "../repository/RepositoryIssueRoute.js";
 import RepositoryOwnerRoute from "../repositoryOwner/RepositoryOwnerRoute.js";
-import SchemaRoute from "../debug/SchemaRoute.js";
+//import SchemaRoute from "../debug/SchemaRoute.js";
 import LogInRoute from "../user/LogInRoute.js";
 import UserRepositoriesRoute from "../user/UserRepositoriesRoute.js";
 import UserPackagesRoute from "../user/UserPackagesRoute.js";
 import UserProjectsRoute from "../user/UserProjectsRoute.js";
+import { useLocation } from "./routing.js";
 
 const NOT_IMPLEMENTED = [
   "/issues",
@@ -38,67 +39,64 @@ const NOT_IMPLEMENTED = [
   "/:owner/:repo/issues/new/choose",
 ];
 
+/*
+<${Route} path="/debug/schema" exact>
+  <${SchemaRoute} />
+<//>
+*/
+
 function Router() {
   return html`
-    <${Routes}>
+    <${Switch}>
       <!-- Base routes -->
-      <${Route} path="/" exact>
-        <${DashboardRoute} />
-      <//>
-      <${Route} path="/login" exact>
-        <${LogInRoute} />
-      <//>
-      <${Route} path="/debug/schema" exact>
-        <${SchemaRoute} />
-      <//>
+      <${Route} path="/" component=${DashboardRoute} />
+      <${Route} path="/login" component=${LogInRoute} />
       <!-- Placeholder routes -->
       ${NOT_IMPLEMENTED.map(
         (path) => html`
-          <${Route} key=${path} path=${path} exact>
-            <${NotImplementedRoute} />
-          <//>
+          <${Route} key=${path} path=${path} component=${NotImplementedRoute} />
         `
       )}
       <!-- Organization routes -->
-      <${Route} path="/orgs/:login/packages" exact>
-        <${OrganizationPackagesRoute} />
-      <//>
-      <${Route} path="/orgs/:login/people" exact>
-        <${OrganizationPeopleRoute} />
-      <//>
-      <${Route} path="/orgs/:login/projects" exact>
-        <${OrganizationProjectsRoute} />
-      <//>
+      <${Route}
+        path="/orgs/:login/packages"
+        component=${OrganizationPackagesRoute}
+      />
+      <${Route}
+        path="/orgs/:login/people"
+        component=${OrganizationPeopleRoute}
+      />
+      <${Route}
+        path="/orgs/:login/projects"
+        component=${OrganizationProjectsRoute}
+      />
       <!-- User routes -->
-      <${Route} path="/users/:login/repositories" exact>
-        <${UserRepositoriesRoute} />
-      <//>
-      <${Route} path="/users/:login/packages" exact>
-        <${UserPackagesRoute} />
-      <//>
-      <${Route} path="/users/:login/projects" exact>
-        <${UserProjectsRoute} />
-      <//>
+      <${Route}
+        path="/users/:login/repositories"
+        component=${UserRepositoriesRoute}
+      />
+      <${Route} path="/users/:login/packages" component=${UserPackagesRoute} />
+      <${Route} path="/users/:login/projects" component=${UserProjectsRoute} />
       <!-- Repository routes -->
-      <${Route} path="/:owner/:name/issues/:number" exact>
-        <${RepositoryIssueRoute} />
-      <//>
-      <${Route} path="/:owner/:name/issues" exact>
-        <${RepositoryIssuesRoute} />
-      <//>
-      <${Route} path="/:owner/:name/pulls" exact>
-        <${RepositoryPullRequestsRoute} />
-      <//>
-      <${Route} path="/:owner/:name/labels" exact>
-        <${RepositoryLabelsRoute} />
-      <//>
+      <${Route}
+        path="/:owner/:name/issues/:number"
+        component=${RepositoryIssueRoute}
+      />
+      <${Route}
+        path="/:owner/:name/issues"
+        component=${RepositoryIssuesRoute}
+      />
+      <${Route}
+        path="/:owner/:name/pulls"
+        component=${RepositoryPullRequestsRoute}
+      />
+      <${Route}
+        path="/:owner/:name/labels"
+        component=${RepositoryLabelsRoute}
+      />
       <!-- Catch-alls -->
-      <${Route} path="/:owner/:name" exact>
-        <${RepositoryRoute} />
-      <//>
-      <${Route} path="/:login" exact>
-        <${RepositoryOwnerRoute} />
-      <//>
+      <${Route} path="/:owner/:name" component=${RepositoryRoute} />
+      <${Route} path="/:login" component=${RepositoryOwnerRoute} />
       <!-- 404 Fallback -->
       <${Route}>
         <${NotFoundRoute} />

@@ -1,7 +1,7 @@
 import { html } from "htm/react";
 import { TagIcon, MilestoneIcon } from "@primer/octicons-react";
-import { useParams } from "react-router-dom";
-import { gql } from "urql";
+import { useParams } from "../common/routing.js";
+import { gql } from "@apollo/client";
 
 import useQuery from "../graphql/useQuery.js";
 import Link from "../primitives/Link.js";
@@ -38,13 +38,12 @@ const QUERY = gql`
   ${IssueLabel.fragments.label}
 `;
 
-function RepositoryLabelsRoute() {
-  const matches = useParams();
+function RepositoryLabelsRoute({ params: matches }) {
   const variables = {
     owner: matches.owner,
     name: matches.name,
   };
-  const [{ data, stale }] = useQuery({ query: QUERY, variables });
+  const { data, stale } = useQuery(QUERY, { variables });
 
   const ownerWithName = `${matches.owner}/${matches.name}`;
 
