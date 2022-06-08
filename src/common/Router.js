@@ -1,4 +1,4 @@
-import { Route, Switch } from "wouter";
+import { Router, Route, Switch } from "wouter";
 import { html } from "htm/react";
 
 import NotImplementedRoute from "../routes/NotImplementedRoute.js";
@@ -47,59 +47,71 @@ const NOT_IMPLEMENTED = [
 
 function Router() {
   return html`
-    <${Switch}>
-      <!-- Base routes -->
-      <${Route} path="/" component=${DashboardRoute} />
-      <${Route} path="/login" component=${LogInRoute} />
-      <!-- Placeholder routes -->
-      ${NOT_IMPLEMENTED.map(
-        (path) => html`
-          <${Route} key=${path} path=${path} component=${NotImplementedRoute} />
-        `
-      )}
-      <!-- Organization routes -->
-      <${Route}
-        path="/orgs/:login/packages"
-        component=${OrganizationPackagesRoute}
-      />
-      <${Route}
-        path="/orgs/:login/people"
-        component=${OrganizationPeopleRoute}
-      />
-      <${Route}
-        path="/orgs/:login/projects"
-        component=${OrganizationProjectsRoute}
-      />
-      <!-- User routes -->
-      <${Route}
-        path="/users/:login/repositories"
-        component=${UserRepositoriesRoute}
-      />
-      <${Route} path="/users/:login/packages" component=${UserPackagesRoute} />
-      <${Route} path="/users/:login/projects" component=${UserProjectsRoute} />
-      <!-- Repository routes -->
-      <${Route}
-        path="/:owner/:name/issues/:number"
-        component=${RepositoryIssueRoute}
-      />
-      <${Route}
-        path="/:owner/:name/issues"
-        component=${RepositoryIssuesRoute}
-      />
-      <${Route}
-        path="/:owner/:name/pulls"
-        component=${RepositoryPullRequestsRoute}
-      />
-      <${Route}
-        path="/:owner/:name/labels"
-        component=${RepositoryLabelsRoute}
-      />
-      <!-- Catch-alls -->
-      <${Route} path="/:owner/:name" component=${RepositoryRoute} />
-      <${Route} path="/:login" component=${RepositoryOwnerRoute} />
-      <!-- 404 Fallback -->
-      <${Route}>
-        <${NotFoundRoute} />
+    <${Router} base="/simple-github-client">
+      <${Switch}>
+        <!-- Base routes -->
+        <${Route} path="/" component=${DashboardRoute} />
+        <${Route} path="/login" component=${LogInRoute} />
+        <!-- Placeholder routes -->
+        ${NOT_IMPLEMENTED.map(
+          (path) => html`
+            <${Route}
+              key=${path}
+              path=${path}
+              component=${NotImplementedRoute}
+            />
+          `
+        )}
+        <!-- Organization routes -->
+        <${Route}
+          path="/orgs/:login/packages"
+          component=${OrganizationPackagesRoute}
+        />
+        <${Route}
+          path="/orgs/:login/people"
+          component=${OrganizationPeopleRoute}
+        />
+        <${Route}
+          path="/orgs/:login/projects"
+          component=${OrganizationProjectsRoute}
+        />
+        <!-- User routes -->
+        <${Route}
+          path="/users/:login/repositories"
+          component=${UserRepositoriesRoute}
+        />
+        <${Route}
+          path="/users/:login/packages"
+          component=${UserPackagesRoute}
+        />
+        <${Route}
+          path="/users/:login/projects"
+          component=${UserProjectsRoute}
+        />
+        <!-- Repository routes -->
+        <${Route}
+          path="/:owner/:name/issues/:number"
+          component=${RepositoryIssueRoute}
+        />
+        <${Route}
+          path="/:owner/:name/issues"
+          component=${RepositoryIssuesRoute}
+        />
+        <${Route}
+          path="/:owner/:name/pulls"
+          component=${RepositoryPullRequestsRoute}
+        />
+        <${Route}
+          path="/:owner/:name/labels"
+          component=${RepositoryLabelsRoute}
+        />
+        <!-- Catch-alls -->
+        <${Route} path="/:owner/:name" component=${RepositoryRoute} />
+        <${Route} path="/:login" component=${RepositoryOwnerRoute} />
+        <!-- 404 Fallback -->
+        <${Route}>
+          <${NotFoundRoute} />
+        <//>
       <//>
     <//>
   `;
