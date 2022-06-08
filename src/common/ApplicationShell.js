@@ -31,7 +31,7 @@ const QUERY = gql`
 
 function ApplicationShell({ children }) {
   const { logout } = useAuthentication();
-  const location = useLocation();
+  const [location] = useLocation();
 
   const { data, error } = useQuery(QUERY);
 
@@ -72,10 +72,7 @@ function ApplicationShell({ children }) {
           <${HeaderLink} to="/issues">Issues<//>
         <//>
         <${HeaderItem}>
-          <a
-            href=${`https://github.com${location.pathname}`}
-            className="Header-link"
-          >
+          <a href=${`https://github.com${location}`} className="Header-link">
             Compare
           </a>
         <//>
